@@ -57,6 +57,7 @@ EOF
    # disable yum to verify SSL certificates (This is a temporary workaround!)
    # FIX: Peer cert cannot be verified or peer cert invalid
    sed -i '/^\[main\]$/a sslverify=False' /etc/yum.conf
+   rpm -e --nodeps flash-plugin.x86_64 SDL_image.x86_64
    yum --enablerepo="scx-el6-steam" --nogpgcheck install -y flash-plugin.i386 flash-plugin.x86_64 SDL_image.i686 SDL_image.x86_64 steam steam-deps 2>&1 | yad --title='Инсталиране на Steam' \
          --text='Моля изчакайте....' \
          --height=250 --width=500 \
