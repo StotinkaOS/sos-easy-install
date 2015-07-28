@@ -3,7 +3,7 @@
 ## General
 
 prog="${0##*/}"
-ver=1.0
+ver=1.2
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-Easy-Install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
@@ -19,7 +19,7 @@ if [[ $EUID -ne 0 ]]; then
       --title="$prog" \
       --width="450" --height="200" \
       --button="ОК":0 --button="Затваряне":1 \
-      --center
+      --mouse
   exit 1
 fi
 
@@ -29,17 +29,42 @@ pkill -SIGKILL -u root -o yum
 
 # Checking installed packages
 isInstalled(){
-  rpm -q --quiet "$1"
+  rpm -q --quiet "$@"
+}
+
+# Remove installed packages
+removePackage(){
+  yum remove -y --setopt clean_requirements_on_remove=1 "$@"
+}
+
+# Ask to remove installed packages
+ASKremovePackage(){
+  yad --title="$prog" --window-icon="$window_icon" --text="Желаете ли да премахнете $*" --image=gtk-delete --button="Не":1 --button="Да":0 --mouse
+
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    removePackage "$@" | yad --title='Премахване на '$*'' \
+        --text='Моля изчакайте....' \
+        --height=250 --width=500 \
+        --progress --pulsate --auto-close --auto-kill \
+        --window-icon="$window_icon" \
+        --button "Затваряне":1 \
+        --image=system-software-install \
+        --mouse
+    notifyUser "Пакета $* е успешно премахнат"
+  fi
 }
 
 # Notify message
 notifyUser(){
-  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="Затваряне":1 --text="$1" --center
+  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --mouse
 }
 
 install_steam() {
   if isInstalled steam; then
     notifyUser "Пакета Steam е вече инсталиран"
+    ASKremovePackage steam
   elif [ ! -f /etc/yum.repos.d/scx-el6-steam.repo ]; then
     pushd /etc/yum.repos.d/
     wget --no-check-certificate --quiet "https://soyuz.asia/repos/el/6/scx-el6-steam/scx-el6-steam.repo"
@@ -65,7 +90,7 @@ EOF
          --window-icon="$window_icon" \
          --button "Затваряне":1 \
          --image=system-software-install \
-         --center
+         --mouse
    sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
    setsebool -P allow_execheap 1
    notifyUser "Инсталирането на Steam приключи"
@@ -80,8 +105,10 @@ EOF
          --window-icon="$window_icon" \
          --button "Затваряне":1 \
          --image=system-software-install \
-         --center
+         --mouse
+    # fix executable path
     sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
+    # allow Steam to start in Big Picture mode
     setsebool -P allow_execheap 1
     notifyUser "Инсталирането на Steam приключи"
   fi
@@ -92,6 +119,7 @@ EOF
 install_dropbox() {
   if isInstalled nautilus-dropbox; then
     notifyUser "Пакета Dropbox е вече инсталиран"
+    ASKremovePackage nautilus-dropbox
   else
     if [[ "$arch" == "x86_64" ]]; then
       yum localinstall --nogpgcheck -y "https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-1.6.2-1.fedora.x86_64.rpm" 2>&1 | yad --title='Инсталиране на Dropbox' \
@@ -101,7 +129,7 @@ install_dropbox() {
           --window-icon="$window_icon" \
           --button "Затваряне":1 \
           --image=system-software-install \
-          --center
+          --mouse
       rm -f /etc/yum.repos.d/dropbox.repo
       notifyUser "Инсталирането на Dropbox приключи"
     else
@@ -112,7 +140,7 @@ install_dropbox() {
           --window-icon="$window_icon" \
           --button "Затваряне":1 \
           --image=system-software-install
-          --center
+          --mouse
       rm -f /etc/yum.repos.d/dropbox.repo
       notifyUser "Инсталирането на Dropbox приключи"
     fi
@@ -122,6 +150,7 @@ install_dropbox() {
 install_chrome() {
   if isInstalled google-chrome-stable; then
     notifyUser "Пакета Google Chrome е вече инсталиран"
+    ASKremovePackage google-chrome-stable chrome-deps
   else
     if [[ "$arch" == "x86_64" ]]; then
       yum --nogpgcheck install -y chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm" 2>&1 | yad --title='Инсталиране на Google Chrome' \
@@ -131,7 +160,7 @@ install_chrome() {
           --window-icon="$window_icon" \
           --button "Затваряне":1 \
           --image=system-software-install \
-          --center
+          --mouse
       notifyUser "Исталирането на Google Chrome приключи"
    else
       yum --nogpgcheck install -y chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.rpm" 2>&1 | yad --title='Инсталиране на Google Chrome' \
@@ -141,7 +170,7 @@ install_chrome() {
           --window-icon="$window_icon" \
           --button "Затваряне":1 \
           --image=system-software-install \
-          --center
+          --mouse
       notifyUser "Исталирането на Google Chrome приключи"
     fi
   fi
@@ -150,6 +179,7 @@ install_chrome() {
 install_chromium() {
   if isInstalled chromium-browser; then
     notifyUser "Пакета Chromium е вече инсталиран"
+    ASKremovePackage chromium-browser 2>&1
   else
     yum --nogpgcheck install -y chromium-browser 2>&1 | yad --title='Инсталиране на Chromium' \
         --text='Моля изчакайте....' \
@@ -158,7 +188,7 @@ install_chromium() {
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
+        --mouse
   notifyUser "Инсталирането на Chromium приключи"
   fi
 }
@@ -166,6 +196,7 @@ install_chromium() {
 install_skype() {
   if isInstalled skype; then
     notifyUser "Пакета Skype е вече инсталиран"
+    ASKremovePackage skype
   else
     yum --nogpgcheck install -y skype 2>&1 | yad --title='Инсталиране на Skype' \
         --text='Моля изчакайте....' \
@@ -174,7 +205,7 @@ install_skype() {
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
+        --mouse
   notifyUser "Инсталирането на Skype приключи"
   fi
 }
@@ -182,6 +213,7 @@ install_skype() {
 install_virtualbox() {
   if isInstalled VirtualBox-4.3; then
     notifyUser "Пакета VirtualBox-4.3 е вече инсталиран"
+    ASKremovePackage VirtualBox-4.3
   else
     yum --nogpgcheck install -y gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-4.3 2>&1 | yad --title='Инсталиране на VirtualBox-4.3' \
         --text='Моля изчакайте....' \
@@ -190,7 +222,7 @@ install_virtualbox() {
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
        --image=system-software-install \
-       --center
+       --mouse
     service vboxdrv setup
     notifyUser "Инсталирането на VirtualBox-4.3 приключи"
   fi
@@ -199,6 +231,7 @@ install_virtualbox() {
 install_teamviewer() {
   if isInstalled teamviewer; then
     notifyUser "Пакета TeamViewer е вече инсталиран"
+    ASKremovePackage teamviewer
   else
     yum localinstall --nogpgcheck -y "http://www.teamviewer.com/download/teamviewer_linux.rpm" 2>&1 | yad --title='Инсталиране на TeamViewer' \
          --text='Моля изчакайте....' \
@@ -207,7 +240,7 @@ install_teamviewer() {
          --window-icon="$window_icon" \
          --button "Затваряне":1 \
          --image=system-software-install \
-         --center
+         --mouse
   notifyUser "Инсталирането на TeamViewer приключи"
   fi
 }
@@ -215,6 +248,7 @@ install_teamviewer() {
 install_mscorefonts(){
   if isInstalled msttcorefonts; then
     notifyUser "Пакета Msttcorefonts е вече инсталиран"
+    ASKremovePackage msttcorefonts
   else
     yum --nogpgcheck install msttcorefonts -y 2>&1 | yad --title='Инсталиране на Msttcorefonts' \
         --text='Моля изчакайте....' \
@@ -223,7 +257,7 @@ install_mscorefonts(){
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
+        --mouse
     notifyUser "Инсталирането на Msttcorefonts приключи"
   fi
 }
@@ -235,7 +269,7 @@ infinalityShowstyles(){
             --width="300" --height="400" \
             --button="ОК":0 --button="Затваряне":1 \
             --window-icon="$window_icon" \
-            --center \
+            --mouse \
             --column 'Стил' \
             "1) debug" \
             "2) infinality" \
@@ -253,7 +287,7 @@ infinalityShowstyles(){
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-error \
-        --center
+        --mouse
   fi
 
   case ${showStyles} in
@@ -273,7 +307,8 @@ infinalityShowstyles(){
 
 install_infinality(){
   if isInstalled freetype-infinality; then
-    notifyUser "Пакета infinality е вече инсталиран - затворете този диалог за да смените стила на шрифтовете"
+    notifyUser "Пакета infinality е вече инсталиран - затворете този диалог за да премахнете пакета или да смените стила на шрифтовете"
+    ASKremovePackage freetype-infinality fontconfig-infinality msttcorefonts
     infinalityShowstyles
   else
     yum --nogpgcheck install freetype-infinality fontconfig-infinality msttcorefonts -y 2>&1 | yad --title='Инсталиране и настройка на Infinality' \
@@ -283,7 +318,7 @@ install_infinality(){
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
+        --mouse
 
     infinalityShowstyles
     notifyUser "Инсталирането на Infinality приключи"
@@ -296,21 +331,21 @@ addSudo() {
              --width=250 --height=200 \
              --text="Моля, въведете потребителско име:" \
              --button="ОК":0 --button="Затваряне":1 \
-             --center)
+             --mouse)
   if [[ -z $user ]] ; then
     yad --text="Грешка: Не сте въвели потребителско име!" \
         --button="ОК":0 --button="Затваряне":1 \
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-warning \
-        --center
+        --mouse
   elif grep --quiet -w "$user ALL=(ALL) ALL" /etc/sudoers; then
     yad --text="Грешка: Вече са били добавени sudo права за потребителя $user!" \
         --button="ОК":0 --button="Затваряне":1 \
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-warning \
-        --center
+        --mouse
   else
     echo "$user ALL=(ALL) ALL" >> /etc/sudoers
     notifyUser "Добавени са sudo права за потребителя '$user'"
@@ -338,9 +373,10 @@ install_compiz(){
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
-  elif isInstalled compiz-fusion ccsm; then
+        --mouse
+  elif isInstalled ccsm; then
     notifyUser "Пакета Compiz-fusion е вече инсталиран"
+    ASKremovePackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome
   elif [[ $( glxinfo | grep direct) == *"direct rendering: Yes"* ]]; then
     yum --nogpgcheck install -y ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome 2>&1 | yad --title='Инсталиране на CompizFusion' \
         --text='Моля изчакайте....' \
@@ -349,7 +385,7 @@ install_compiz(){
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
+        --mouse
     notifyUser "Инсталирането на Compiz-Fusion приключи"
   else
     yad --text="Грешка: Явно не използвате видео драйвер с поддръжка на 3D-ускорение." \
@@ -357,13 +393,14 @@ install_compiz(){
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-error \
-        --center
+        --mouse
   fi
 }
 
 install_playonlinux(){
   if isInstalled playonlinux; then
     notifyUser "Пакета PlayOnLinux е вече инсталиран"
+    ASKremovePackage playonlinux
   elif [[ ! -f /etc/yum.repos.d/playonlinux.repo ]]; then
     yum-config-manager --add-repo http://rpm.playonlinux.com/playonlinux.repo 2>&1
     yum --nogpgcheck install -y nc playonlinux 2>&1 | yad --title='Инсталиране на PlayOnLinux' \
@@ -373,7 +410,7 @@ install_playonlinux(){
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
+        --mouse
     notifyUser "Инсталирането на PlayOnLinux приключи"
   else
     yum --nogpgcheck install -y nc playonlinux 2>&1 | yad --title='Инсталиране на PlayOnLinux' \
@@ -383,19 +420,19 @@ install_playonlinux(){
         --window-icon="$window_icon" \
         --button "Затваряне":1 \
         --image=system-software-install \
-        --center
+        --mouse
     notifyUser "Инсталирането на PlayOnLinux приключи"
   fi
 }
 
 # Show about dialog
 info() {
-  yad --title="$prog" --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
+  yad --title="$prog" --selectable-labels --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
       --window-icon="$window_icon" \
       --width="200" --height="300" \
       --button="ОК":0 --button="Лиценз":2 --button="Затваряне":1 \
       --image="$window_icon" \
-      --center
+      --mouse
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -403,7 +440,7 @@ info() {
         --window-icon="$window_icon" \
         --width="500" --height="300" \
         --button="Затваряне":1 \
-        --center
+        --mouse
   fi
   menu
 }
@@ -414,7 +451,7 @@ while :
 do
   choise=$(yad --title="$prog" --class="$prog" --name="$prog" \
                --image="$image_icon" --image-on-top --window-icon="$window_icon" \
-               --width="450" --height="500" --center \
+               --width="450" --height="500" --mouse --fixed \
                --print-column=2 --list --radiolist --column "Избери" --column dummy --column "Действие" --hide-column 2 \
                --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
                false 0 "Инсталиране на Steam" \
