@@ -1,7 +1,7 @@
 Summary: A simple GUI program that enables you to install additional software, such as Skype, Chrome, Steam, etc.
 Summary(bg): Прост графичен потребителски интерфейс който позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.
 Name: sos-easy-install
-Version: 1.2
+Version: 1.3
 Release: 1%{?dist}.sos
 URL: http://stotinkaos.net
 License: GPLv3
@@ -33,7 +33,9 @@ mkdir -p ${RPM_BUILD_ROOT}/usr/bin
 install -m 755 %{name} ${RPM_BUILD_ROOT}%{_bindir}
 install -Dpm 644 %{name}.desktop ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
 install -Dpm 644 sosEI-header.png ${RPM_BUILD_ROOT}%{_datadir}/pixmaps/sosEI-header.png
-install -Dpm 644 sos-Easy-Install.png ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/96x96/apps/sos-Easy-Install.png 
+install -Dpm 644 sos-Easy-Install.png ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/96x96/apps/sos-Easy-Install.png
+install -d -m755 %{RPM_BUILD_ROOT}%{_datadir}/icons/
+cp -pr sos-ei-app-icons/ ${RPM_BUILD_ROOT}%{_datadir}/icons/
 install -Dpm 644 COPYING ${RPM_BUILD_ROOT}%{_datadir}/licenses/%{name}/COPYING 
 
 %clean
@@ -47,9 +49,15 @@ rm -rf ${RPM_BUILD_ROOT}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/sosEI-header.png
 %{_datadir}/icons/hicolor/96x96/apps/sos-Easy-Install.png
+%{_datadir}/icons/sos-ei-app-icons
 %{_datadir}/licenses/%{name}/COPYING
 
 %changelog
+* Mon Aug 03 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.3-1
+- Update to version 1.3
+- Add Java and Video drivers install
+- Add new install dialog 
+	
 * Tue Jul 28 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.2-1
 - Do not resize the main menu 
 - Ask to remove packages

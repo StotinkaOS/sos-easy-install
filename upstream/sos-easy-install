@@ -1,0 +1,915 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2015 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+## General
+
+prog="${0##*/}"
+ver=1.3
+window_icon="/usr/share/icons/hicolor/96x96/apps/sos-Easy-Install.png"
+image_icon="/usr/share/pixmaps/sosEI-header.png"
+license="/usr/share/licenses/sos-easy-install/COPYING"
+arch=$(uname -m)
+
+steamIcon="/usr/share/icons/sos-ei-app-icons/steam1.png"
+dropboxIcon="/usr/share/icons/sos-ei-app-icons/dropbox.png"
+chromeIcon="/usr/share/icons/sos-ei-app-icons/chrome.png"
+chromiumIcon="/usr/share/icons/sos-ei-app-icons/chromium.png"
+compizIcon="/usr/share/icons/sos-ei-app-icons/compiz.png"
+infinalityIcon="/usr/share/icons/sos-ei-app-icons/infinality.png"
+javaIcon="/usr/share/icons/sos-ei-app-icons/java.png"
+msIcon="/usr/share/icons/sos-ei-app-icons/ms-fonts.png"
+playonlinuxIcon="/usr/share/icons/sos-ei-app-icons/playonlinux.png"
+skypeIcon="/usr/share/icons/sos-ei-app-icons/skype.png"
+teamvIcon="/usr/share/icons/sos-ei-app-icons/teamviewer.png"
+vboxIcon="/usr/share/icons/sos-ei-app-icons/virtualbox.png"
+sudoIcon="/usr/share/icons/sos-ei-app-icons/sudo.png"
+selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
+
+## Functions
+
+
+# Checking user's privileges
+if [[ $EUID -ne 0 ]]; then
+  yad --text="Програмата трябва да се стартира с правата на потребител root.\nСтартирайте отново, по следният начин:\n\n<b>su -c '$prog'</b>\nили\n<b>beesu $prog</b>" \
+      --window-icon="$window_icon" \
+      --title="$prog" \
+      --width="450" --height="200" \
+      --button="ОК":0 --button="Затваряне":1 \
+      --selectable-labels \
+      --mouse
+  exit 1
+fi
+
+# KILL previous YUM
+pkill -SIGKILL -u root -o yum
+
+# Checking installed packages
+isInstalled(){
+  rpm -q --quiet "$@"
+}
+
+# Install package
+installPackage(){
+  yum --nogpgcheck install -y "$@" | yad --title="Инсталиране на $*" \
+      --text='Моля изчакайте....' \
+      --height=250 --width=500 \
+      --progress --pulsate --auto-close --auto-kill \
+      --window-icon="$window_icon" \
+      --image=system-software-install \
+      --no-buttons \
+      --mouse
+}
+
+installPackage(){
+  yum --nogpgcheck install -y "$@"
+}
+
+# Remove installed packages
+removePackage(){
+  yum remove -y --setopt clean_requirements_on_remove=1 "$@"
+}
+
+# Ask to remove installed packages
+ASKremovePackage(){
+  yad --title="$prog" --window-icon="$window_icon" --text="Желаете ли да премахнете $*" --image=dialog-question --button="Не":1 --button="Да":0 --mouse
+
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    removePackage "$@" | yad --title="Премахване на $*" \
+        --text='Моля изчакайте....' \
+        --height=250 --width=500 \
+        --progress --pulsate --auto-close --auto-kill \
+        --window-icon="$window_icon" \
+        --no-buttons \
+        --image=system-software-install \
+        --mouse
+    notifyUser "Пакета $* е успешно премахнат"
+  fi
+}
+
+# Notify message
+notifyUser(){
+  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --mouse
+}
+
+install_steam() {
+  if isInstalled steam; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$steamIcon" \
+      --text="<b>Steam</b>
+
+Най-добрата платформа за онлайн игра.
+
+<b>Лиценз:</b> Steam Лицензионно Споразумение
+<b>Уеб сайт на проекта:</b> <a href='http://store.steampowered.com/'>http://store.steampowered.com/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage steam 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      if [ ! -f /etc/yum.repos.d/scx-el6-steam.repo ]; then
+        pushd /etc/yum.repos.d/
+        wget --no-check-certificate --quiet "https://soyuz.asia/repos/el/6/scx-el6-steam/scx-el6-steam.repo"
+        popd
+        if [[ "$arch" == "x86_64" ]]; then
+          cat << EOF > /etc/yum.repos.d/adobe-linux-i386.repo
+[adobe-linux-i386]
+name=Adobe Systems Incorporated
+baseurl=http://linuxdownload.adobe.com/linux/i386/
+enabled=1
+skip_if_unavailable=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+EOF
+          # disable yum to verify SSL certificates (This is a temporary workaround!)
+          # FIX: Peer cert cannot be verified or peer cert invalid
+          sed -i '/^\[main\]$/a sslverify=False' /etc/yum.conf
+          # fixme ?
+          rpm -e --nodeps flash-plugin.x86_64 SDL_image.x86_64
+          # enable steam repo
+          sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
+          # install steam
+          installPackage flash-plugin.i386 flash-plugin.x86_64 SDL_image.i686 SDL_image.x86_64 steam steam-deps 2>&1
+          # disable steam repo
+          sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
+          # fix executable path
+          sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
+          # allow Steam to start in Big Picture mode
+          setsebool -P allow_execheap 1
+          notifyUser "Инсталирането на Steam приключи"
+        else
+          # disable yum to verify SSL certificates (This is a temporary workaround!)
+          # FIX: Peer cert cannot be verified or peer cert invalid
+          sed -i '/^\[main\]$/a sslverify=False' /etc/yum.conf
+          # enable steam repo
+          sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
+          # install steam
+          install Package steam steam-deps 2>&1
+          # disable steam repo
+          sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
+          # fix executable path
+          sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
+          # allow Steam to start in Big Picture mode
+          setsebool -P allow_execheap 1
+          notifyUser "Инсталирането на Steam приключи"
+      fi
+        # Revert yum to verify SSL certificates
+        sed -i '/sslverify/d' /etc/yum.conf
+      fi
+    fi
+  fi
+}
+
+install_dropbox() {
+  if isInstalled nautilus-dropbox; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+ yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$dropboxIcon" \
+      --text="<b>Dropbox</b>
+
+Разширение за файловият мениджър Nautilus, което интегрира облак услугата Dropbox със GNOME десктопа.
+
+<b>Лиценз:</b> GPLv3
+<b>Уеб сайт на проекта:</b> <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage nautilus-dropbox 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      if [[ "$arch" == "x86_64" ]]; then
+        installPackage "https://www.dropbox.com/download?dl=packfages/fedora/nautilus-dropbox-1.6.2-1.fedora.x86_64.rpm" 2>&1
+        rm -f /etc/yum.repos.d/dropbox.repo
+        notifyUser "Инсталирането на Dropbox приключи"
+      else
+        installPackage "https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-1.6.2-1.fedora.i386.rpm" 2>&1
+        rm -f /etc/yum.repos.d/dropbox.repo
+        notifyUser "Инсталирането на Dropbox приключи"
+      fi
+    fi
+  fi
+}
+
+install_chrome() {
+  if isInstalled google-chrome-stable; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$chromeIcon" \
+      --text="<b>Google Chrome</b>
+
+Бърз, лесен и защитен уеб браузър, изграден за модерният уеб.
+
+<b>Лиценз:</b> Безплатна програма, Google Chrome условия за ползване на услугата.
+<b>Уеб сайт на проекта:</b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage google-chrome-stable chrome-deps 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      if [[ "$arch" == "x86_64" ]]; then
+        installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm" 2>&1
+        notifyUser "Исталирането на Google Chrome приключи"
+      else
+        installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.rpm" 2>&1
+        notifyUser "Исталирането на Google Chrome приключи"
+      fi
+    fi
+  fi
+}
+
+install_chromium(){
+  if isInstalled chromium-browser; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$chromiumIcon" \
+      --text="<b>Chromium Browser</b>
+
+Open-source версията на Google Chrome уеб браузъра.
+
+<b>Лиценз:</b> BSD and LGPLv2+
+<b>Уеб сайт на проекта:</b> <a href='https://www.chromium.org/Home'>https://www.chromium.org</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage chromium-browser 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage chromium-browser 2>&1
+      notifyUser "Исталирането на Chromium приключи"
+    fi
+  fi
+}
+
+whichJava(){
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image=dialog-question \
+      --text='Изберете коя от версиите на JAVA иската да бъде инсталирана?
+
+<b>JRE (Java Runtime Environment)</b> представлява нужната среда за изпълняването на java програми.
+
+<b>JDK (Java Development Kit)</b> се състои от пълният комплект нужен за разработването на java-базиран софтуер, също така съдържа jre като компонент.' \
+      --button="JAVA-JRE":1 --button="JAVA-JDK":2 --button="Затваряне":0 \
+      --mouse
+ret=$?
+
+  if [[ "$ret" -eq "1" ]]; then
+    install_javaJRE
+  elif [[ "$ret" -eq "2" ]]; then
+    install_javaJDK
+  fi
+}
+
+install_javaJRE(){
+  if isInstalled jre1.8.0_51-1.8.0_51-fcs; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$javaIcon" \
+      --text="<b>JAVA-JRE (Java Runtime Environment)</b>
+
+Представлява нужната среда за изпълняването на java програми.
+
+<b>Лиценз:</b> <a href='http://java.com/license'>http://java.com/license</a>
+<b>Уеб сайт на проекта:</b> <a href='http://java.com'>http://java.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage jre1.8.0_51-1.8.0_51-fcs 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      if [[ "$arch" == "x86_64" ]]; then
+        pushd /tmp
+        wget --progress=bar:force --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jre-8u51-linux-x64.rpm" 2>&1 | yad --title="Изтегляне на Java-JRE" \
+             --text='Моля изчакайте....' \
+             --height=250 --width=500 \
+             --progress --pulsate --auto-close --auto-kill \
+             --window-icon="$window_icon" \
+             --button "Затваряне":1 \
+             --image=system-software-install \
+             --mouse
+        installPackage jre-8u51-linux-x64.rpm 2>&1
+        alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+        alternatives --auto java
+        alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 /usr/java/latest/lib/amd64/libnpjp2.so 200000
+        alternatives --auto libjavaplugin.so.x86_64
+        popd
+        notifyUser "Инсталирането на JAVA-JRE приключи"
+      else
+        pushd /tmp
+        wget --progress=bar:force --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jre-8u51-linux-i586.rpm" 2>&1 | yad --title="Изтегляне на Java-JRE" \
+             --text='Моля изчакайте....' \
+             --height=250 --width=500 \
+             --progress --pulsate --auto-close --auto-kill \
+             --window-icon="$window_icon" \
+             --button "Затваряне":1 \
+             --image=system-software-install \
+             --mouse
+         installPackage jre-8u51-linux-i586.rpm 2>&1
+         alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+         alternatives --auto java
+         alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so /usr/java/latest/lib/i386/libnpjp2.so 200000
+         alternatives --auto libjavaplugin.so
+         popd
+         notifyUser "Инсталирането на JAVA-JRE приключи"
+      fi
+    fi
+  fi
+}
+
+install_javaJDK(){
+  if isInstalled jdk1.8.0_51-1.8.0_51-fcs; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$javaIcon" \
+      --text="<b>JAVA-JDK (Java Development Kit)</b>
+
+Пълният комплект нужен за разработването на java-базиран софтуер, също така съдържа jre като компонент.
+
+<b>Лиценз:</b> <a href='http://java.com/license'>http://java.com/license</a>
+<b>Уеб сайт на проекта:</b> <a href='http://java.com'>http://java.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage jdk1.8.0_51-1.8.0_51-fcs 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      if [[ "$arch" == "x86_64" ]]; then
+        pushd /tmp
+        wget --progress=bar:force --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-x64.rpm" 2>&1 | yad --title="Изтегляне на Java-JDK" \
+             --text='Моля изчакайте....' \
+             --height=250 --width=500 \
+             --progress --pulsate --auto-close --auto-kill \
+             --window-icon="$window_icon" \
+             --button "Затваряне":1 \
+             --image=system-software-install \
+             --mouse
+        installPackage jdk-8u51-linux-x64.rpm 2>&1
+        alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+        alternatives --auto java
+        alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
+        alternatives --auto javac
+        alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
+        alternatives --auto jar
+        alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 /usr/java/latest/lib/amd64/libnpjp2.so 200000
+        alternatives --auto libjavaplugin.so.x86_64
+        popd
+        notifyUser "Инсталирането на JAVA-JDK приключи"
+      else
+        pushd /tmp
+        wget --progress=bar:force --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-i586.rpm" 2>&1 | yad --title="Изтегляне на Java-JDK" \
+             --text='Моля изчакайте....' \
+             --height=250 --width=500 \
+             --progress --pulsate --auto-close --auto-kill \
+             --window-icon="$window_icon" \
+             --button "Затваряне":1 \
+             --image=system-software-install \
+             --mouse
+        installPackage jdk-8u51-linux-i586.rpm 2>&1
+        alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
+        alternatives --auto java
+        alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
+        alternatives --auto javac
+        alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
+        alternatives --auto jar
+        alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so /usr/java/latest/lib/i386/libnpjp2.so 200000
+        alternatives --auto libjavaplugin.so
+        popd
+        notifyUser "Инсталирането на JAVA-JDK приключи"
+      fi
+    fi
+  fi
+}
+
+install_skype() {
+  if isInstalled skype; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+ yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$skypeIcon" \
+      --text="<b>Skype</b>
+
+Приложен софтуер за чат, VOIP телефония и видеовръзка.
+
+<b>Лиценз:</b> Собственически лиценз, Безплатен софтуер с допълнителни, платени възможности.
+<b>Уеб сайт на проекта:</b> <a href='https://www.skype.com/'>https://www.skype.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+ ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage skype 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage skype 2>&1
+      notifyUser "Исталирането на Chromium приключи"
+    fi
+  fi
+}
+
+install_virtualbox() {
+  if isInstalled VirtualBox-4.3; then
+   BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$vboxIcon" \
+      --text="<b>VirtualBox</b>
+
+VirtualBox създава виртуална среда, в която може да инсталирате различни операционни системи, да инсталирате и тествате програми или с други думи може да правите почти всичко, което правите в нормалната ви ОС, без да се притеснявате, че може да повредите нещо. VirtualBox не разполага с всички възможности на подобните на нея програми, но за сметка на това разполага с такива, които не се срещат при нейните конкуренти, като стартиране на виртуалната машина отдалечено чрез Remote Desktop Protocol (RDP) и поддръжка на iSCSI
+
+<b>Лиценз:</b> GPLv2
+<b>Уеб сайт на проекта:</b> <a href='https://www.virtualbox.org/'>https://www.virtualbox.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage VirtualBox-4.3 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-4.3 2>&1
+      service vboxdrv setup
+      notifyUser "Инсталирането на VirtualBox-4.3 приключи"
+    fi
+  fi
+}
+
+install_teamviewer() {
+  if isInstalled teamviewer; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$teamvIcon" \
+      --text="<b>TeamViewer</b>
+
+Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет.
+
+<b>Лиценз:</b> Патентован, безплатен за некомерсиална употреба.
+<b>Уеб сайт на проекта:</b> <a href='http://teamviewer.com/'>http://teamviewer.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage teamviewer 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage "http://www.teamviewer.com/download/teamviewer_linux.rpm" 2>&1
+      notifyUser "Инсталирането на TeamViewer приключи"
+    fi
+  fi
+}
+
+install_mscorefonts(){
+  if isInstalled msttcorefonts; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$msIcon" \
+      --text="<b>Msttcorefonts</b>
+
+Инсталира Microsoft TrueType шрифтовете за по добра Windows съвместимост.
+
+<b>Лиценз:</b> GPLv2
+<b>Уеб сайт на проекта:</b> <a href='http://mscorefonts2.sourceforge.net/'>http://mscorefonts2.sourceforge.net</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage msttcorefonts 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage msttcorefonts 2>&1
+      notifyUser "Инсталирането на Msttcorefonts приключи"
+    fi
+  fi
+}
+
+infinalityShowstyles(){
+ showStyles=$(yad --list \
+            --title="$prog" \
+            --text "Изберете стил по подразбиране за шрифтовете" \
+            --width="300" --height="400" \
+            --button="ОК":0 --button="Затваряне":1 \
+            --window-icon="$window_icon" \
+            --mouse \
+            --column 'Стил' \
+            "1) debug" \
+            "2) infinality" \
+            "3) linux" \
+            "4) osx" \
+            "5) osx2" \
+            "6) win7" \
+            "7) win98" \
+            "8) winxp" )
+  ret=$?
+
+  if [[ "$ret" -eq "1" ]]; then
+     yad --text="Грешка: Не сте избрали стил." \
+        --button="ОК":0 --button="Затваряне":1 \
+        --window-icon="$window_icon" \
+        --title="$prog" \
+        --image=gtk-dialog-error \
+        --mouse
+  fi
+
+  case ${showStyles} in
+    "1) debug"*) sh /etc/fonts/infinality/infctl.sh setstyle debug >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=DEBUG/g' /etc/profile.d/infinality-settings.sh ;;
+    "2) infinality"*) sh /etc/fonts/infinality/infctl.sh setstyle infinality >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=INFINALITY/g' /etc/profile.d/infinality-settings.sh ;;
+    "3) linux"*) sh /etc/fonts/infinality/infctl.sh setstyle linux >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=LINUX/g' /etc/profile.d/infinality-settings.sh ;;
+    "4) osx"*) sh /etc/fonts/infinality/infctl.sh setstyle osx >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=OSX/g' /etc/profile.d/infinality-settings.sh ;;
+    "5) osx2"*) sh /etc/fonts/infinality/infctl.sh setstyle osx2 >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=OSX/g' /etc/profile.d/infinality-settings.sh;;
+    "6) win7"*) sh /etc/fonts/infinality/infctl.sh setstyle win7 >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=WINDOWS/g' /etc/profile.d/infinality-settings.sh ;;
+    "7) win98"*) sh /etc/fonts/infinality/infctl.sh setstyle win98 >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=WINDOWS/g' /etc/profile.d/infinality-settings.sh  ;;
+    "8) winxp"*) sh /etc/fonts/infinality/infctl.sh setstyle winxp >/dev/null && sed -i 's/^USE_STYLE=.*$/USE_STYLE=WINDOWS/g' /etc/profile.d/infinality-settings.sh ;;
+    #*) exit ;;
+
+  esac
+
+}
+
+install_infinality(){
+  if isInstalled freetype-infinality; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$infinalityIcon" \
+      --text="<b>Infinality</b>
+
+Свободен пакет за рендериране на шрифтове, с възможност за избор между няколко предварително зададени профила.
+
+<b>Лиценз:</b> FTL или GPLv2+
+<b>Уеб сайт на проекта:</b> <a href='http://www.infinality.net/blog'>http://www.infinality.net/blog</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      notifyUser "Пакета infinality е вече инсталиран - затворете този диалог за да премахнете пакета или да смените стила на шрифтовете"
+      ASKremovePackage freetype-infinality fontconfig-infinality msttcorefonts 2>&1
+      infinalityShowstyles
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage freetype-infinality fontconfig-infinality msttcorefonts -y 2>&1
+      infinalityShowstyles
+      notifyUser "Инсталирането на Infinality приключи"
+    fi
+  fi
+}
+
+addSudo() {
+  user=$(who | cut -d' ' -f1 | sort | uniq);
+
+  if grep --quiet -w "$user ALL=(ALL) ALL" /etc/sudoers; then
+    BtStatus="Изтрий"
+  else
+    BtStatus="Добави"
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$sudoIcon" \
+      --text="<b>Sudo</b>
+
+Добавете или изтрийте потребителя $user от групата sudo
+
+Командата sudo позволява на потребителя да изпълнява команди като root или друг потребител, придобивайки администраторски/root права над системата." \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" ==  Добави ]]; then
+      echo "$user ALL=(ALL) ALL" >> /etc/sudoers
+      notifyUser "Добавени са sudo права за потребителя '$user'"
+    elif [[ "$BtStatus" ==  Изтрий ]]; then
+      sed -i '/'$user'/d' /etc/sudoers
+      notifyUser "Премахнати са sudo правата за потребителя '$user'"
+    else
+      exit 1
+    fi
+  fi
+}
+
+setSelinux() {
+  if grep --quiet ^SELINUX=permissive$ /etc/selinux/config; then
+    BtStatus="Включи"
+  else
+    BtStatus='Изключи'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$selinuxIcon" \
+      --text="<b>SELinux</b>
+
+Изключване или Включване на SELinux защитната среда." \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" ==  Включи ]]; then
+      setenforce 1 > /dev/null
+      sed -i 's/^SELINUX=.*$/SELINUX=enforcing/g' /etc/selinux/config
+      notifyUser "Включване на SELinux!"
+    elif [[ "$BtStatus" == Изключи ]]; then
+      setenforce 0 > /dev/null
+      sed -i 's/^SELINUX=.*$/SELINUX=permissive/g' /etc/selinux/config
+      notifyUser "Изключване на SELinux!"
+    fi
+  fi
+}
+
+install_compiz(){
+  if ! isInstalled glx-utils; then
+    installPackage glx-utils 2>&1
+  elif isInstalled ccsm; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$compizIcon" \
+      --text="<b>Compiz Fusion</b>
+
+Активира 3D десктоп и визуални ефекти, с които се подобрява производителността и удобството за ползване на графичната среда в X.
+
+<b>Лиценз:</b> GPLv2+
+<b>Уеб сайт на проекта:</b> <a href='http://www.compiz.org/'>http://www.compiz.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      if [[ $( glxinfo | grep direct) == *"direct rendering: Yes"* ]]; then
+        installPackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome 2>&1
+        # Enable Compiz
+        gconftool-2 -s -t string /desktop/gnome/session/required_components/windowmanager compiz-gtk > /dev/null
+        notifyUser "Инсталирането на Compiz-Fusion приключи"
+      else
+        yad --text="Грешка: Явно не използвате видео драйвер с поддръжка на 3D-ускорение." \
+            --button="ОК":0 --button="Затваряне":1 \
+            --window-icon="$window_icon" \
+            --title="$prog" \
+            --image=gtk-dialog-error \
+            --mouse
+      fi
+    fi
+  fi
+}
+
+install_playonlinux(){
+  if isInstalled playonlinux; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+ yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$playonlinuxIcon" \
+      --text="<b>PlayOnLinux</b>
+
+Графичен софтуер който е съвместим в Wine, което позволява лесно и удобно на потребителите да инсталират Windows Linux-базирани видео игри, Microsoft Office и др.
+
+<b>Лиценз:</b> GPL/LGPL
+<b>Уеб сайт на проекта:</b> <a href='https://www.playonlinux.com/en/'>https://www.playonlinux.com/en</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      notifyUser "Пакета PlayOnLinux е вече инсталиран"
+      ASKremovePackage playonlinux 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      if [[ ! -f /etc/yum.repos.d/playonlinux.repo ]]; then
+        yum-config-manager --add-repo http://rpm.playonlinux.com/playonlinux.repo 2>&1
+        installPackage nc playonlinux 2>&1
+        notifyUser "Инсталирането на PlayOnLinux приключи"
+      else
+        installPackage nc playonlinux 2>&1
+        notifyUser "Инсталирането на PlayOnLinux приключи"
+      fi
+    fi
+  fi
+}
+
+install_video(){
+  shopt -s nocasematch
+  vga=$(lspci | grep -i vga);
+
+  if [[ $vga == *"INTEL"* ]]; then
+    if isInstalled libva-intel-driver libva-utils; then
+      notifyUser "Вече е инсталиран драйвер"
+    else
+      installPackage libva-intel-driver libva-utils 2>&1
+      notifyUser "Инсталирането на libva-intel-driver libva-utils приключи"
+    fi
+  elif [[ $vga == *"NVIDIA"* ]]; then
+    if isInstalled nvidia-x11-drv nvidia-detect $(nvidia-detect) libva-vdpau-driver libva-utils; then
+      notifyUser "Вече е инсталиран драйвер"
+    else
+      installPackage nvidia-detect 2>&1
+      installPackage nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils 2>&1
+      notifyUser "Инсталирането на nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils приключи. Рестартирайте системата."
+    fi
+  elif [[ $vga == *"AMD"* ]] || [[ $res == *"ATI"* ]]; then
+    value=${vga#*HD}
+    if [[ $value -lt 5000 ]]; then
+      if isInstalled fglrx-x11-drv kmod-fglrx-legacy liba-utils; then
+        notifyUser "Вече е инсталиран драйвер"
+      else
+        installPackage fglrx-x11-drv kmod-fglrx-legacy libva-utils 2>&1
+        notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx-legacy libva-utils приключи. Рестартирайте системата."
+      fi
+    else
+      if isInstalled fglrx-x11-drv kmod-fglrx liba-utils; then
+        notifyUser "Вече е инсталиран драйвер"
+      else
+        installPackage fglrx-x11-drv kmod-fglrx libva-utils 2>&1
+        notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx libva-utils приключи. Рестартирайте системата."
+      fi
+    fi
+  else
+    notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
+  fi
+}
+
+# Show about dialog
+info() {
+  yad --title="$prog" --selectable-labels --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
+      --window-icon="$window_icon" \
+      --width="200" --height="300" \
+      --button="ОК":0 --button="Лиценз":2 --button="Затваряне":1 \
+      --image="$window_icon" \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "2" ]]; then
+    yad --title="$prog" --text-info --filename="$license" \
+        --window-icon="$window_icon" \
+        --width="500" --height="300" \
+        --button="Затваряне":1 \
+        --mouse
+  fi
+  menu
+}
+
+# Main menu
+menu(){
+while :
+do
+  choise=$(yad --title="$prog" --name="$prog" \
+               --image="$image_icon" --image-on-top --window-icon="$window_icon" \
+               --width="450" --height="540" --mouse --fixed \
+               --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
+               --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
+               false 0 "Steam" \
+               false 1 "Dropbox" \
+               false 2 "Sudo" \
+               false 3 "Google Chrome" \
+               false 4 "Chromium" \
+               false 5 "Skype" \
+               false 6 "TeamViewer" \
+               false 7 "Msttcorefonts (Microsoft шрифтове)" \
+               false 8 "Оптимизиране на шрифтовете с Infinality" \
+               false 9 "VirtualBox-4.3" \
+               false 10 "Compiz-Fusion" \
+               false 11 "PlayOnLinux" \
+               false 12 "Oracle Java" \
+               false 13 "Намиране и инсталиране на видео драйвер" \
+               false 14 "SELinux");
+  ret=$?
+
+  if [[ "$ret" -eq "2" ]]; then
+    info
+  fi
+
+  case ${choise} in
+    "0|")install_steam ;;
+    "1|")install_dropbox ;;
+    "2|")addSudo ;;
+    "3|")install_chrome ;;
+    "4|")install_chromium ;;
+    "5|")install_skype ;;
+    "6|")install_teamviewer ;;
+    "7|")install_mscorefonts ;;
+    "8|")install_infinality ;;
+    "9|")install_virtualbox ;;
+    "10|")install_compiz ;;
+    "11|")install_playonlinux ;;
+    "12|")whichJava ;;
+    "13|")install_video ;;
+    "14|")setSelinux ;;
+    *) break ;;
+  esac
+done
+}
+
+menu
+
+# Please report bugs at <https://github.com/StotinkaOS/sos-easy-install/issues>
+####### End of the Script ## ###################
