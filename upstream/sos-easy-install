@@ -19,7 +19,7 @@ COMMENT
 ## General
 
 prog="${0##*/}"
-ver=1.3
+ver=1.4
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-Easy-Install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
@@ -73,10 +73,6 @@ installPackage(){
       --image=system-software-install \
       --no-buttons \
       --mouse
-}
-
-installPackage(){
-  yum --nogpgcheck install -y "$@"
 }
 
 # Remove installed packages
