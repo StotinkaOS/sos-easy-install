@@ -39,6 +39,7 @@ teamvIcon="/usr/share/icons/sos-ei-app-icons/teamviewer.png"
 vboxIcon="/usr/share/icons/sos-ei-app-icons/virtualbox.png"
 sudoIcon="/usr/share/icons/sos-ei-app-icons/sudo.png"
 selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
+loginIcon=""
 
 ## Functions
 
@@ -680,6 +681,40 @@ addSudo() {
   fi
 }
 
+autoLogin(){
+  user=$(who | cut -d' ' -f1 | sort | uniq);
+  rc="/etc/gdm/custom.conf"
+
+  if grep --quiet -w "AutomaticLogin=$user" "$rc"; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Добави"
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$loginIcon" \
+      --text="<b>AutoLogin</b>
+
+Добавете или премахнете автоматичното влизане в системата за потребителя $user ." \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --mouse
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" ==  Добави ]]; then
+      sed -i  '/^\[daemon\]$/a AutomaticLogin='$user'' "$rc"
+      sed -i '/^\[daemon\]$/a AutomaticLoginEnable=true' "$rc"
+      notifyUser "Добавено е автоматично влизане във системата за потребителя $user"
+    elif [[ "$BtStatus" ==  Премахни ]]; then
+      sed -i '/'AutomaticLoginEnable'/d' "$rc"
+      sed -i '/'$user'/d' "$rc"
+      notifyUser "Премахнато е автоматичното влизане за потребителя $user"
+   fi
+  fi
+}
+
 setSelinux() {
   if grep --quiet ^SELINUX=permissive$ /etc/selinux/config; then
     BtStatus="Включи"
@@ -860,7 +895,7 @@ while :
 do
   choise=$(yad --title="$prog" --name="$prog" \
                --image="$image_icon" --image-on-top --window-icon="$window_icon" \
-               --width="450" --height="540" --mouse --fixed \
+               --width="450" --height="560" --mouse --fixed \
                --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
                --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
                false 0 "Steam" \
@@ -877,7 +912,8 @@ do
                false 11 "PlayOnLinux" \
                false 12 "Oracle Java" \
                false 13 "Намиране и инсталиране на видео драйвер" \
-               false 14 "SELinux");
+               false 14 "SELinux" \
+               false 15 "Автоматично влизане в системата");
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -900,6 +936,7 @@ do
     "12|")whichJava ;;
     "13|")install_video ;;
     "14|")setSelinux ;;
+    "15|")autoLogin ;;
     *) break ;;
   esac
 done
