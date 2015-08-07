@@ -39,7 +39,7 @@ teamvIcon="/usr/share/icons/sos-ei-app-icons/teamviewer.png"
 vboxIcon="/usr/share/icons/sos-ei-app-icons/virtualbox.png"
 sudoIcon="/usr/share/icons/sos-ei-app-icons/sudo.png"
 selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
-loginIcon=""
+loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
 
 ## Functions
 
