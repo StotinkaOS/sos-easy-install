@@ -19,7 +19,7 @@ COMMENT
 ## General
 
 prog="${0##*/}"
-ver=1.5
+ver=1.6
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-Easy-Install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
@@ -52,7 +52,7 @@ if [[ $EUID -ne 0 ]]; then
       --width="450" --height="200" \
       --button="ОК":0 --button="Затваряне":1 \
       --selectable-labels \
-      --mouse
+      --center
   exit 1
 fi
 
@@ -73,7 +73,7 @@ installPackage(){
       --window-icon="$window_icon" \
       --image=system-software-install \
       --no-buttons \
-      --mouse
+      --center
 }
 
 # Remove installed packages
@@ -83,7 +83,7 @@ removePackage(){
 
 # Ask to remove installed packages
 ASKremovePackage(){
-  yad --title="$prog" --window-icon="$window_icon" --text="Желаете ли да премахнете $*" --image=dialog-question --button="Не":1 --button="Да":0 --mouse
+  yad --title="$prog" --window-icon="$window_icon" --text="Желаете ли да премахнете $*" --image=dialog-question --button="Не":1 --button="Да":0 --center
 
   ret=$?
 
@@ -95,14 +95,14 @@ ASKremovePackage(){
         --window-icon="$window_icon" \
         --no-buttons \
         --image=system-software-install \
-        --mouse
+        --center
     notifyUser "Пакета $* е успешно премахнат"
   fi
 }
 
 # Notify message
 notifyUser(){
-  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --mouse
+  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --center
 }
 
 install_steam() {
@@ -123,7 +123,7 @@ install_steam() {
 <b>Уеб сайт на проекта:</b> <a href='http://store.steampowered.com/'>http://store.steampowered.com/</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -201,7 +201,7 @@ install_dropbox() {
 <b>Уеб сайт на проекта:</b> <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -209,11 +209,11 @@ install_dropbox() {
       ASKremovePackage nautilus-dropbox 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ "$arch" == "x86_64" ]]; then
-        installPackage "https://www.dropbox.com/download?dl=packfages/fedora/nautilus-dropbox-1.6.2-1.fedora.x86_64.rpm" 2>&1
+        installPackage "https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-2015.02.12-1.fedora.x86_64.rpm" 2>&1
         rm -f /etc/yum.repos.d/dropbox.repo
         notifyUser "Инсталирането на Dropbox приключи"
       else
-        installPackage "https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-1.6.2-1.fedora.i386.rpm" 2>&1
+        installPackage "https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-2015.02.12-1.fedora.i386.rpm" 2>&1
         rm -f /etc/yum.repos.d/dropbox.repo
         notifyUser "Инсталирането на Dropbox приключи"
       fi
@@ -239,7 +239,7 @@ install_chrome() {
 <b>Уеб сайт на проекта:</b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -275,7 +275,7 @@ Open-source версията на Google Chrome уеб браузъра.
 <b>Уеб сайт на проекта:</b> <a href='https://www.chromium.org/Home'>https://www.chromium.org</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -298,7 +298,7 @@ whichJava(){
 
 <b>JDK (Java Development Kit)</b> се състои от пълният комплект нужен за разработването на java-базиран софтуер, също така съдържа jre като компонент.' \
       --button="JAVA-JRE":1 --button="JAVA-JDK":2 --button="Затваряне":0 \
-      --mouse
+      --center
 ret=$?
 
   if [[ "$ret" -eq "1" ]]; then
@@ -326,7 +326,7 @@ install_javaJRE(){
 <b>Уеб сайт на проекта:</b> <a href='http://java.com'>http://java.com</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -342,7 +342,7 @@ install_javaJRE(){
              --window-icon="$window_icon" \
              --button "Затваряне":1 \
              --image=system-software-install \
-             --mouse
+             --center
         installPackage jre-8u51-linux-x64.rpm 2>&1
         alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
         alternatives --auto java
@@ -359,7 +359,7 @@ install_javaJRE(){
              --window-icon="$window_icon" \
              --button "Затваряне":1 \
              --image=system-software-install \
-             --mouse
+             --center
          installPackage jre-8u51-linux-i586.rpm 2>&1
          alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
          alternatives --auto java
@@ -390,7 +390,7 @@ install_javaJDK(){
 <b>Уеб сайт на проекта:</b> <a href='http://java.com'>http://java.com</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -406,7 +406,7 @@ install_javaJDK(){
              --window-icon="$window_icon" \
              --button "Затваряне":1 \
              --image=system-software-install \
-             --mouse
+             --center
         installPackage jdk-8u51-linux-x64.rpm 2>&1
         alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
         alternatives --auto java
@@ -427,7 +427,7 @@ install_javaJDK(){
              --window-icon="$window_icon" \
              --button "Затваряне":1 \
              --image=system-software-install \
-             --mouse
+             --center
         installPackage jdk-8u51-linux-i586.rpm 2>&1
         alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
         alternatives --auto java
@@ -462,7 +462,7 @@ install_skype() {
 <b>Уеб сайт на проекта:</b> <a href='https://www.skype.com/'>https://www.skype.com</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
  ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -493,7 +493,7 @@ VirtualBox създава виртуална среда, в която може 
 <b>Уеб сайт на проекта:</b> <a href='https://www.virtualbox.org/'>https://www.virtualbox.org/</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -525,7 +525,7 @@ install_teamviewer() {
 <b>Уеб сайт на проекта:</b> <a href='http://teamviewer.com/'>http://teamviewer.com</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -556,7 +556,7 @@ install_mscorefonts(){
 <b>Уеб сайт на проекта:</b> <a href='http://mscorefonts2.sourceforge.net/'>http://mscorefonts2.sourceforge.net</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -576,7 +576,7 @@ infinalityShowstyles(){
             --width="300" --height="400" \
             --button="ОК":0 --button="Затваряне":1 \
             --window-icon="$window_icon" \
-            --mouse \
+            --center \
             --column 'Стил' \
             "1) debug" \
             "2) infinality" \
@@ -594,7 +594,7 @@ infinalityShowstyles(){
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-error \
-        --mouse
+        --center
   fi
 
   case ${showStyles} in
@@ -630,7 +630,7 @@ install_infinality(){
 <b>Уеб сайт на проекта:</b> <a href='http://www.infinality.net/blog'>http://www.infinality.net/blog</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -665,7 +665,7 @@ addSudo() {
 Командата sudo позволява на потребителя да изпълнява команди като root или друг потребител, придобивайки администраторски/root права над системата." \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -699,7 +699,7 @@ autoLogin(){
 Добавете или премахнете автоматичното влизане в системата за потребителя $user ." \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -730,7 +730,7 @@ setSelinux() {
 Изключване или Включване на SELinux защитната среда." \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -766,7 +766,7 @@ install_compiz(){
 <b>Уеб сайт на проекта:</b> <a href='http://www.compiz.org/'>http://www.compiz.org/</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -784,7 +784,7 @@ install_compiz(){
             --window-icon="$window_icon" \
             --title="$prog" \
             --image=gtk-dialog-error \
-            --mouse
+            --center
       fi
     fi
   fi
@@ -808,7 +808,7 @@ install_playonlinux(){
 <b>Уеб сайт на проекта:</b> <a href='https://www.playonlinux.com/en/'>https://www.playonlinux.com/en</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
@@ -876,7 +876,7 @@ info() {
       --width="200" --height="300" \
       --button="ОК":0 --button="Лиценз":2 --button="Затваряне":1 \
       --image="$window_icon" \
-      --mouse
+      --center
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -884,7 +884,7 @@ info() {
         --window-icon="$window_icon" \
         --width="500" --height="300" \
         --button="Затваряне":1 \
-        --mouse
+        --center
   fi
   menu
 }
@@ -895,7 +895,7 @@ while :
 do
   choise=$(yad --title="$prog" --name="$prog" \
                --image="$image_icon" --image-on-top --window-icon="$window_icon" \
-               --width="450" --height="560" --mouse --fixed \
+               --width="450" --height="560" --center --fixed \
                --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
                --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
                false 0 "Steam" \
