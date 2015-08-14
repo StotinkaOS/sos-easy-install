@@ -772,6 +772,8 @@ install_compiz(){
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       ASKremovePackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome 2>&1
+      # Enable Metacity
+      gconftool-2 -s -t string /desktop/gnome/session/required_components/windowmanager metacity > /dev/null
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ $( glxinfo | grep direct) == *"direct rendering: Yes"* ]]; then
         installPackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome 2>&1
