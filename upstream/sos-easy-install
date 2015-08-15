@@ -849,7 +849,7 @@ install_video(){
       installPackage nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils 2>&1
       notifyUser "Инсталирането на nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils приключи. Рестартирайте системата."
     fi
-  elif [[ $vga == *"AMD"* ]] || [[ $res == *"ATI"* ]]; then
+  elif [[ $vga == *"AMD"* ]] || [[ $vga == *"ATI"* ]]; then
     value=${vga#*HD}
     if [[ $value -lt 5000 ]]; then
       if isInstalled fglrx-x11-drv kmod-fglrx-legacy liba-utils; then
