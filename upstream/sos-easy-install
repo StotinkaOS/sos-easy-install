@@ -830,6 +830,18 @@ install_playonlinux(){
   fi
 }
 
+ASKinstallVideo(){
+  aks=$(yad --title="$prog" --width=420 --window-icon="$window_icon" --image=dialog-question --text='Искате ли да инсталирате видео райверите?
+<b>Моля, имайте предвид тази функция е все още експериментална!</b>' --button="Не":0 --button="Да":1 --center)
+  ret=$?
+
+  if [[ "$ret" -eq "1" ]]; then
+    install_video
+  else
+    exit 1
+  fi
+}
+
 install_video(){
   shopt -s nocasematch
   vga=$(lspci | grep -i vga);
@@ -936,7 +948,7 @@ do
     "10|")install_compiz ;;
     "11|")install_playonlinux ;;
     "12|")whichJava ;;
-    "13|")install_video ;;
+    "13|")ASKinstallVideo ;;
     "14|")setSelinux ;;
     "15|")autoLogin ;;
     *) break ;;
