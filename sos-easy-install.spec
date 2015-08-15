@@ -38,6 +38,15 @@ install -d -m755 %{RPM_BUILD_ROOT}%{_datadir}/icons/
 cp -pr sos-ei-app-icons/ ${RPM_BUILD_ROOT}%{_datadir}/icons/
 install -Dpm 644 COPYING ${RPM_BUILD_ROOT}%{_datadir}/licenses/%{name}/COPYING 
 
+# Adjust for console-helper magic
+mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
+mv ${RPM_BUILD_ROOT}%{_bindir}/%{name} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}
+ln -s ../bin/consolehelper ${RPM_BUILD_ROOT}%{_bindir}/%{name}
+mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/pam.d
+cp %{name}.pam ${RPM_BUILD_ROOT}%{_sysconfdir}/pam.d/%{name}
+mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/security/console.apps
+cp %{name}.console ${RPM_BUILD_ROOT}%{_sysconfdir}/security/console.apps/%{name}
+
 %clean
 rm -rf ${RPM_BUILD_ROOT}
 
@@ -46,11 +55,14 @@ rm -rf ${RPM_BUILD_ROOT}
 %attr(755,root,root) 
 %doc README.md COPYING
 %{_bindir}/%{name}
+%{_sbindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/sosEI-header.png
 %{_datadir}/icons/hicolor/96x96/apps/sos-Easy-Install.png
 %{_datadir}/icons/sos-ei-app-icons
 %{_datadir}/licenses/%{name}/COPYING
+%config(noreplace) %{_sysconfdir}/pam.d/%{name}
+%config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
 
 %changelog
 * Sat Aug 15 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.7-1
