@@ -209,11 +209,15 @@ install_dropbox() {
       ASKremovePackage nautilus-dropbox 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ "$arch" == "x86_64" ]]; then
-        installPackage "https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-2015.02.12-1.fedora.x86_64.rpm" 2>&1
+        # find latest version
+        URL=$(wget "https://www.dropbox.com/install?os=lnx" -O - | tr ' ' '\n' | grep -o "nautilus-dropbox-[0-9]*.[0-9]*.[0-9]*-[0-9]*.fedora.x86_64.rpm" | head -n 1 | sed -e 's/^/http:\/\/linux.dropbox.com\/packages\/fedora\//')
+        installPackage "$URL" 2>&1
         rm -f /etc/yum.repos.d/dropbox.repo
         notifyUser "Инсталирането на Dropbox приключи"
       else
-        installPackage "https://www.dropbox.com/download?dl=packages/fedora/nautilus-dropbox-2015.02.12-1.fedora.i386.rpm" 2>&1
+        # find latest version
+        URL=$(wget "https://www.dropbox.com/install?os=lnx" -O - | tr ' ' '\n' | grep -o "nautilus-dropbox-[0-9]*.[0-9]*.[0-9]*-[0-9]*.fedora.i386.rpm" | head -n 1 | sed -e 's/^/http:\/\/linux.dropbox.com\/packages\/fedora\//')
+        installPackage "$URL" 2>&1
         rm -f /etc/yum.repos.d/dropbox.repo
         notifyUser "Инсталирането на Dropbox приключи"
       fi
