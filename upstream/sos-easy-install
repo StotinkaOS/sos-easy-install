@@ -418,8 +418,9 @@ install_javaJDK(){
         alternatives --auto javac
         alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
         alternatives --auto jar
-        alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 /usr/java/latest/lib/amd64/libnpjp2.so 200000
-        alternatives --auto libjavaplugin.so.x86_64
+        #alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 /usr/java/latest/lib/amd64/libnpjp2.so 200000
+        ln -s '/usr/java/jdk1.8.0_51/jre/lib/amd64/libnpjp2.so' /usr/lib64/mozilla/plugins/
+        #alternatives --auto libjavaplugin.so.x86_64
         popd
         notifyUser "Инсталирането на JAVA-JDK приключи"
       else
@@ -439,8 +440,9 @@ install_javaJDK(){
         alternatives --auto javac
         alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000
         alternatives --auto jar
-        alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so /usr/java/latest/lib/i386/libnpjp2.so 200000
-        alternatives --auto libjavaplugin.so
+        #alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so /usr/java/latest/lib/i386/libnpjp2.so 200000
+        ln -s '/usr/java/jdk1.8.0_51/jre/lib/i386/libnpjp2.so' /usr/lib/mozilla/plugins/
+        #alternatives --auto libjavaplugin.so
         popd
         notifyUser "Инсталирането на JAVA-JDK приключи"
       fi
