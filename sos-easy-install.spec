@@ -1,7 +1,7 @@
 Summary: A simple GUI program that enables you to install additional software, such as Skype, Chrome, Steam, etc.
 Summary(bg): Прост графичен потребителски интерфейс който позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.
 Name: sos-easy-install
-Version: 1.7
+Version: 1.8
 Release: 1%{?dist}.sos
 URL: http://stotinkaos.net
 License: GPLv3
@@ -19,7 +19,8 @@ BuildArch: noarch
 %{summary}.
 
 %description -l bg
-Програма която позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.
+Програма която позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.., 
+също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -65,6 +66,11 @@ rm -rf ${RPM_BUILD_ROOT}
 %config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
 
 %changelog
+* Tue Aug 18 2015 Ivaylo Kuzev <ivo@stotinkaos.net>- 1.8-1
+- Fix java-jdk
+- Add authentication via PAM 
+- Update dropbox plugin to find the latest version
+
 * Sat Aug 15 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.7-1
 - Ask to install video drivers
 - fix wrong variable
