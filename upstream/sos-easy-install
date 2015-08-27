@@ -848,45 +848,131 @@ ASKinstallVideo(){
   fi
 }
 
+install_intel_driver(){
+  if isInstalled libva-intel-driver libva-utils; then
+    notifyUser "Вече е инсталиран драйвер"
+  else
+    installPackage libva-intel-driver libva-utils 2>&1
+    notifyUser "Инсталирането на libva-intel-driver libva-utils приключи"
+  fi
+}
+
+install_nvidia_driver(){
+  if isInstalled nvidia-x11-drv nvidia-detect $(nvidia-detect) libva-vdpau-driver libva-utils; then
+    notifyUser "Вече е инсталиран драйвер"
+  else
+    installPackage nvidia-detect 2>&1
+    installPackage nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils 2>&1
+    notifyUser "Инсталирането на nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils приключи. Рестартирайте системата."
+  fi
+}
+
+install_amd_driver(){
+  value=${vga#*HD}
+  if [[ $value -lt 5000 ]]; then
+    if isInstalled fglrx-x11-drv kmod-fglrx-legacy liba-utils; then
+      notifyUser "Вече е инсталиран драйвер"
+    else
+      installPackage fglrx-x11-drv kmod-fglrx-legacy libva-utils 2>&1
+      notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx-legacy libva-utils приключи. Рестартирайте системата."
+    fi
+  else
+    if isInstalled fglrx-x11-drv kmod-fglrx liba-utils; then
+      notifyUser "Вече е инсталиран драйвер"
+    else
+      installPackage fglrx-x11-drv kmod-fglrx libva-utils 2>&1
+      notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx libva-utils приключи. Рестартирайте системата."
+    fi
+  fi
+}
+
+install_bumblebee(){
+  if isInstalled bumblebee; then
+    notifyUser "Вече е инсталиран"
+  else
+    # http://elrepo.org/tiki/bumblebee
+    installPackage bumblebee kmod-bbswitch libva-vdpau-driver libva-utils
+    useradd -G bumblebee $user
+    cat << EOF > /etc/bumblebee/bumblebee.conf
+[bumblebeed]
+VirtualDisplay=:8
+KeepUnusedXServer=false
+ServerGroup=bumblebee
+TurnCardOffAtExit=false
+NoEcoModeOverride=false
+Driver=nvidia
+XorgConfDir=/etc/bumblebee/xorg.conf.d
+
+[optirun]
+Bridge=auto
+VGLTransport=proxy
+PrimusLibraryPath=/usr/lib/primus:/usr/lib32/primus
+AllowFallbackToIGC=false
+
+[driver-nvidia]
+KernelDriver=nvidia
+PMMethod=bbswitch
+LibraryPath=/usr/lib64/nvidia:/usr/lib64/vdpau:/usr/lib/nvidia:/usr/lib/vdpau
+XorgModulePath=/usr/lib64/xorg/modules/extensions/nvidia,/usr/lib64/xorg/modules/drivers,/usr/lib64/xorg/modules
+
+XorgConfFile=/etc/bumblebee/xorg.conf.nvidia
+
+[driver-nouveau]
+KernelDriver=nouveau
+PMMethod=auto
+XorgConfFile=/etc/bumblebee/xorg.conf.nouveau
+EOF
+    sed -i 's/Exec=.*/Exec=optirun nvidia-settings -c :8.0/' /usr/share/applications/nvidia-settings.desktop
+    notifyUser "Инсталирането на bumblebee приключи. Рестартирайте системата!"
+}
+
+info_driver(){
+  yad --title="Информация за драйвер" --selectable-labels --text-align=left --text="INTEL: използва се само вградената в процесора видео карта\n\nNVIDIA: използва се само дискретната видео карта\n\nBUMBLEBEE: дава възможност за динамично използване на двете видео карти\n\n" \
+      --window-icon="$window_icon" \
+      --width="200" --height="300" \
+      --button="ОК":0 \
+      --image="$window_icon" \
+      --center
+}
+
 install_video(){
   shopt -s nocasematch
   vga=$(lspci | grep -i vga);
 
+  if [[ $vga == *"INTEL"* ]] && [[ $vga == *"NVIDIA"* ]]; then
+    while :
+    do
+      choise=$(yad  --title="Хибриден драйвер" --name="INTEL/NVIDIA" \
+        --image="$image_icon" --image-on-top --window-icon="$window_icon" \
+        --width="450" --height="560" --center --fixed \
+        --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
+        --button="ОК":0 --button="Научи повече":2 --button="Затваряне":1 \
+               false 0 "INTEL" \
+               false 1 "NVIDIA" \
+               false 2 "BUMBLEBEE");
+      ret=$?
+
+      if [[ "$ret" -eq "2" ]]; then
+        info_driver
+      fi
+
+      case ${choise} in
+        "0|")install_intel_driver ;;
+        "1|")install_nvidia_driver ;;
+        "2|")install_bumblebee ;;
+        *) break ;;
+      esac
+    done
   if [[ $vga == *"INTEL"* ]]; then
-    if isInstalled libva-intel-driver libva-utils; then
-      notifyUser "Вече е инсталиран драйвер"
-    else
-      installPackage libva-intel-driver libva-utils 2>&1
-      notifyUser "Инсталирането на libva-intel-driver libva-utils приключи"
-    fi
+    install_intel_driver
   elif [[ $vga == *"NVIDIA"* ]]; then
-    if isInstalled nvidia-x11-drv nvidia-detect $(nvidia-detect) libva-vdpau-driver libva-utils; then
-      notifyUser "Вече е инсталиран драйвер"
-    else
-      installPackage nvidia-detect 2>&1
-      installPackage nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils 2>&1
-      notifyUser "Инсталирането на nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils приключи. Рестартирайте системата."
-    fi
+    install_nvidia_driver
   elif [[ $vga == *"AMD"* ]] || [[ $vga == *"ATI"* ]]; then
-    value=${vga#*HD}
-    if [[ $value -lt 5000 ]]; then
-      if isInstalled fglrx-x11-drv kmod-fglrx-legacy liba-utils; then
-        notifyUser "Вече е инсталиран драйвер"
-      else
-        installPackage fglrx-x11-drv kmod-fglrx-legacy libva-utils 2>&1
-        notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx-legacy libva-utils приключи. Рестартирайте системата."
-      fi
-    else
-      if isInstalled fglrx-x11-drv kmod-fglrx liba-utils; then
-        notifyUser "Вече е инсталиран драйвер"
-      else
-        installPackage fglrx-x11-drv kmod-fglrx libva-utils 2>&1
-        notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx libva-utils приключи. Рестартирайте системата."
-      fi
-    fi
+   install_amd_driver
   else
     notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
   fi
+  shopt nocasematch // restore case matching
 }
 
 # Show about dialog
