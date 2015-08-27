@@ -887,6 +887,7 @@ install_amd_driver(){
 }
 
 install_bumblebee(){
+  user=$(who | cut -d' ' -f1 | sort | uniq);
   if isInstalled bumblebee; then
     notifyUser "Вече е инсталиран"
   else
@@ -924,6 +925,7 @@ XorgConfFile=/etc/bumblebee/xorg.conf.nouveau
 EOF
     sed -i 's/Exec=.*/Exec=optirun nvidia-settings -c :8.0/' /usr/share/applications/nvidia-settings.desktop
     notifyUser "Инсталирането на bumblebee приключи. Рестартирайте системата!"
+  fi
 }
 
 info_driver(){
@@ -943,13 +945,13 @@ install_video(){
     while :
     do
       choise=$(yad  --title="Хибриден драйвер" --name="INTEL/NVIDIA" \
-        --image="$image_icon" --image-on-top --window-icon="$window_icon" \
-        --width="450" --height="560" --center --fixed \
-        --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
-        --button="ОК":0 --button="Научи повече":2 --button="Затваряне":1 \
-               false 0 "INTEL" \
-               false 1 "NVIDIA" \
-               false 2 "BUMBLEBEE");
+                    --image="$image_icon" --image-on-top --window-icon="$window_icon" \
+                    --width="450" --height="560" --center --fixed \
+                    --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
+                    --button="ОК":0 --button="Научи повече":2 --button="Затваряне":1 \
+                    false 0 "INTEL" \
+                    false 1 "NVIDIA" \
+                    false 2 "BUMBLEBEE");
       ret=$?
 
       if [[ "$ret" -eq "2" ]]; then
@@ -963,16 +965,17 @@ install_video(){
         *) break ;;
       esac
     done
-  if [[ $vga == *"INTEL"* ]]; then
-    install_intel_driver
-  elif [[ $vga == *"NVIDIA"* ]]; then
-    install_nvidia_driver
-  elif [[ $vga == *"AMD"* ]] || [[ $vga == *"ATI"* ]]; then
-   install_amd_driver
-  else
-    notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
-  fi
-  shopt nocasematch // restore case matching
+
+    elif [[ $vga == *"INTEL"* ]]; then
+      install_intel_driver
+    elif [[ $vga == *"NVIDIA"* ]]; then
+      install_nvidia_driver
+    elif [[ $vga == *"AMD"* ]] || [[ $vga == *"ATI"* ]]; then
+      install_amd_driver
+    else
+      notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
+    fi
+    shopt nocasematch # restore case matching
 }
 
 # Show about dialog
