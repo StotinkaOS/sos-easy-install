@@ -940,8 +940,11 @@ info_driver(){
 install_video(){
   shopt -s nocasematch
   vga=$(lspci | grep -i vga);
-
-  if [[ $vga == *"INTEL"* ]] && [[ $vga == *"NVIDIA"* ]]; then
+  amd='\bAMD\b'
+  ati='\bATI\b'
+  intel='\bINTEL\b'
+  nvidia='\bNVIDIA\b'
+  if [[ $vga =~ $intel ]] && [[ $vga =~ $nvidia ]]; then
     while :
     do
       choise=$(yad  --title="Хибриден драйвер" --name="INTEL/NVIDIA" \
@@ -966,12 +969,12 @@ install_video(){
       esac
     done
 
-    elif [[ $vga == *"INTEL"* ]]; then
-      install_intel_driver
-    elif [[ $vga == *"NVIDIA"* ]]; then
+    elif [[ $vga =~ $nvidia ]]; then
       install_nvidia_driver
-    elif [[ $vga == *"AMD"* ]] || [[ $vga == *"ATI"* ]]; then
+    elif [[ $vga =~ $amd ]] || [[ $vga =~ $ati ]]; then
       install_amd_driver
+    elif [[ $vga =~ $intel ]]; then
+      install_intel_driver
     else
       notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
     fi
