@@ -19,7 +19,7 @@ COMMENT
 ## General
 
 prog="${0##*/}"
-ver=1.8
+ver=1.9
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-Easy-Install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
@@ -858,11 +858,11 @@ install_intel_driver(){
 }
 
 install_nvidia_driver(){
-  if isInstalled nvidia-x11-drv nvidia-detect $(nvidia-detect) libva-vdpau-driver libva-utils; then
+  if isInstalled nvidia-x11-drv nvidia-detect "$(nvidia-detect)" libva-vdpau-driver libva-utils; then
     notifyUser "Вече е инсталиран драйвер"
   else
     installPackage nvidia-detect 2>&1
-    installPackage nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils 2>&1
+    installPackage nvidia-x11-drv "$(nvidia-detect)" libva-vdpau-driver libva-utils 2>&1
     notifyUser "Инсталирането на nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils приключи. Рестартирайте системата."
   fi
 }
@@ -893,7 +893,7 @@ install_bumblebee(){
   else
     # http://elrepo.org/tiki/bumblebee
     installPackage bumblebee kmod-bbswitch libva-vdpau-driver libva-utils
-    useradd -G bumblebee $user
+    useradd -G bumblebee "$user"
     cat << EOF > /etc/bumblebee/bumblebee.conf
 [bumblebeed]
 VirtualDisplay=:8
