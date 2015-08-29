@@ -1,7 +1,7 @@
 Summary: A simple GUI program that enables you to install additional software, such as Skype, Chrome, Steam, etc.
 Summary(bg): Прост графичен потребителски интерфейс който позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.
 Name: sos-easy-install
-Version: 1.9
+Version: 1.10
 Release: 1%{?dist}.sos
 URL: http://stotinkaos.net
 License: GPLv3
@@ -66,7 +66,11 @@ rm -rf ${RPM_BUILD_ROOT}
 %config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
 
 %changelog
-* Fri Aug 29 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.9-1
+* Sat Aug 29 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.10-1
+- Fix user group bumblebee
+- Check exit status of yum
+
+* Fri Aug 28 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.9-1
 - Add Bumblebee support
 
 * Tue Aug 18 2015 Ivaylo Kuzev <ivo@stotinkaos.net>- 1.8-1
