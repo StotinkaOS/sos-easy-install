@@ -64,16 +64,34 @@ isInstalled(){
   rpm -q --quiet "$@"
 }
 
+# Check if yum success
+checkSuccess(){
+  yum --nogpgcheck install -y "$@"
+
+  yumstatus="$?"
+
+  if [[ "$yumstatus" -eq "0" ]]; then
+    notifyUser "Инсталирането на $* приключи"
+  else
+    yad --text="Грешка при инсталиране на $*" \
+        --button="ОК":0 --button="Затваряне":1 \
+        --window-icon="$window_icon" \
+        --title="$prog" \
+        --image=gtk-dialog-error \
+        --center
+  fi
+}
+
 # Install package
 installPackage(){
-  yum --nogpgcheck install -y "$@" | yad --title="Инсталиране на $*" \
-      --text='Моля изчакайте....' \
-      --height=250 --width=500 \
-      --progress --pulsate --auto-close --auto-kill \
-      --window-icon="$window_icon" \
-      --image=system-software-install \
-      --no-buttons \
-      --center
+    checkSuccess "$@" | yad --title="Инсталиране на $*" \
+                            --text='Моля изчакайте....' \
+                            --height=250 --width=500 \
+                            --progress --pulsate --auto-close --auto-kill \
+                            --window-icon="$window_icon" \
+                            --no-buttons \
+                            --image=system-software-install \
+                            --center
 }
 
 # Remove installed packages
@@ -89,13 +107,13 @@ ASKremovePackage(){
 
   if [[ "$ret" -eq "0" ]]; then
     removePackage "$@" | yad --title="Премахване на $*" \
-        --text='Моля изчакайте....' \
-        --height=250 --width=500 \
-        --progress --pulsate --auto-close --auto-kill \
-        --window-icon="$window_icon" \
-        --no-buttons \
-        --image=system-software-install \
-        --center
+                             --text='Моля изчакайте....' \
+                             --height=250 --width=500 \
+                             --progress --pulsate --auto-close --auto-kill \
+                             --window-icon="$window_icon" \
+                             --no-buttons \
+                             --image=system-software-install \
+                             --center
     notifyUser "Пакета $* е успешно премахнат"
   fi
 }
@@ -159,7 +177,6 @@ EOF
           sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
           # allow Steam to start in Big Picture mode
           setsebool -P allow_execheap 1
-          notifyUser "Инсталирането на Steam приключи"
         else
           # disable yum to verify SSL certificates (This is a temporary workaround!)
           # FIX: Peer cert cannot be verified or peer cert invalid
@@ -174,7 +191,6 @@ EOF
           sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
           # allow Steam to start in Big Picture mode
           setsebool -P allow_execheap 1
-          notifyUser "Инсталирането на Steam приключи"
       fi
         # Revert yum to verify SSL certificates
         sed -i '/sslverify/d' /etc/yum.conf
@@ -213,13 +229,11 @@ install_dropbox() {
         URL=$(wget "https://www.dropbox.com/install?os=lnx" -O - | tr ' ' '\n' | grep -o "nautilus-dropbox-[0-9]*.[0-9]*.[0-9]*-[0-9]*.fedora.x86_64.rpm" | head -n 1 | sed -e 's/^/http:\/\/linux.dropbox.com\/packages\/fedora\//')
         installPackage "$URL" 2>&1
         rm -f /etc/yum.repos.d/dropbox.repo
-        notifyUser "Инсталирането на Dropbox приключи"
       else
         # find latest version
         URL=$(wget "https://www.dropbox.com/install?os=lnx" -O - | tr ' ' '\n' | grep -o "nautilus-dropbox-[0-9]*.[0-9]*.[0-9]*-[0-9]*.fedora.i386.rpm" | head -n 1 | sed -e 's/^/http:\/\/linux.dropbox.com\/packages\/fedora\//')
         installPackage "$URL" 2>&1
         rm -f /etc/yum.repos.d/dropbox.repo
-        notifyUser "Инсталирането на Dropbox приключи"
       fi
     fi
   fi
@@ -252,10 +266,8 @@ install_chrome() {
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ "$arch" == "x86_64" ]]; then
         installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm" 2>&1
-        notifyUser "Исталирането на Google Chrome приключи"
       else
         installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.rpm" 2>&1
-        notifyUser "Исталирането на Google Chrome приключи"
       fi
     fi
   fi
@@ -287,7 +299,6 @@ Open-source версията на Google Chrome уеб браузъра.
       ASKremovePackage chromium-browser 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage chromium-browser 2>&1
-      notifyUser "Исталирането на Chromium приключи"
     fi
   fi
 }
@@ -353,7 +364,6 @@ install_javaJRE(){
         alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 /usr/java/latest/lib/amd64/libnpjp2.so 200000
         alternatives --auto libjavaplugin.so.x86_64
         popd
-        notifyUser "Инсталирането на JAVA-JRE приключи"
       else
         pushd /tmp
         wget --progress=bar:force --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jre-8u51-linux-i586.rpm" 2>&1 | yad --title="Изтегляне на Java-JRE" \
@@ -370,7 +380,6 @@ install_javaJRE(){
          alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so /usr/java/latest/lib/i386/libnpjp2.so 200000
          alternatives --auto libjavaplugin.so
          popd
-         notifyUser "Инсталирането на JAVA-JRE приключи"
       fi
     fi
   fi
@@ -422,7 +431,6 @@ install_javaJDK(){
         ln -s '/usr/java/jdk1.8.0_51/jre/lib/amd64/libnpjp2.so' /usr/lib64/mozilla/plugins/
         #alternatives --auto libjavaplugin.so.x86_64
         popd
-        notifyUser "Инсталирането на JAVA-JDK приключи"
       else
         pushd /tmp
         wget --progress=bar:force --no-cookies --no-check-certificate --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/8u51-b16/jdk-8u51-linux-i586.rpm" 2>&1 | yad --title="Изтегляне на Java-JDK" \
@@ -444,7 +452,6 @@ install_javaJDK(){
         ln -s '/usr/java/jdk1.8.0_51/jre/lib/i386/libnpjp2.so' /usr/lib/mozilla/plugins/
         #alternatives --auto libjavaplugin.so
         popd
-        notifyUser "Инсталирането на JAVA-JDK приключи"
       fi
     fi
   fi
@@ -476,7 +483,6 @@ install_skype() {
       ASKremovePackage skype 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage skype 2>&1
-      notifyUser "Исталирането на Chromium приключи"
     fi
   fi
 }
@@ -508,7 +514,6 @@ VirtualBox създава виртуална среда, в която може 
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-4.3 2>&1
       service vboxdrv setup
-      notifyUser "Инсталирането на VirtualBox-4.3 приключи"
     fi
   fi
 }
@@ -539,7 +544,6 @@ install_teamviewer() {
       ASKremovePackage teamviewer 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage "http://www.teamviewer.com/download/teamviewer_linux.rpm" 2>&1
-      notifyUser "Инсталирането на TeamViewer приключи"
     fi
   fi
 }
@@ -570,7 +574,6 @@ install_mscorefonts(){
       ASKremovePackage msttcorefonts 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage msttcorefonts 2>&1
-      notifyUser "Инсталирането на Msttcorefonts приключи"
     fi
   fi
 }
@@ -647,7 +650,6 @@ install_infinality(){
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage freetype-infinality fontconfig-infinality msttcorefonts -y 2>&1
       infinalityShowstyles
-      notifyUser "Инсталирането на Infinality приключи"
     fi
   fi
 }
@@ -785,7 +787,6 @@ install_compiz(){
         installPackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome 2>&1
         # Enable Compiz
         gconftool-2 -s -t string /desktop/gnome/session/required_components/windowmanager compiz-gtk > /dev/null
-        notifyUser "Инсталирането на Compiz-Fusion приключи"
       else
         yad --text="Грешка: Явно не използвате видео драйвер с поддръжка на 3D-ускорение." \
             --button="ОК":0 --button="Затваряне":1 \
@@ -827,10 +828,8 @@ install_playonlinux(){
       if [[ ! -f /etc/yum.repos.d/playonlinux.repo ]]; then
         yum-config-manager --add-repo http://rpm.playonlinux.com/playonlinux.repo 2>&1
         installPackage nc playonlinux 2>&1
-        notifyUser "Инсталирането на PlayOnLinux приключи"
       else
         installPackage nc playonlinux 2>&1
-        notifyUser "Инсталирането на PlayOnLinux приключи"
       fi
     fi
   fi
@@ -853,7 +852,6 @@ install_intel_driver(){
     notifyUser "Вече е инсталиран драйвер"
   else
     installPackage libva-intel-driver libva-utils 2>&1
-    notifyUser "Инсталирането на libva-intel-driver libva-utils приключи"
   fi
 }
 
@@ -863,7 +861,6 @@ install_nvidia_driver(){
   else
     installPackage nvidia-detect 2>&1
     installPackage nvidia-x11-drv "$(nvidia-detect)" libva-vdpau-driver libva-utils 2>&1
-    notifyUser "Инсталирането на nvidia-x11-drv $(nvidia-detect) libva-vdpau-driver libva-utils приключи. Рестартирайте системата."
   fi
 }
 
@@ -874,14 +871,12 @@ install_amd_driver(){
       notifyUser "Вече е инсталиран драйвер"
     else
       installPackage fglrx-x11-drv kmod-fglrx-legacy libva-utils 2>&1
-      notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx-legacy libva-utils приключи. Рестартирайте системата."
     fi
   else
     if isInstalled fglrx-x11-drv kmod-fglrx liba-utils; then
       notifyUser "Вече е инсталиран драйвер"
     else
       installPackage fglrx-x11-drv kmod-fglrx libva-utils 2>&1
-      notifyUser "Инсталирането на fglrx-x11-drv kmod-fglrx libva-utils приключи. Рестартирайте системата."
     fi
   fi
 }
@@ -924,7 +919,6 @@ PMMethod=auto
 XorgConfFile=/etc/bumblebee/xorg.conf.nouveau
 EOF
     sed -i 's/Exec=.*/Exec=optirun nvidia-settings -c :8.0/' /usr/share/applications/nvidia-settings.desktop
-    notifyUser "Инсталирането на bumblebee приключи. Рестартирайте системата!"
   fi
 }
 
