@@ -19,7 +19,7 @@ COMMENT
 ## General
 
 prog="${0##*/}"
-ver=1.9
+ver=1.1.0
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-Easy-Install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
@@ -888,7 +888,7 @@ install_bumblebee(){
   else
     # http://elrepo.org/tiki/bumblebee
     installPackage bumblebee kmod-bbswitch libva-vdpau-driver libva-utils
-    useradd -G bumblebee "$user"
+    usermod -G bumblebee "$user"
     cat << EOF > /etc/bumblebee/bumblebee.conf
 [bumblebeed]
 VirtualDisplay=:8
