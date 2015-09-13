@@ -148,12 +148,12 @@ install_steam() {
     if [[ "$BtStatus" == Премахни ]]; then
       ASKremovePackage steam 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      if [ ! -f /etc/yum.repos.d/scx-el6-steam.repo ]; then
-        pushd /etc/yum.repos.d/
-        wget --no-check-certificate --quiet "https://soyuz.asia/repos/el/6/scx-el6-steam/scx-el6-steam.repo"
-        popd
-        if [[ "$arch" == "x86_64" ]]; then
-          cat << EOF > /etc/yum.repos.d/adobe-linux-i386.repo
+      pushd /etc/yum.repos.d/
+      rm -f scx-el6-steam.repo
+      wget --no-check-certificate --quiet "https://soyuz.asia/repos/el/6/scx-el6-steam/scx-el6-steam.repo"
+      popd
+      if [[ "$arch" == "x86_64" ]]; then
+        cat << EOF > /etc/yum.repos.d/adobe-linux-i386.repo
 [adobe-linux-i386]
 name=Adobe Systems Incorporated
 baseurl=http://linuxdownload.adobe.com/linux/i386/
@@ -162,39 +162,39 @@ skip_if_unavailable=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
 EOF
-          # disable yum to verify SSL certificates (This is a temporary workaround!)
-          # FIX: Peer cert cannot be verified or peer cert invalid
-          sed -i '/^\[main\]$/a sslverify=False' /etc/yum.conf
-          # fixme ?
-          rpm -e --nodeps flash-plugin.x86_64 SDL_image.x86_64
-          # enable steam repo
-          sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
-          # install steam
-          installPackage flash-plugin.i386 flash-plugin.x86_64 SDL_image.i686 SDL_image.x86_64 steam steam-deps 2>&1
-          # disable steam repo
-          sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
-          # fix executable path
-          sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
-          # allow Steam to start in Big Picture mode
-          setsebool -P allow_execheap 1
-        else
-          # disable yum to verify SSL certificates (This is a temporary workaround!)
-          # FIX: Peer cert cannot be verified or peer cert invalid
-          sed -i '/^\[main\]$/a sslverify=False' /etc/yum.conf
-          # enable steam repo
-          sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
-          # install steam
-          install Package steam steam-deps 2>&1
-          # disable steam repo
-          sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
-          # fix executable path
-          sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
-          # allow Steam to start in Big Picture mode
-          setsebool -P allow_execheap 1
+        # disable yum to verify SSL certificates (This is a temporary workaround!)
+        # FIX: Peer cert cannot be verified or peer cert invalid
+        sed -i '/^\[main\]$/a sslverify=False' /etc/yum.conf
+        # fixme ?
+        # Protected multilib versions
+        rpm -e --nodeps flash-plugin.x86_64 SDL_image.x86_64
+        # enable steam repo
+        sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
+        # install steam
+        installPackage flash-plugin.i386 flash-plugin.x86_64 SDL_image.i686 SDL_image.x86_64 steam steam-deps 2>&1
+        # disable steam repo
+        sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
+        # fix executable path
+        sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
+        # allow Steam to start in Big Picture mode
+        setsebool -P allow_execheap 1
+      else
+        # disable yum to verify SSL certificates (This is a temporary workaround!)
+        # FIX: Peer cert cannot be verified or peer cert invalid
+        sed -i '/^\[main\]$/a sslverify=False' /etc/yum.conf
+        # enable steam repo
+        sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
+        # install steam
+        install Package steam steam-deps 2>&1
+        # disable steam repo
+        sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
+        # fix executable path
+        sed -i -e 's|Exec=steam|Exec=/usr/local/bin/steam|g' /usr/share/applications/steam.desktop
+        # allow Steam to start in Big Picture mode
+        setsebool -P allow_execheap 1
       fi
-        # Revert yum to verify SSL certificates
-        sed -i '/sslverify/d' /etc/yum.conf
-      fi
+      # Revert yum to verify SSL certificates
+      sed -i '/sslverify/d' /etc/yum.conf
     fi
   fi
 }
