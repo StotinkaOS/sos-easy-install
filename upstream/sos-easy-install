@@ -488,7 +488,7 @@ install_skype() {
 }
 
 install_virtualbox() {
-  if isInstalled VirtualBox-4.3; then
+  if isInstalled VirtualBox-5.0; then
    BtStatus="Премахни"
   else
     BtStatus='Инсталирай'
@@ -510,9 +510,9 @@ VirtualBox създава виртуална среда, в която може 
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage VirtualBox-4.3 2>&1
+      ASKremovePackage VirtualBox-5.0 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-4.3 2>&1
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-5.0 2>&1
       service vboxdrv setup
     fi
   fi
@@ -1013,7 +1013,7 @@ do
                false 6 "TeamViewer" \
                false 7 "Msttcorefonts (Microsoft шрифтове)" \
                false 8 "Оптимизиране на шрифтовете с Infinality" \
-               false 9 "VirtualBox-4.3" \
+               false 9 "VirtualBox-5.0" \
                false 10 "Compiz-Fusion" \
                false 11 "PlayOnLinux" \
                false 12 "Oracle Java" \
