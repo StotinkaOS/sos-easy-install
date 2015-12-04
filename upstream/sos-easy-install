@@ -543,7 +543,7 @@ install_teamviewer() {
     if [[ "$BtStatus" == Премахни ]]; then
       ASKremovePackage teamviewer 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage "http://www.teamviewer.com/download/teamviewer_linux.rpm" 2>&1
+      installPackage "http://download.teamviewer.com/download/teamviewer.i686.rpm" 2>&1
     fi
   fi
 }
