@@ -220,7 +220,7 @@ install_chrome() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage google-chrome-stable chrome-deps 2>&1
+      ASKremovePackage google-chrome-stable 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage google-chrome-stable 2>&1
     fi
