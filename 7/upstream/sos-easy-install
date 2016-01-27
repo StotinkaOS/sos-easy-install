@@ -197,6 +197,36 @@ install_dropbox() {
   fi
 }
 
+install_viber(){
+  if isInstalled viber; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$viberIcon" \
+      --text="<b>Viber</b>
+
+Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде.
+
+<b>Лиценз:</b> Adware
+<b>Уеб сайт на проекта:</b> <a href='http://www.viber.com/en/'>http://www.viber.com/en/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage viber 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage https://download.cdn.viber.com/desktop/Linux/viber.rpm 2>&1
+    fi
+  fi
+}
+
 install_chrome() {
   if isInstalled google-chrome-stable; then
     BtStatus="Премахни"
@@ -491,13 +521,14 @@ do
                false 3 "Google Chrome" \
                false 4 "Chromium" \
                false 5 "Skype" \
-               false 6 "TeamViewer" \
-               false 7 "Msttcorefonts (Microsoft шрифтове)" \
-               false 8 "VirtualBox-5.0" \
-               false 9 "Compiz-Fusion" \
-               false 10 "PlayOnLinux" \
-               false 11 "Намиране и инсталиране на видео драйвер" \
-               false 12 "SELinux" );
+               false 6 "Viber" \
+               false 7 "TeamViewer" \
+               false 8 "Msttcorefonts (Microsoft шрифтове)" \
+               false 9 "VirtualBox-5.0" \
+               false 10 "Compiz-Fusion" \
+               false 11 "PlayOnLinux" \
+               false 12 "Намиране и инсталиране на видео драйвер" \
+               false 13 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -511,13 +542,14 @@ do
     "3|")install_chrome ;;
     "4|")install_chromium ;;
     "5|")install_skype ;;
-    "6|")install_teamviewer ;;
-    "7|")install_mscorefonts ;;
-    "8|")install_virtualbox ;;
-    "9|")install_compiz ;;
-    "10|")install_playonlinux ;;
-    "11|")ASKinstallVideo ;;
-    "12|")setSelinux ;;
+    "6|")install_viber ;;
+    "7|")install_teamviewer ;;
+    "8|")install_mscorefonts ;;
+    "9|")install_virtualbox ;;
+    "10|")install_compiz ;;
+    "11|")install_playonlinux ;;
+    "12|")ASKinstallVideo ;;
+    "13|")setSelinux ;;
     *) break ;;
   esac
 done
