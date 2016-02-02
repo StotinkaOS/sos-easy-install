@@ -30,7 +30,6 @@ steamIcon="/usr/share/icons/sos-ei-app-icons/steam1.png"
 dropboxIcon="/usr/share/icons/sos-ei-app-icons/dropbox.png"
 chromeIcon="/usr/share/icons/sos-ei-app-icons/chrome.png"
 chromiumIcon="/usr/share/icons/sos-ei-app-icons/chromium.png"
-compizIcon="/usr/share/icons/sos-ei-app-icons/compiz.png"
 msIcon="/usr/share/icons/sos-ei-app-icons/ms-fonts.png"
 playonlinuxIcon="/usr/share/icons/sos-ei-app-icons/playonlinux.png"
 skypeIcon="/usr/share/icons/sos-ei-app-icons/skype.png"
@@ -654,10 +653,9 @@ do
                false 7 "TeamViewer" \
                false 8 "Msttcorefonts (Microsoft шрифтове)" \
                false 9 "VirtualBox-5.0" \
-               false 10 "Compiz-Fusion" \
-               false 11 "PlayOnLinux" \
-               false 12 "Намиране и инсталиране на видео драйвер" \
-               false 13 "SELinux" );
+               false 10 "PlayOnLinux" \
+               false 11 "Намиране и инсталиране на видео драйвер" \
+               false 12 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -675,10 +673,9 @@ do
     "7|")install_teamviewer ;;
     "8|")install_mscorefonts ;;
     "9|")install_virtualbox ;;
-    "10|")install_compiz ;;
-    "11|")install_playonlinux ;;
-    "12|")ASKinstallVideo ;;
-    "13|")setSelinux ;;
+    "10|")install_playonlinux ;;
+    "11|")ASKinstallVideo ;;
+    "12|")setSelinux ;;
     *) break ;;
   esac
 done
