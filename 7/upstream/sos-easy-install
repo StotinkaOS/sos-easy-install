@@ -29,7 +29,6 @@ user=$(who | cut -d' ' -f1 | sort | uniq);
 steamIcon="/usr/share/icons/sos-ei-app-icons/steam1.png"
 dropboxIcon="/usr/share/icons/sos-ei-app-icons/dropbox.png"
 chromeIcon="/usr/share/icons/sos-ei-app-icons/chrome.png"
-chromiumIcon="/usr/share/icons/sos-ei-app-icons/chromium.png"
 msIcon="/usr/share/icons/sos-ei-app-icons/ms-fonts.png"
 playonlinuxIcon="/usr/share/icons/sos-ei-app-icons/playonlinux.png"
 skypeIcon="/usr/share/icons/sos-ei-app-icons/skype.png"
@@ -647,15 +646,14 @@ do
                false 1 "Dropbox" \
                false 2 "Sudo" \
                false 3 "Google Chrome" \
-               false 4 "Chromium" \
-               false 5 "Skype" \
-               false 6 "Viber" \
-               false 7 "TeamViewer" \
-               false 8 "Msttcorefonts (Microsoft шрифтове)" \
-               false 9 "VirtualBox-5.0" \
-               false 10 "PlayOnLinux" \
-               false 11 "Намиране и инсталиране на видео драйвер" \
-               false 12 "SELinux" );
+               false 4 "Skype" \
+               false 5 "Viber" \
+               false 6 "TeamViewer" \
+               false 7 "Msttcorefonts (Microsoft шрифтове)" \
+               false 8 "VirtualBox-5.0" \
+               false 9 "PlayOnLinux" \
+               false 10 "Намиране и инсталиране на видео драйвер" \
+               false 11 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -667,15 +665,14 @@ do
     "1|")install_dropbox ;;
     "2|")addSudo ;;
     "3|")install_chrome ;;
-    "4|")install_chromium ;;
-    "5|")install_skype ;;
-    "6|")install_viber ;;
-    "7|")install_teamviewer ;;
-    "8|")install_mscorefonts ;;
-    "9|")install_virtualbox ;;
-    "10|")install_playonlinux ;;
-    "11|")ASKinstallVideo ;;
-    "12|")setSelinux ;;
+    "4|")install_skype ;;
+    "5|")install_viber ;;
+    "6|")install_teamviewer ;;
+    "7|")install_mscorefonts ;;
+    "8|")install_virtualbox ;;
+    "9|")install_playonlinux ;;
+    "10|")ASKinstallVideo ;;
+    "11|")setSelinux ;;
     *) break ;;
   esac
 done
