@@ -311,8 +311,8 @@ VirtualBox създава виртуална среда, в която може 
     if [[ "$BtStatus" == Премахни ]]; then
       ASKremovePackage VirtualBox-5.0 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-5.0 2>&1
-      usermod -G vboxusers "$user"
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.0 2>&1
+      usermod -G vboxusers,vboxsf "$user"
       service vboxdrv setup
     fi
   fi
