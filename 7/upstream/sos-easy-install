@@ -494,7 +494,7 @@ install_amd_driver(){
   value=${vga#*HD}
   Rx_xxx='R[0-9] [0-9]{3}' # for R series
   if [[ $vga =~ $Rx_xxx ]] || [[ $value -ge 5000 ]]; then
-	if isInstalled fglrx-x11-drv kmod-fglrx fglrx-x11-drv-32bit liba-utils libva; then
+    if isInstalled fglrx-x11-drv kmod-fglrx fglrx-x11-drv-32bit liba-utils libva; then
       notifyUser "Вече е инсталиран драйвер"
     else
       installPackage fglrx-x11-drv kmod-fglrx fglrx-x11-drv-32bit libva-utils libva 2>&1
@@ -560,7 +560,7 @@ info_driver(){
 
 install_video(){
   shopt -s nocasematch
-  vga=$(lspci | grep -i vga);
+  vga=$(lspci | grep -i "vga\|3d");
   amd='\bAMD\b'
   ati='\bATI\b'
   intel='\bINTEL\b'
