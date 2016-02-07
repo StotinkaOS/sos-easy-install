@@ -314,6 +314,7 @@ VirtualBox създава виртуална среда, в която може 
       installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.0 2>&1
       usermod -G vboxusers,vboxsf "$user"
       service vboxdrv setup
+      /usr/lib/virtualbox/vboxdrv.sh setup
     fi
   fi
 }
