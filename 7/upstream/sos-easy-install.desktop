@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=sos-easy-install
 GenericName=sos-easy-install
-Icon=/usr/share/icons/hicolor/48x48/apps/sos-Easy-Install.png
+Icon=sos-easy-install
 Comment=Automated configurations
 Comment[bg]=Автоматична инсталация на софтуер & Системни настройки
 Exec=sos-easy-install
