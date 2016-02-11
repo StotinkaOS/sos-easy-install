@@ -35,7 +35,7 @@ mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/
 install -m 755 %{name} ${RPM_BUILD_ROOT}%{_bindir}
 install -Dpm 644 %{name}.desktop ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
 install -Dpm 644 sosEI-header.png ${RPM_BUILD_ROOT}%{_datadir}/pixmaps/sosEI-header.png
-install -Dpm 644 sos-easy-install.png ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/48x48/apps/sos-easy-install.png
+install -Dpm 644 sos-easy-install.png ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/96x96/apps/sos-easy-install.png
 install -d -m755 %{RPM_BUILD_ROOT}%{_datadir}/icons/
 cp -pr sos-ei-app-icons/ ${RPM_BUILD_ROOT}%{_datadir}/icons/
 install -Dpm 644 COPYING ${RPM_BUILD_ROOT}%{_datadir}/licenses/%{name}/COPYING 
@@ -72,7 +72,7 @@ fi
 %{_sbindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/sosEI-header.png
-%{_datadir}/icons/hicolor/48x48/apps/sos-easy-install.png
+%{_datadir}/icons/hicolor/96x96/apps/sos-easy-install.png
 %{_datadir}/icons/sos-ei-app-icons
 %{_datadir}/licenses/%{name}/COPYING
 %config(noreplace) %{_sysconfdir}/pam.d/%{name}
