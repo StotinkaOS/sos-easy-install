@@ -53,8 +53,19 @@ selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
 #  exit 1
 #fi
 
-# KILL previous YUM
-pkill -SIGKILL -u root -o yum
+# Kill off any package managers that may be running
+if [[ "$(pgrep yumex)"||"$(pgrep yum)" ]]; then
+    if yad --title="$prog" --window-icon="$window_icon" \
+           --text="<b>YUM</b> Мениджъра на пакети работи. Искате ли да го затворите?" \
+           --width="450" --height="200" \
+           --image=dialog-question \
+           --button="Да":0 --button="Не":1 \
+           --center ; then
+      killall -9 yumex yum
+    else
+      exit 0
+    fi
+fi
 
 # Checking installed packages
 isInstalled(){
@@ -683,4 +694,3 @@ menu
 
 # Please report bugs at <https://github.com/StotinkaOS/sos-easy-install/issues>
 ####### End of the Script ## ###################
-
