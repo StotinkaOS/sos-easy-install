@@ -39,6 +39,7 @@ sudoIcon="/usr/share/icons/sos-ei-app-icons/sudo.png"
 selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
 gtalkIcon="/usr/share/icons/sos-ei-app-icons/gtalk.png"
 torIcon="/usr/share/icons/sos-ei-app-icons/tor.png"
+spotifyIcon="/usr/share/icons/sos-ei-app-icons/spotify.png"
 
 ## Functions
 
@@ -235,6 +236,36 @@ install_viber(){
       ASKremovePackage viber 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage https://download.cdn.viber.com/desktop/Linux/viber.rpm 2>&1
+    fi
+  fi
+}
+
+install_spotify(){
+  if isInstalled spotify-client; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$spotifyIcon" \
+      --text="<b>Spotify Client</b>
+Дигитална музикална услуга, която ви дава достъп до милиони песни .
+
+<b>Лиценз:</b> <a href='https://www.spotify.com/legal/end-user-agreement'>end-user-agreement</a>
+<b>Уеб сайт на проекта:</b> <a href='https://www.spotify.com/bg/'>https://www.spotify.com/bg/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage spotify-client 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      yum-config-manager --add-repo="http://negativo17.org/repos/epel-spotify.repo"
+      installPackage spotify-client 2>&1
     fi
   fi
 }
@@ -694,7 +725,7 @@ ASKinstallVideo(){
 
 # Show about dialog
 info() {
-  yad --title="$prog" --selectable-labels --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
+  yad --title="$prog" --selectable-labels --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015-2016 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
       --window-icon="$window_icon" \
       --width="600" --height="300" \
       --button="ОК":0 --button="Лиценз":2 --button="Затваряне":1 \
@@ -726,15 +757,16 @@ do
                false 2 "Sudo" \
                false 3 "Google Chrome" \
                false 4 "Google Talk Plugin" \
-               false 5 "Skype" \
-               false 6 "Viber" \
-               false 7 "TeamViewer" \
-               false 8 "Tor Browser Launcher" \
-               false 9 "Msttcorefonts (Microsoft шрифтове)" \
-               false 10 "VirtualBox-5.0" \
-               false 11 "PlayOnLinux" \
-               false 12 "Намиране и инсталиране на видео драйвер" \
-               false 13 "SELinux" );
+               false 5 "Spotify Client" \
+               false 6 "Skype" \
+               false 7 "Viber" \
+               false 8 "TeamViewer" \
+               false 9 "Tor Browser Launcher" \
+               false 10 "Msttcorefonts (Microsoft шрифтове)" \
+               false 11 "VirtualBox-5.0" \
+               false 12 "PlayOnLinux" \
+               false 13 "Намиране и инсталиране на видео драйвер" \
+               false 14 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -747,15 +779,16 @@ do
     "2|")addSudo ;;
     "3|")install_chrome ;;
     "4|")install_gtalk ;;
-    "5|")install_skype ;;
-    "6|")install_viber ;;
-    "7|")install_teamviewer ;;
-    "8|")install_tor ;;
-    "9|")install_mscorefonts ;;
-    "10|")install_virtualbox ;;
-    "11|")install_playonlinux ;;
-    "12|")ASKinstallVideo ;;
-    "13|")setSelinux ;;
+    "5|")install_spotify ;;
+    "6|")install_skype ;;
+    "7|")install_viber ;;
+    "8|")install_teamviewer ;;
+    "9|")install_tor ;;
+    "10|")install_mscorefonts ;;
+    "11|")install_virtualbox ;;
+    "12|")install_playonlinux ;;
+    "13|")ASKinstallVideo ;;
+    "14|")setSelinux ;;
     *) break ;;
   esac
 done
