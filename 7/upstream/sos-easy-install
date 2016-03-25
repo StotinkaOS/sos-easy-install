@@ -253,6 +253,7 @@ install_spotify(){
       --window-icon="$window_icon" \
       --image="$spotifyIcon" \
       --text="<b>Spotify Client</b>
+
 Дигитална музикална услуга, която ви дава достъп до милиони песни .
 
 <b>Лиценз:</b> <a href='https://www.spotify.com/legal/end-user-agreement'>end-user-agreement</a>
@@ -361,7 +362,9 @@ install_chrome() {
       --window-icon="$window_icon" \
       --image="$chromeIcon" \
       --text="<b>Google Chrome</b>
+
 Бърз, лесен и защитен уеб браузър, изграден за модерният уеб.
+
 <b>Лиценз:</b> Безплатна програма, Google Chrome условия за ползване на услугата.
 <b>Уеб сайт на проекта:</b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
       --selectable-labels \
@@ -481,7 +484,9 @@ install_tor() {
       --window-icon="$window_icon" \
       --image="$torIcon" \
       --text="<b>Tor Browser Launcher</b>
+
 Надеждно и лесно изтегляне, проверяване, инсталиране и стартиране на Tor браузъра в Linux .
+
 <b>Лиценз:</b> MIT
 <b>Уеб сайт на проекта:</b> <a href='https://github.com/micahflee/torbrowser-launcher'>https://github.com/micahflee/torbrowser-launcher</a>" \
       --selectable-labels \
