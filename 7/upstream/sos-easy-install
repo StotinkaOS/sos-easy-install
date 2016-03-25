@@ -37,6 +37,7 @@ viberIcon="/usr/share/icons/sos-ei-app-icons/viber.png"
 vboxIcon="/usr/share/icons/sos-ei-app-icons/virtualbox.png"
 sudoIcon="/usr/share/icons/sos-ei-app-icons/sudo.png"
 selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
+gtalkIcon="/usr/share/icons/sos-ei-app-icons/gtalk.png"
 
 ## Functions
 
@@ -237,6 +238,45 @@ install_viber(){
   fi
 }
 
+install_gtalk() {
+  if isInstalled google-talkplugin; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=480 \
+      --window-icon="$window_icon" \
+      --image="$gtalkIcon" \
+      --text="<b>Google Talk Plugin</b>
+
+Плъгин за браузъра, който позволява да се правят гласови и видео-чат разговори с приятели чрез уеб камера и микрофон, свързан към компютър.
+
+<b>Лиценз:</b> Безплатна програма, Google условия за ползване на услугата.
+<b>Уеб сайт на проекта:</b> <a href='www.google.com/chat/video'>www.google.com/chat/video</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage google-talkplugin 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+cat << EOF > /etc/yum.repos.d/google-talkplugin.repo
+[google-talkplugin]
+name=google-talkplugin
+baseurl=http://dl.google.com/linux/talkplugin/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+skip_if_unavailable=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-google-talkplugin
+EOF
+      installPackage google-talkplugin 2>&1
+    fi
+  fi
+}
+
 install_chrome() {
   if isInstalled google-chrome-stable; then
     BtStatus="Премахни"
@@ -248,9 +288,7 @@ install_chrome() {
       --window-icon="$window_icon" \
       --image="$chromeIcon" \
       --text="<b>Google Chrome</b>
-
 Бърз, лесен и защитен уеб браузър, изграден за модерният уеб.
-
 <b>Лиценз:</b> Безплатна програма, Google Chrome условия за ползване на услугата.
 <b>Уеб сайт на проекта:</b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
       --selectable-labels \
@@ -658,14 +696,15 @@ do
                false 1 "Dropbox" \
                false 2 "Sudo" \
                false 3 "Google Chrome" \
-               false 4 "Skype" \
-               false 5 "Viber" \
-               false 6 "TeamViewer" \
-               false 7 "Msttcorefonts (Microsoft шрифтове)" \
-               false 8 "VirtualBox-5.0" \
-               false 9 "PlayOnLinux" \
-               false 10 "Намиране и инсталиране на видео драйвер" \
-               false 11 "SELinux" );
+               false 4 "Google Talk Plugin" \
+               false 5 "Skype" \
+               false 6 "Viber" \
+               false 7 "TeamViewer" \
+               false 8 "Msttcorefonts (Microsoft шрифтове)" \
+               false 9 "VirtualBox-5.0" \
+               false 10 "PlayOnLinux" \
+               false 11 "Намиране и инсталиране на видео драйвер" \
+               false 12 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -677,14 +716,15 @@ do
     "1|")install_dropbox ;;
     "2|")addSudo ;;
     "3|")install_chrome ;;
-    "4|")install_skype ;;
-    "5|")install_viber ;;
-    "6|")install_teamviewer ;;
-    "7|")install_mscorefonts ;;
-    "8|")install_virtualbox ;;
-    "9|")install_playonlinux ;;
-    "10|")ASKinstallVideo ;;
-    "11|")setSelinux ;;
+    "4|")install_gtalk ;;
+    "5|")install_skype ;;
+    "6|")install_viber ;;
+    "7|")install_teamviewer ;;
+    "8|")install_mscorefonts ;;
+    "9|")install_virtualbox ;;
+    "10|")install_playonlinux ;;
+    "11|")ASKinstallVideo ;;
+    "12|")setSelinux ;;
     *) break ;;
   esac
 done
