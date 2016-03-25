@@ -40,6 +40,7 @@ selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
 gtalkIcon="/usr/share/icons/sos-ei-app-icons/gtalk.png"
 torIcon="/usr/share/icons/sos-ei-app-icons/tor.png"
 spotifyIcon="/usr/share/icons/sos-ei-app-icons/spotify.png"
+sublimetextIcon="/usr/share/icons/sos-ei-app-icons/sublimetext.png"
 
 ## Functions
 
@@ -266,6 +267,36 @@ install_spotify(){
     elif [[ "$BtStatus" == Инсталирай ]]; then
       yum-config-manager --add-repo="http://negativo17.org/repos/epel-spotify.repo"
       installPackage spotify-client 2>&1
+    fi
+  fi
+}
+
+install_sublimetext(){
+  if isInstalled sublime_text; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$sublimetextIcon" \
+      --text="<b>Sublime Text 3</b>
+
+Приятен за работа редактор за текст и код .
+
+<b>Лиценз:</b> EULA
+<b>Уеб сайт на проекта:</b> <a href='https://www.sublimetext.com/3'>https://www.sublimetext.com/3</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage sublime_text 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage sublime_text 2>&1
     fi
   fi
 }
@@ -749,7 +780,7 @@ while :
 do
   choise=$(yad --title="$prog" --name="$prog" \
                --image="$image_icon" --image-on-top --window-icon="$window_icon" \
-               --width="450" --height="560" --center --fixed \
+               --width="450" --height="600" --center --fixed \
                --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
                --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
                true 0 "Steam" \
@@ -758,15 +789,16 @@ do
                false 3 "Google Chrome" \
                false 4 "Google Talk Plugin" \
                false 5 "Spotify Client" \
-               false 6 "Skype" \
-               false 7 "Viber" \
-               false 8 "TeamViewer" \
-               false 9 "Tor Browser Launcher" \
-               false 10 "Msttcorefonts (Microsoft шрифтове)" \
-               false 11 "VirtualBox-5.0" \
-               false 12 "PlayOnLinux" \
-               false 13 "Намиране и инсталиране на видео драйвер" \
-               false 14 "SELinux" );
+               false 6 "Sublime Text 3" \
+               false 7 "Skype" \
+               false 8 "Viber" \
+               false 9 "TeamViewer" \
+               false 10 "Tor Browser Launcher" \
+               false 11 "Msttcorefonts (Microsoft шрифтове)" \
+               false 12 "VirtualBox-5.0" \
+               false 13 "PlayOnLinux" \
+               false 14 "Намиране и инсталиране на видео драйвер" \
+               false 15 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -780,15 +812,16 @@ do
     "3|")install_chrome ;;
     "4|")install_gtalk ;;
     "5|")install_spotify ;;
-    "6|")install_skype ;;
-    "7|")install_viber ;;
-    "8|")install_teamviewer ;;
-    "9|")install_tor ;;
-    "10|")install_mscorefonts ;;
-    "11|")install_virtualbox ;;
-    "12|")install_playonlinux ;;
-    "13|")ASKinstallVideo ;;
-    "14|")setSelinux ;;
+    "6|")install_sublimetext ;;
+    "7|")install_skype ;;
+    "8|")install_viber ;;
+    "9|")install_teamviewer ;;
+    "10|")install_tor ;;
+    "11|")install_mscorefonts ;;
+    "12|")install_virtualbox ;;
+    "13|")install_playonlinux ;;
+    "14|")ASKinstallVideo ;;
+    "15|")setSelinux ;;
     *) break ;;
   esac
 done
