@@ -38,6 +38,7 @@ vboxIcon="/usr/share/icons/sos-ei-app-icons/virtualbox.png"
 sudoIcon="/usr/share/icons/sos-ei-app-icons/sudo.png"
 selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
 gtalkIcon="/usr/share/icons/sos-ei-app-icons/gtalk.png"
+torIcon="/usr/share/icons/sos-ei-app-icons/tor.png"
 
 ## Functions
 
@@ -397,6 +398,34 @@ install_teamviewer() {
   fi
 }
 
+install_tor() {
+  if isInstalled torbrowser-launcher; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$torIcon" \
+      --text="<b>Tor Browser Launcher</b>
+Надеждно и лесно изтегляне, проверяване, инсталиране и стартиране на Tor браузъра в Linux .
+<b>Лиценз:</b> MIT
+<b>Уеб сайт на проекта:</b> <a href='https://github.com/micahflee/torbrowser-launcher'>https://github.com/micahflee/torbrowser-launcher</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      ASKremovePackage torbrowser-launcher 2>&1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage torbrowser-launcher 2>&1
+    fi
+  fi
+}
+
 install_mscorefonts(){
   if isInstalled msttcorefonts; then
     BtStatus="Премахни"
@@ -700,11 +729,12 @@ do
                false 5 "Skype" \
                false 6 "Viber" \
                false 7 "TeamViewer" \
-               false 8 "Msttcorefonts (Microsoft шрифтове)" \
-               false 9 "VirtualBox-5.0" \
-               false 10 "PlayOnLinux" \
-               false 11 "Намиране и инсталиране на видео драйвер" \
-               false 12 "SELinux" );
+               false 8 "Tor Browser Launcher" \
+               false 9 "Msttcorefonts (Microsoft шрифтове)" \
+               false 10 "VirtualBox-5.0" \
+               false 11 "PlayOnLinux" \
+               false 12 "Намиране и инсталиране на видео драйвер" \
+               false 13 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -720,11 +750,12 @@ do
     "5|")install_skype ;;
     "6|")install_viber ;;
     "7|")install_teamviewer ;;
-    "8|")install_mscorefonts ;;
-    "9|")install_virtualbox ;;
-    "10|")install_playonlinux ;;
-    "11|")ASKinstallVideo ;;
-    "12|")setSelinux ;;
+    "8|")install_tor ;;
+    "9|")install_mscorefonts ;;
+    "10|")install_virtualbox ;;
+    "11|")install_playonlinux ;;
+    "12|")ASKinstallVideo ;;
+    "13|")setSelinux ;;
     *) break ;;
   esac
 done
