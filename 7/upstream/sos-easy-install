@@ -752,7 +752,7 @@ do
                --width="450" --height="560" --center --fixed \
                --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
                --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
-               false 0 "Steam" \
+               true 0 "Steam" \
                false 1 "Dropbox" \
                false 2 "Sudo" \
                false 3 "Google Chrome" \
