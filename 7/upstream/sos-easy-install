@@ -19,7 +19,7 @@ COMMENT
 ## General
 
 prog="${0##*/}"
-ver=2.2
+ver=2.3
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-easy-install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
@@ -57,6 +57,11 @@ sublimetextIcon="/usr/share/icons/sos-ei-app-icons/sublimetext.png"
 #  exit 1
 #fi
 
+# Notify message
+notifyUser(){
+  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --center
+}
+
 # Kill off any package managers that may be running
 if [[ "$(pgrep yumex)"||"$(pgrep yum)" ]]; then
     if yad --title="$prog" --window-icon="$window_icon" \
@@ -67,6 +72,7 @@ if [[ "$(pgrep yumex)"||"$(pgrep yum)" ]]; then
            --center ; then
       killall -9 yumex yum
     else
+      notifyUser "Изход от програмата!"
       exit 0
     fi
 fi
@@ -128,11 +134,6 @@ ASKremovePackage(){
                              --center
     notifyUser "Пакета $* е успешно премахнат"
   fi
-}
-
-# Notify message
-notifyUser(){
-  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --center
 }
 
 install_steam() {
@@ -255,7 +256,7 @@ install_spotify(){
 Дигитална музикална услуга, която ви дава достъп до милиони песни .
 
 <b>Лиценз:</b> <a href='https://www.spotify.com/legal/end-user-agreement'>end-user-agreement</a>
-<b>Уеб сайт на проекта:</b> <a href='https://www.spotify.com/bg/'>https://www.spotify.com/bg/</a>" \
+<b>Уеб сайт на проекта:</b> <a href='https://www.spotify.com/bg/'>www.spotify.com/bg/</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
       --center
@@ -265,7 +266,16 @@ install_spotify(){
     if [[ "$BtStatus" == Премахни ]]; then
       ASKremovePackage spotify-client 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      yum-config-manager --add-repo="http://negativo17.org/repos/epel-spotify.repo"
+  cat << EOF > /etc/yum.repos.d/epel-spotify.repo
+[epel-spotify]
+name=negativo17 - Spotify
+baseurl=http://negativo17.org/repos/spotify/epel-7/x86_64/
+enabled=1
+skip_if_unavailable=1
+gpgkey=http://negativo17.org/repos/RPM-GPG-KEY-slaanesh
+gpgcheck=1
+exclude=a52dec faad2 faad2-libs lame lame-libs libdvdcss libdvdnav libdvdread libmad libmpeg2 librtmp x264-libs x265-libs xvidcore ffmpeg ffmpeg-compat gpac rtmpdump
+EOF
       installPackage spotify-client 2>&1
     fi
   fi
@@ -286,7 +296,7 @@ install_sublimetext(){
 Приятен за работа редактор за текст и код .
 
 <b>Лиценз:</b> EULA
-<b>Уеб сайт на проекта:</b> <a href='https://www.sublimetext.com/3'>https://www.sublimetext.com/3</a>" \
+<b>Уеб сайт на проекта:</b> <a href='https://www.sublimetext.com/3'>www.sublimetext.com/3</a>" \
       --selectable-labels \
       --button="$BtStatus":0 \
       --center
