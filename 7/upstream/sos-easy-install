@@ -275,7 +275,7 @@ enabled=1
 skip_if_unavailable=1
 gpgkey=http://negativo17.org/repos/RPM-GPG-KEY-slaanesh
 gpgcheck=1
-exclude=a52dec faad2 faad2-libs lame lame-libs libdvdcss libdvdnav libdvdread libmad libmpeg2 librtmp x264-libs x265-libs xvidcore ffmpeg ffmpeg-compat gpac rtmpdump
+exclude=a52dec faad2 faad2-libs lame lame-libs libdvdcss libdvdnav libdvdread libmad libmpeg2 librtmp x264 x264-libs x265 x265-libs xvidcore ffmpeg ffmpeg-compat gpac rtmpdump
 EOF
       installPackage spotify-client 2>&1
     fi
