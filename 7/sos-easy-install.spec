@@ -1,8 +1,8 @@
 Summary: A simple GUI program that enables you to install additional software, such as Skype, Chrome, Steam, etc.
 Summary(bg): Прост графичен потребителски интерфейс който позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.
 Name: sos-easy-install
-Version: 2.2
-Release: 1%{?dist}.sos
+Version: 2.3
+Release: 1%{?dist}
 URL: http://stotinkaos.net
 License: GPLv3
 Group: Applications/System
@@ -29,25 +29,19 @@ BuildArch: noarch
 
 %install
 rm -rf ${RPM_BUILD_ROOT}
-mkdir -p ${RPM_BUILD_ROOT}/usr/bin
+mkdir -p %{buildroot}/usr/bin
+mkdir -p %{buildroot}%{_datadir}/polkit-1/actions
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/
 
 install -m 755 %{name} ${RPM_BUILD_ROOT}%{_bindir}
+install -m 755 %{name}-pkexec ${RPM_BUILD_ROOT}%{_bindir}
+install -m 644 org.freedesktop.%{name}.policy ${RPM_BUILD_ROOT}%{_datadir}/polkit-1/actions/org.freedesktop.%{name}.policy
 install -Dpm 644 %{name}.desktop ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
 install -Dpm 644 sosEI-header.png ${RPM_BUILD_ROOT}%{_datadir}/pixmaps/sosEI-header.png
 install -Dpm 644 sos-easy-install.png ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/96x96/apps/sos-easy-install.png
 install -d -m755 %{RPM_BUILD_ROOT}%{_datadir}/icons/
 cp -pr sos-ei-app-icons/ ${RPM_BUILD_ROOT}%{_datadir}/icons/
 install -Dpm 644 COPYING ${RPM_BUILD_ROOT}%{_datadir}/licenses/%{name}/COPYING 
-
-# Adjust for console-helper magic
-mkdir -p ${RPM_BUILD_ROOT}%{_sbindir}
-mv ${RPM_BUILD_ROOT}%{_bindir}/%{name} ${RPM_BUILD_ROOT}%{_sbindir}/%{name}
-ln -s ../bin/consolehelper ${RPM_BUILD_ROOT}%{_bindir}/%{name}
-mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/pam.d
-cp %{name}.pam ${RPM_BUILD_ROOT}%{_sysconfdir}/pam.d/%{name}
-mkdir -p ${RPM_BUILD_ROOT}%{_sysconfdir}/security/console.apps
-cp %{name}.console ${RPM_BUILD_ROOT}%{_sysconfdir}/security/console.apps/%{name}
 
 %clean
 rm -rf ${RPM_BUILD_ROOT}
@@ -66,19 +60,21 @@ fi
 
 %files
 %defattr(-,root,root)
-%attr(755,root,root) 
+%attr(755,root,root)
 %doc README.md COPYING
 %{_bindir}/%{name}
-%{_sbindir}/%{name}
+%{_bindir}/%{name}-pkexec
+%{_datadir}/polkit-1/actions/org.freedesktop.%{name}.policy
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/pixmaps/sosEI-header.png
-%{_datadir}/icons/hicolor/96x96/apps/sos-easy-install.png
+%{_datadir}/icons/hicolor/96x96/apps/%{name}.png
 %{_datadir}/icons/sos-ei-app-icons
 %{_datadir}/licenses/%{name}/COPYING
-%config(noreplace) %{_sysconfdir}/pam.d/%{name}
-%config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
 
 %changelog
+* Fri Mar 25 2016 StotinkaOS Team <stotinkaos.bg@gmail.com> - 2.3-1
+- Update to 2.3
+
 * Tue Feb 09 2016 StotinkaOS Team <stotinkaos.bg@gmail.com> - 2.2-1
 - update to 2.2
 
