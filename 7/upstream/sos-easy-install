@@ -85,7 +85,7 @@ if [[ "$(pgrep yumex)"||"$(pgrep yum)" ]]; then
       killall -9 yumex yum
     else
       notifyUser "Изход от програмата!"
-      log "Изход от програмата, YUM пакет мениджъра работи!"
+      log "ERROR:Изход от програмата, YUM пакет мениджъра работи!"
       exit 0
     fi
 fi
@@ -99,19 +99,18 @@ isInstalled(){
 checkInstallSuccess(){
   yum --nogpgcheck install -y "$@" 2>&1 | tee $TMP_LOG
 
-  yumstatus="$?"
-
-  if [[ "$yumstatus" -eq "0" ]]; then
-    notifyUser "Инсталирането на $* приключи успешно"
-    log "Инсталирането на $* приключи успешно"
-  else
+  if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+    log "ERROR:Грешка при инсталиране на $*"
     yad --text="Грешка при инсталиране на $*" \
         --button="ОК":0 --button="Затваряне":1 \
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-error \
         --center
-    log "Грешка при инсталиране на $*"
+    return
+  else
+    notifyUser "Инсталирането на $* приключи успешно"
+    log "INFO:Инсталирането на $* приключи успешно"
   fi
 }
 
@@ -130,21 +129,8 @@ installPackage(){
 # Check if yum remove success
 checkRemoveSuccess(){
   yum remove -y --setopt clean_requirements_on_remove=1 "$@" 2>&1 | tee $TMP_LOG
-
-  yumstatus="$?"
-
-  if [[ "$yumstatus" -eq "0" ]]; then
-    notifyUser "Пакета $* е успешно премахнат"
-    log "Пакета $* е успешно премахнат"
-  else
-    yad --text="Грешка при премахване на $*" \
-        --button="ОК":0 --button="Затваряне":1 \
-        --window-icon="$window_icon" \
-        --title="$prog" \
-        --image=gtk-dialog-error \
-        --center
-    log "Грешка при премахване на $*"
-  fi
+  notifyUser "Пакета $* е успешно премахнат"
+  log "INFO:Пакета $* е успешно премахнат"
 }
 
 # Remove installed packages
@@ -610,11 +596,11 @@ addSudo() {
     if [[ "$BtStatus" ==  Добави ]]; then
       echo "$user ALL=(ALL) ALL" >> /etc/sudoers
       notifyUser "Добавени са sudo права за потребителя <b>$user</b>"
-      log "Добавени са sudo права за потребителя $user"
+      log "INFO:Добавени са sudo права за потребителя $user"
     elif [[ "$BtStatus" ==  Изтрий ]]; then
       sed -i '/'$user'/d' /etc/sudoers
       notifyUser "Премахнати са sudo правата за потребителя <b>$user</b>"
-      log "Премахнати са sudo правата за потребителя $user"
+      log "INFO:Премахнати са sudo правата за потребителя $user"
     else
       exit 1
     fi
@@ -644,12 +630,12 @@ setSelinux() {
       setenforce 1 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=enforcing/g' /etc/selinux/config
       notifyUser "Включване на SELinux!"
-      log "Включване на SELinux!"
+      log "INFO:Включване на SELinux!"
     elif [[ "$BtStatus" == Изключи ]]; then
       setenforce 0 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=permissive/g' /etc/selinux/config
       notifyUser "Изключване на SELinux!"
-      log "Изключване на SELinux!"
+      log "INFO:Изключване на SELinux!"
     fi
   fi
 }
@@ -688,7 +674,7 @@ install_playonlinux(){
 install_intel_driver(){
   if isInstalled libva-intel-driver libva-utils libva; then
     notifyUser "Вече е инсталиран драйвер"
-    log "Вече е инсталиран драйвер"
+    log "INFO:Вече е инсталиран драйвер"
   else
     installPackage libva-intel-driver libva-utils
   fi
@@ -697,7 +683,7 @@ install_intel_driver(){
 install_nvidia_driver(){
   if isInstalled nvidia-x11-drv nvidia-detect "$(nvidia-detect)" libva-vdpau-driver libva-utils libva; then
     notifyUser "Вече е инсталиран драйвер"
-    log "Вече е инсталиран драйвер"
+    log "INFO:Вече е инсталиран драйвер"
   else
     installPackage nvidia-detect
     installPackage nvidia-x11-drv "$(nvidia-detect)" nvidia-x11-drv-32bit libva-vdpau-driver libva-utils libva
@@ -710,14 +696,14 @@ install_amd_driver(){
   if [[ $vga =~ $Rx_xxx ]] || [[ $value -ge 5000 ]]; then
     if isInstalled fglrx-x11-drv kmod-fglrx fglrx-x11-drv-32bit liba-utils libva; then
       notifyUser "Вече е инсталиран драйвер"
-      log "Вече е инсталиран драйвер"
+      log "INFO:Вече е инсталиран драйвер"
     else
       installPackage fglrx-x11-drv kmod-fglrx fglrx-x11-drv-32bit libva-utils libva
     fi
   else
     if isInstalled fglrx-x11-drv kmod-fglrx-legacy fglrx-legacy-x11-drv-32bit liba-utils libva; then
       notifyUser "Вече е инсталиран драйвер"
-      log "Вече е инсталиран драйвер"
+      log "INFO:Вече е инсталиран драйвер"
     else
       installPackage fglrx-x11-drv kmod-fglrx-legacy fglrx-legacy-x11-drv-32bit libva-utils libva
     fi
@@ -727,7 +713,7 @@ install_amd_driver(){
 install_bumblebee(){
   if isInstalled bumblebee; then
     notifyUser "Вече е инсталиран"
-    log "Вече е инсталиран драйвер"
+    log "INFO:Вече е инсталиран драйвер"
   else
     # http://elrepo.org/tiki/bumblebee
     removePackage xorg-x11-glamor
@@ -815,7 +801,7 @@ install_video(){
       install_intel_driver
     else
       notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
-      log "Непозната видео карта, моля поискайте помощ в нашият форум!"
+      log "ERROR:Непозната видео карта, моля поискайте помощ в нашият форум!"
     fi
     shopt nocasematch # restore case matching
 }
@@ -858,7 +844,7 @@ while :
 do
   choise=$(yad --title="$prog" --name="$prog" \
                --image="$image_icon" --image-on-top --window-icon="$window_icon" \
-               --width="450" --height="600" --center --fixed \
+               --width="450" --height="620" --center --fixed \
                --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
                --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
                true 0 "Steam" \
