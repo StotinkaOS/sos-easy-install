@@ -41,6 +41,7 @@ gtalkIcon="/usr/share/icons/sos-ei-app-icons/gtalk.png"
 torIcon="/usr/share/icons/sos-ei-app-icons/tor.png"
 spotifyIcon="/usr/share/icons/sos-ei-app-icons/spotify.png"
 sublimetextIcon="/usr/share/icons/sos-ei-app-icons/sublimetext.png"
+atomIcon="/usr/share/icons/sos-ei-app-icons/atom.png"
 
 ## Functions
 
@@ -330,6 +331,36 @@ install_sublimetext(){
       removePackage sublime_text
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage sublime_text
+    fi
+  fi
+}
+
+install_atom() {
+  if isInstalled atom; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$atomIcon" \
+      --text="<b>Atom Text Editor</b>
+
+Свободен и отворен код текстов редактор за OS X, Linux и Windows с поддръжка на плъгини разработен от github.
+
+<b>Лиценз:</b> MIT
+<b>Уеб сайт на проекта:</b> <a href='https://atom.io/'>https://atom.io/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage atom
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage "https://github.com/atom/atom/releases/download/v1.6.0/atom.x86_64.rpm"
     fi
   fi
 }
@@ -837,15 +868,16 @@ do
                false 4 "Google Talk Plugin" \
                false 5 "Spotify Client" \
                false 6 "Sublime Text 3" \
-               false 7 "Skype" \
-               false 8 "Viber" \
-               false 9 "TeamViewer" \
-               false 10 "Tor Browser Launcher" \
-               false 11 "Msttcorefonts (Microsoft шрифтове)" \
-               false 12 "VirtualBox-5.0" \
-               false 13 "PlayOnLinux" \
-               false 14 "Намиране и инсталиране на видео драйвер" \
-               false 15 "SELinux" );
+               false 7 "Atom Text Editor" \
+               false 8 "Skype" \
+               false 9 "Viber" \
+               false 10 "TeamViewer" \
+               false 11 "Tor Browser Launcher" \
+               false 12 "Msttcorefonts (Microsoft шрифтове)" \
+               false 13 "VirtualBox-5.0" \
+               false 14 "PlayOnLinux" \
+               false 15 "Намиране и инсталиране на видео драйвер" \
+               false 16 "SELinux" );
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -860,15 +892,16 @@ do
     "4|")install_gtalk ;;
     "5|")install_spotify ;;
     "6|")install_sublimetext ;;
-    "7|")install_skype ;;
-    "8|")install_viber ;;
-    "9|")install_teamviewer ;;
-    "10|")install_tor ;;
-    "11|")install_mscorefonts ;;
-    "12|")install_virtualbox ;;
-    "13|")install_playonlinux ;;
-    "14|")ASKinstallVideo ;;
-    "15|")setSelinux ;;
+    "7|")install_atom ;;
+    "8|")install_skype ;;
+    "9|")install_viber ;;
+    "10|")install_teamviewer ;;
+    "11|")install_tor ;;
+    "12|")install_mscorefonts ;;
+    "13|")install_virtualbox ;;
+    "14|")install_playonlinux ;;
+    "15|")ASKinstallVideo ;;
+    "16|")setSelinux ;;
     *) break ;;
   esac
 done
