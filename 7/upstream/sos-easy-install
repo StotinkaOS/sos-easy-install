@@ -129,8 +129,20 @@ installPackage(){
 # Check if yum remove success
 checkRemoveSuccess(){
   yum remove -y --setopt clean_requirements_on_remove=1 "$@" 2>&1 | tee $TMP_LOG
-  notifyUser "Пакета $* е успешно премахнат"
-  log "INFO:Пакета $* е успешно премахнат"
+
+  if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+    log "ERROR:Грешка при премахване на $*"
+    yad --text="Грешка при премахване на $*" \
+        --button="ОК":0 --button="Затваряне":1 \
+        --window-icon="$window_icon" \
+        --title="$prog" \
+        --image=gtk-dialog-error \
+        --center
+    return
+  else
+     notifyUser "Пакета $* е успешно премахнат"
+     log "INFO:Пакета $* е успешно премахнат"
+  fi
 }
 
 # Remove installed packages
