@@ -675,7 +675,6 @@ install_playonlinux(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      notifyUser "Пакета PlayOnLinux е вече инсталиран"
       removePackage playonlinux
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage nc playonlinux
