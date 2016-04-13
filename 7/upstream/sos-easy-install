@@ -42,6 +42,7 @@ torIcon="/usr/share/icons/sos-ei-app-icons/tor.png"
 spotifyIcon="/usr/share/icons/sos-ei-app-icons/spotify.png"
 sublimetextIcon="/usr/share/icons/sos-ei-app-icons/sublimetext.png"
 atomIcon="/usr/share/icons/sos-ei-app-icons/atom.png"
+loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
 
 ## Functions
 
@@ -619,6 +620,40 @@ addSudo() {
   fi
 }
 
+autoLogin(){
+  rc="/etc/gdm/custom.conf"
+
+  if grep --quiet -w "AutomaticLogin=$user" "$rc"; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Добави"
+  fi
+
+  yad --title="$prog" --width=420 \
+      --window-icon="$window_icon" \
+      --image="$loginIcon" \
+      --text="<b>AutoLogin</b>
+Добавете или премахнете автоматичното влизане в системата за потребителя <b>$user</b> ." \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" ==  Добави ]]; then
+      sed -i  '/^\[daemon\]$/a AutomaticLogin='$user'' "$rc"
+      sed -i '/^\[daemon\]$/a AutomaticLoginEnable=True' "$rc"
+      notifyUser "Добавено е автоматично влизане във системата за потребителя <b>$user</b>"
+      log "INFO:Добавено е автоматично влизане във системата за потребителя $user"
+    elif [[ "$BtStatus" ==  Премахни ]]; then
+      sed -i '/'AutomaticLoginEnable'/d' "$rc"
+      sed -i '/'$user'/d' "$rc"
+      notifyUser "Премахнато е автоматичното влизане за потребителя <b>$user</b>"
+      log "INFO:Премахнато е автоматичното влизане за потребителя $user"
+   fi
+  fi
+}
+
 setSelinux() {
   if grep --quiet ^SELINUX=permissive$ /etc/selinux/config; then
     BtStatus="Включи"
@@ -855,7 +890,7 @@ while :
 do
   choise=$(yad --title="$prog" --name="$prog" \
                --image="$image_icon" --image-on-top --window-icon="$window_icon" \
-               --width="450" --height="620" --center --fixed \
+               --width="450" --height="630" --center --fixed \
                --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
                --button="ОК":0 --button="gtk-about":2 --button="Затваряне":1 \
                true 0 "Steam" \
@@ -874,7 +909,8 @@ do
                false 13 "VirtualBox-5.0" \
                false 14 "PlayOnLinux" \
                false 15 "Намиране и инсталиране на видео драйвер" \
-               false 16 "SELinux" );
+               false 16 "SELinux" \
+               false 17 "Автоматично влизане в системата");
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -899,6 +935,7 @@ do
     "14|")install_playonlinux ;;
     "15|")ASKinstallVideo ;;
     "16|")setSelinux ;;
+    "17|")autoLogin ;;
     *) break ;;
   esac
 done
