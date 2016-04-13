@@ -57,29 +57,54 @@ loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
 #  exit 1
 #fi
 
-# KILL previous YUM
-pkill -SIGKILL -u root -o yum
+# Set up log facilities
+# Example output: [02/06/15 20:03:12] message input
+LOGFILE=/var/log/sos-easy-install.log
+log(){
+    message="$@"
+    echo '['$(date +%D\ %H:%M:%S)'] '$message >>$LOGFILE
+}
+
+# Log last activities to retrieve errors
+TMP_LOG=/tmp/sos-easy-install.log
+
+# Kill off any package managers that may be running
+if [[ "$(pgrep yumex)"||"$(pgrep yum)" ]]; then
+    if yad --title="$prog" --window-icon="$window_icon" \
+           --text="<b>YUM</b> Мениджъра на пакети работи. Искате ли да го затворите?" \
+           --width="450" --height="200" \
+           --image=dialog-question \
+           --button="Да":0 --button="Не":1 \
+           --center ; then
+      killall -9 yumex yum
+    else
+      notifyUser "Изход от програмата!"
+      log "ERROR:Изход от програмата, YUM пакет мениджъра работи!"
+      exit 0
+    fi
+fi
 
 # Checking installed packages
 isInstalled(){
   rpm -q --quiet "$@"
 }
 
-# Check if yum success
-checkSuccess(){
-  yum --nogpgcheck install -y "$@"
+# Check if yum install success
+checkInstallSuccess(){
+  yum --nogpgcheck install -y "$@" 2>&1 | tee $TMP_LOG
 
-  yumstatus="$?"
-
-  if [[ "$yumstatus" -eq "0" ]]; then
-    notifyUser "Инсталирането на $* приключи"
-  else
+  if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+    log "ERROR:Грешка при инсталиране на $*"
     yad --text="Грешка при инсталиране на $*" \
         --button="ОК":0 --button="Затваряне":1 \
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-error \
         --center
+    return
+  else
+    notifyUser "Инсталирането на $* приключи успешно"
+    log "INFO:Инсталирането на $* приключи успешно"
   fi
 }
 
@@ -95,19 +120,29 @@ installPackage(){
                             --center
 }
 
-# Remove installed packages
-removePackage(){
-  yum remove -y --setopt clean_requirements_on_remove=1 "$@"
+
+# Check if yum remove success
+checkRemoveSuccess(){
+  yum remove -y --setopt clean_requirements_on_remove=1 "$@" 2>&1 | tee $TMP_LOG
+
+  if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+    log "ERROR:Грешка при премахване на $*"
+    yad --text="Грешка при премахване на $*" \
+        --button="ОК":0 --button="Затваряне":1 \
+        --window-icon="$window_icon" \
+        --title="$prog" \
+        --image=gtk-dialog-error \
+        --center
+    return
+  else
+     notifyUser "Пакета $* е успешно премахнат"
+     log "INFO:Пакета $* е успешно премахнат"
+  fi
 }
 
-# Ask to remove installed packages
-ASKremovePackage(){
-  yad --title="$prog" --window-icon="$window_icon" --text="Желаете ли да премахнете $*" --image=dialog-question --button="Не":1 --button="Да":0 --center
-
-  ret=$?
-
-  if [[ "$ret" -eq "0" ]]; then
-    removePackage "$@" | yad --title="Премахване на $*" \
+# Remove installed packages
+removePackage(){
+   checkRemoveSuccess "$@" | yad --title="Премахване на $*" \
                              --text='Моля изчакайте....' \
                              --height=250 --width=500 \
                              --progress --pulsate --auto-close --auto-kill \
@@ -115,8 +150,6 @@ ASKremovePackage(){
                              --no-buttons \
                              --image=system-software-install \
                              --center
-    notifyUser "Пакета $* е успешно премахнат"
-  fi
 }
 
 # Notify message
@@ -147,7 +180,7 @@ install_steam() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage steam 2>&1
+      removePackage steam
     elif [[ "$BtStatus" == Инсталирай ]]; then
       pushd /etc/yum.repos.d/
       rm -f scx-el6-steam.repo
@@ -172,7 +205,7 @@ EOF
         # enable steam repo
         sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
         # install steam
-        installPackage flash-plugin.i386 flash-plugin.x86_64 SDL_image.i686 SDL_image.x86_64 steam steam-deps 2>&1
+        installPackage flash-plugin.i386 flash-plugin.x86_64 SDL_image.i686 SDL_image.x86_64 steam steam-deps
         # disable steam repo
         sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
         # fix executable path
@@ -186,7 +219,7 @@ EOF
         # enable steam repo
         sed -i -e "s/enabled=0/enabled=1/g" /etc/yum.repos.d/scx-el6-steam.repo
         # install steam
-        install Package steam steam-deps 2>&1
+        install Package steam steam-deps
         # disable steam repo
         sed -i -e "s/enabled=1/enabled=0/g" /etc/yum.repos.d/scx-el6-steam.repo
         # fix executable path
@@ -223,17 +256,17 @@ install_dropbox() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage nautilus-dropbox 2>&1
+      removePackage nautilus-dropbox
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ "$arch" == "x86_64" ]]; then
         # find latest version
         URL=$(wget "https://www.dropbox.com/install?os=lnx" -O - | tr ' ' '\n' | grep -o "nautilus-dropbox-[0-9]*.[0-9]*.[0-9]*-[0-9]*.fedora.x86_64.rpm" | head -n 1 | sed -e 's/^/http:\/\/linux.dropbox.com\/packages\/fedora\//')
-        installPackage "$URL" 2>&1
+        installPackage "$URL"
         rm -f /etc/yum.repos.d/dropbox.repo
       else
         # find latest version
         URL=$(wget "https://www.dropbox.com/install?os=lnx" -O - | tr ' ' '\n' | grep -o "nautilus-dropbox-[0-9]*.[0-9]*.[0-9]*-[0-9]*.fedora.i386.rpm" | head -n 1 | sed -e 's/^/http:\/\/linux.dropbox.com\/packages\/fedora\//')
-        installPackage "$URL" 2>&1
+        installPackage "$URL"
         rm -f /etc/yum.repos.d/dropbox.repo
       fi
     fi
@@ -263,12 +296,12 @@ install_chrome() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage google-chrome-stable chrome-deps 2>&1
+      removePackage google-chrome-stable chrome-deps
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ "$arch" == "x86_64" ]]; then
-        installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm" 2>&1
+        installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
       else
-        installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.rpm" 2>&1
+        installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.rpm"
       fi
     fi
   fi
@@ -297,9 +330,9 @@ Open-source версията на Google Chrome уеб браузъра.
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage chromium-browser 2>&1
+      removePackage chromium-browser
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage chromium-browser 2>&1
+      installPackage chromium-browser
     fi
   fi
 }
@@ -347,7 +380,7 @@ install_javaJRE(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage jre1.8.0_51-1.8.0_51-fcs 2>&1
+      removePackage jre1.8.0_51-1.8.0_51-fcs
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ "$arch" == "x86_64" ]]; then
         pushd /tmp
@@ -359,7 +392,7 @@ install_javaJRE(){
              --button "Затваряне":1 \
              --image=system-software-install \
              --center
-        installPackage jre-8u51-linux-x64.rpm 2>&1
+        installPackage jre-8u51-linux-x64.rpm
         alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
         alternatives --auto java
         alternatives --install /usr/lib64/mozilla/plugins/libjavaplugin.so libjavaplugin.so.x86_64 /usr/java/latest/lib/amd64/libnpjp2.so 200000
@@ -375,7 +408,7 @@ install_javaJRE(){
              --button "Затваряне":1 \
              --image=system-software-install \
              --center
-         installPackage jre-8u51-linux-i586.rpm 2>&1
+         installPackage jre-8u51-linux-i586.rpm
          alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
          alternatives --auto java
          alternatives --install /usr/lib/mozilla/plugins/libjavaplugin.so libjavaplugin.so /usr/java/latest/lib/i386/libnpjp2.so 200000
@@ -409,7 +442,7 @@ install_javaJDK(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage jdk1.8.0_51-1.8.0_51-fcs 2>&1
+      removePackage jdk1.8.0_51-1.8.0_51-fcs
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ "$arch" == "x86_64" ]]; then
         pushd /tmp
@@ -421,7 +454,7 @@ install_javaJDK(){
              --button "Затваряне":1 \
              --image=system-software-install \
              --center
-        installPackage jdk-8u51-linux-x64.rpm 2>&1
+        installPackage jdk-8u51-linux-x64.rpm
         alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
         alternatives --auto java
         alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
@@ -442,7 +475,7 @@ install_javaJDK(){
              --button "Затваряне":1 \
              --image=system-software-install \
              --center
-        installPackage jdk-8u51-linux-i586.rpm 2>&1
+        installPackage jdk-8u51-linux-i586.rpm
         alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000
         alternatives --auto java
         alternatives --install /usr/bin/javac javac /usr/java/latest/bin/javac 200000
@@ -481,9 +514,9 @@ install_skype() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage skype 2>&1
+      removePackage skype
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage skype 2>&1
+      installPackage skype
     fi
   fi
 }
@@ -511,9 +544,9 @@ VirtualBox създава виртуална среда, в която може 
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage VirtualBox-5.0 2>&1
+      removePackage VirtualBox-5.0
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-5.0 2>&1
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel fontforge binutils glibc-headers glibc-devel VirtualBox-5.0
       usermod -G vboxusers "$user"
       service vboxdrv setup
     fi
@@ -543,9 +576,9 @@ install_teamviewer() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage teamviewer 2>&1
+      removePackage teamviewer
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage "http://download.teamviewer.com/download/teamviewer.i686.rpm" 2>&1
+      installPackage "http://download.teamviewer.com/download/teamviewer.i686.rpm"
     fi
   fi
 }
@@ -573,9 +606,9 @@ install_mscorefonts(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage msttcorefonts 2>&1
+      removePackage msttcorefonts
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage msttcorefonts 2>&1
+      installPackage msttcorefonts
     fi
   fi
 }
@@ -647,10 +680,10 @@ install_infinality(){
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       notifyUser "Пакета infinality е вече инсталиран - затворете този диалог за да премахнете пакета или да смените стила на шрифтовете"
-      ASKremovePackage freetype-infinality fontconfig-infinality msttcorefonts 2>&1
+      removePackage freetype-infinality fontconfig-infinality msttcorefonts
       infinalityShowstyles
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage freetype-infinality fontconfig-infinality msttcorefonts -y 2>&1
+      installPackage freetype-infinality fontconfig-infinality msttcorefonts
       infinalityShowstyles
     fi
   fi
@@ -679,10 +712,12 @@ addSudo() {
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" ==  Добави ]]; then
       echo "$user ALL=(ALL) ALL" >> /etc/sudoers
-      notifyUser "Добавени са sudo права за потребителя '$user'"
+      notifyUser "Добавени са sudo права за потребителя <b>$user</b>"
+      log "INFO:Добавени са sudo права за потребителя $user"
     elif [[ "$BtStatus" ==  Изтрий ]]; then
       sed -i '/'$user'/d' /etc/sudoers
-      notifyUser "Премахнати са sudo правата за потребителя '$user'"
+      notifyUser "Премахнати са sudo правата за потребителя <b>$user</b>"
+      log "INFO: Премахнати са sudo правата за потребителя $user"
     else
       exit 1
     fi
@@ -713,11 +748,13 @@ autoLogin(){
     if [[ "$BtStatus" ==  Добави ]]; then
       sed -i  '/^\[daemon\]$/a AutomaticLogin='$user'' "$rc"
       sed -i '/^\[daemon\]$/a AutomaticLoginEnable=true' "$rc"
-      notifyUser "Добавено е автоматично влизане във системата за потребителя $user"
+      notifyUser "Добавено е автоматично влизане във системата за потребителя <b>$user</b>"
+      log "INFO:Добавено е автоматично влизане във системата за потребителя $user"
     elif [[ "$BtStatus" ==  Премахни ]]; then
       sed -i '/'AutomaticLoginEnable'/d' "$rc"
       sed -i '/'$user'/d' "$rc"
       notifyUser "Премахнато е автоматичното влизане за потребителя $user"
+      log "INFO:Премахнато е автоматичното влизане за потребителя $user"
    fi
   fi
 }
@@ -745,10 +782,12 @@ setSelinux() {
       setenforce 1 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=enforcing/g' /etc/selinux/config
       notifyUser "Включване на SELinux!"
+      log "INFO:Включване на SELinux!"
     elif [[ "$BtStatus" == Изключи ]]; then
       setenforce 0 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=permissive/g' /etc/selinux/config
       notifyUser "Изключване на SELinux!"
+      log "INFO:Изключване на SELinux!"
     fi
   fi
 }
@@ -778,7 +817,7 @@ install_compiz(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      ASKremovePackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome 2>&1
+      removePackage ccsm emerald-themes compizconfig-backend-gconf fusion-icon-gtk emerald compiz-fusion compiz-fusion-gnome libcompizconfig compiz-gnome compiz-bcop compiz compizconfig-python compiz-fusion-extras compiz-fusion-extras-gnome
       # Enable Metacity
       gconftool-2 -s -t string /desktop/gnome/session/required_components/windowmanager metacity > /dev/null
     elif [[ "$BtStatus" == Инсталирай ]]; then
@@ -787,6 +826,7 @@ install_compiz(){
         # Enable Compiz
         gconftool-2 -s -t string /desktop/gnome/session/required_components/windowmanager compiz-gtk > /dev/null
       else
+        log "ERROR:Явно не използвате видео драйвер с поддръжка на 3D-ускорение"
         yad --text="Грешка: Явно не използвате видео драйвер с поддръжка на 3D-ускорение." \
             --button="ОК":0 --button="Затваряне":1 \
             --window-icon="$window_icon" \
@@ -821,8 +861,7 @@ install_playonlinux(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      notifyUser "Пакета PlayOnLinux е вече инсталиран"
-      ASKremovePackage playonlinux 2>&1
+      removePackage playonlinux 2>&1
     elif [[ "$BtStatus" == Инсталирай ]]; then
       if [[ ! -f /etc/yum.repos.d/playonlinux.repo ]]; then
         yum-config-manager --add-repo http://rpm.playonlinux.com/playonlinux.repo 2>&1
@@ -849,17 +888,19 @@ ASKinstallVideo(){
 install_intel_driver(){
   if isInstalled libva-intel-driver libva-utils; then
     notifyUser "Вече е инсталиран драйвер"
+    log "INFO:Вече е инсталиран драйвер"
   else
-    installPackage libva-intel-driver libva-utils 2>&1
+    installPackage libva-intel-driver libva-utils
   fi
 }
 
 install_nvidia_driver(){
   if isInstalled nvidia-x11-drv nvidia-detect "$(nvidia-detect)" libva-vdpau-driver libva-utils; then
     notifyUser "Вече е инсталиран драйвер"
+    log "INFO:Вече е инсталиран драйвер"
   else
-    installPackage nvidia-detect 2>&1
-    installPackage nvidia-x11-drv "$(nvidia-detect)" libva-vdpau-driver libva-utils 2>&1
+    installPackage nvidia-detect
+    installPackage nvidia-x11-drv "$(nvidia-detect)" libva-vdpau-driver libva-utils
   fi
 }
 
@@ -868,14 +909,17 @@ install_amd_driver(){
   if [[ $value -lt 5000 ]]; then
     if isInstalled fglrx-x11-drv kmod-fglrx-legacy liba-utils; then
       notifyUser "Вече е инсталиран драйвер"
+      log "INFO:Вече е инсталиран драйвер"
     else
-      installPackage fglrx-x11-drv kmod-fglrx-legacy libva-utils 2>&1
+      installPackage fglrx-x11-drv kmod-fglrx-legacy libva-utils
     fi
   else
     if isInstalled fglrx-x11-drv kmod-fglrx liba-utils; then
       notifyUser "Вече е инсталиран драйвер"
+      log "INFO:Вече е инсталиран драйвер"
     else
-      installPackage fglrx-x11-drv kmod-fglrx libva-utils 2>&1
+      installPackage fglrx-x11-drv kmod-fglrx libva-utils
+      log "INFO:Вече е инсталиран драйвер"
     fi
   fi
 }
@@ -883,6 +927,7 @@ install_amd_driver(){
 install_bumblebee(){
   if isInstalled bumblebee; then
     notifyUser "Вече е инсталиран"
+    log "INFO:Вече е инсталиран драйвер"
   else
     # http://elrepo.org/tiki/bumblebee
     installPackage bumblebee kmod-bbswitch libva-vdpau-driver libva-utils
@@ -969,6 +1014,7 @@ install_video(){
       install_intel_driver
     else
       notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
+      log "INFO:Непозната видео карта, моля поискайте помощ в нашият форум!"
     fi
     shopt nocasematch # restore case matching
 }
