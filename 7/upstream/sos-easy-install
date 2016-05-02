@@ -102,7 +102,9 @@ checkInstallSuccess(){
 
   if [ "${PIPESTATUS[0]}" -ne "0" ]; then
     log "ERROR:Грешка при инсталиране на $*"
-    yad --text="Грешка при инсталиране на $*" \
+    yad --text="Грешка при инсталиране на $*
+
+Проверете файла <b>/tmp/sos-easy-install.log</b> за подробна информация!" \
         --button="ОК":0 --button="Затваряне":1 \
         --window-icon="$window_icon" \
         --title="$prog" \
