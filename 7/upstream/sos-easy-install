@@ -746,7 +746,16 @@ install_megasync(){
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage megasync nautilus-megasync
+      rm -f /etc/yum.repos.d/megasync.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/megasync.repo
+[MEGAsync]
+name=MEGAsync
+baseurl=http://mega.nz/linux/MEGAsync/CentOS_7/
+gpgkey=https://mega.nz/linux/MEGAsync/CentOS_7/repodata/repomd.xml.key
+gpgcheck=1
+enabled=1
+EOF
       installPackage megasync nautilus-megasync
     fi
   fi
