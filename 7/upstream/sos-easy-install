@@ -99,7 +99,7 @@ isInstalled(){
 
 # Check if yum install success
 checkInstallSuccess(){
-  yum --nogpgcheck install -y "$@" 2>&1 | tee $TMP_LOG
+  yum --nogpgcheck install -y "$@" 2>&1
 
   if [ "${PIPESTATUS[0]}" -ne "0" ]; then
     log "ERROR:Грешка при инсталиране на $*"
@@ -120,7 +120,7 @@ checkInstallSuccess(){
 
 # Install package
 installPackage(){
-  checkInstallSuccess "$@" | yad --title="Инсталиране на $*" \
+  checkInstallSuccess "$@" | tee $TMP_LOG | stdbuf -oL sed -n 's/^/# /p' | yad --title="Инсталиране на $*" \
                             --text='Моля изчакайте....' \
                             --height=250 --width=500 \
                             --progress --pulsate --auto-close --auto-kill \
@@ -132,7 +132,7 @@ installPackage(){
 
 # Check if yum remove success
 checkRemoveSuccess(){
-  yum remove -y --setopt clean_requirements_on_remove=1 "$@" 2>&1 | tee $TMP_LOG
+  yum remove -y --setopt clean_requirements_on_remove=1 "$@" 2>&1
 
   if [ "${PIPESTATUS[0]}" -ne "0" ]; then
     log "ERROR:Грешка при премахване на $*"
@@ -151,7 +151,7 @@ checkRemoveSuccess(){
 
 # Remove installed packages
 removePackage(){
-   checkRemoveSuccess "$@" | yad --title="Премахване на $*" \
+   checkRemoveSuccess "$@" | tee $TMP_LOG | stdbuf -oL sed -n 's/^/# /p' | yad --title="Премахване на $*" \
                              --text='Моля изчакайте....' \
                              --height=250 --width=500 \
                              --progress --pulsate --auto-close --auto-kill \
