@@ -43,6 +43,7 @@ spotifyIcon="/usr/share/icons/sos-ei-app-icons/spotify.png"
 sublimetextIcon="/usr/share/icons/sos-ei-app-icons/sublimetext.png"
 atomIcon="/usr/share/icons/sos-ei-app-icons/atom.png"
 loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
+megaIcon="/usr/share/icons/sos-ei-app-icons/mega.png"
 
 ## Functions
 
@@ -721,6 +722,36 @@ install_playonlinux(){
   fi
 }
 
+install_megasync(){
+  if isInstalled megasync nautilus-megasync; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width=520 \
+      --window-icon="$window_icon" \
+      --image="$megaIcon" \
+      --text="<b>MEGASync client</b>
+
+Разширение за файловият мениджър Nautilus, което интегрира облак услугата MEGA със GNOME десктопа.
+
+<b>Лиценз:</b> Freeware
+<b>Уеб сайт на проекта:</b> <a href='https://mega.nz/'>https://mega.nz/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage megasync nautilus-megasync
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage megasync nautilus-megasync
+    fi
+  fi
+}
+
 install_intel_driver(){
   if isInstalled libva-intel-driver libva-utils libva; then
     notifyUser "Вече е инсталиран драйвер"
@@ -909,12 +940,13 @@ do
                false 9 "Viber" \
                false 10 "TeamViewer" \
                false 11 "Tor Browser Launcher" \
-               false 12 "Msttcorefonts (Microsoft шрифтове)" \
-               false 13 "VirtualBox-5.0" \
-               false 14 "PlayOnLinux" \
-               false 15 "Намиране и инсталиране на видео драйвер" \
-               false 16 "SELinux" \
-               false 17 "Автоматично влизане в системата");
+               false 12 "MEGASync Client" \
+               false 13 "Msttcorefonts (Microsoft шрифтове)" \
+               false 14 "VirtualBox-5.0" \
+               false 15 "PlayOnLinux" \
+               false 16 "Намиране и инсталиране на видео драйвер" \
+               false 17 "SELinux" \
+               false 18 "Автоматично влизане в системата");
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -934,12 +966,13 @@ do
     "9|")install_viber ;;
     "10|")install_teamviewer ;;
     "11|")install_tor ;;
-    "12|")install_mscorefonts ;;
-    "13|")install_virtualbox ;;
-    "14|")install_playonlinux ;;
-    "15|")ASKinstallVideo ;;
-    "16|")setSelinux ;;
-    "17|")autoLogin ;;
+    "12|")install_megasync ;;
+    "13|")install_mscorefonts ;;
+    "14|")install_virtualbox ;;
+    "15|")install_playonlinux ;;
+    "16|")ASKinstallVideo ;;
+    "17|")setSelinux ;;
+    "18|")autoLogin ;;
     *) break ;;
   esac
 done
