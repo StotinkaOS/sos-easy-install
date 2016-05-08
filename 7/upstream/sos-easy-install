@@ -185,6 +185,8 @@ install_steam() {
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage steam
+      rm -f /etc/yum.repos.d/epel-steam.repo
+      rm -f /etc/yum.repos.d/adobe-linux-i386.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
       yum-config-manager --add-repo=http://negativo17.org/repos/epel-steam.repo
         cat << EOF > /etc/yum.repos.d/adobe-linux-i386.repo
@@ -293,6 +295,7 @@ install_spotify(){
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage spotify-client
+      rm -f /etc/yum.repos.d/epel-spotify.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
   cat << EOF > /etc/yum.repos.d/epel-spotify.repo
 [epel-spotify]
@@ -393,6 +396,7 @@ install_gtalk() {
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage google-talkplugin
+      rm -f /etc/yum.repos.d/google-talkplugin.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
 cat << EOF > /etc/yum.repos.d/google-talkplugin.repo
 [google-talkplugin]
@@ -432,6 +436,7 @@ install_chrome() {
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage google-chrome-stable
+      rm -f /etc/yum.repos.d/google-chrome.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage google-chrome-stable
     fi
