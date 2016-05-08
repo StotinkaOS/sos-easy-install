@@ -168,7 +168,7 @@ install_steam() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$steamIcon" \
       --text="<b>Steam</b>
@@ -213,7 +213,7 @@ install_dropbox() {
     BtStatus='Инсталирай'
   fi
 
- yad --title="$prog" --width=520 \
+ yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$dropboxIcon" \
       --text="<b>Dropbox</b>
@@ -246,7 +246,7 @@ install_viber(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$viberIcon" \
       --text="<b>Viber</b>
@@ -278,7 +278,7 @@ install_spotify(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$spotifyIcon" \
       --text="<b>Spotify Client</b>
@@ -319,7 +319,7 @@ install_sublimetext(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$sublimetextIcon" \
       --text="<b>Sublime Text 3</b>
@@ -349,7 +349,7 @@ install_atom() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$atomIcon" \
       --text="<b>Atom Text Editor</b>
@@ -379,7 +379,7 @@ install_gtalk() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$gtalkIcon" \
       --text="<b>Google Talk Plugin</b>
@@ -419,7 +419,7 @@ install_chrome() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$chromeIcon" \
       --text="<b>Google Chrome</b>
@@ -449,7 +449,7 @@ install_skype() {
     BtStatus='Инсталирай'
   fi
 
- yad --title="$prog" --width=520 \
+ yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$skypeIcon" \
       --text="<b>Skype</b>
@@ -479,7 +479,7 @@ install_virtualbox() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$vboxIcon" \
       --text="<b>VirtualBox</b>
@@ -511,7 +511,7 @@ install_teamviewer() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$teamvIcon" \
       --text="<b>TeamViewer</b>
@@ -541,7 +541,7 @@ install_tor() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$torIcon" \
       --text="<b>Tor Browser Launcher</b>
@@ -571,7 +571,7 @@ install_mscorefonts(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$msIcon" \
       --text="<b>Msttcorefonts</b>
@@ -601,7 +601,7 @@ addSudo() {
     BtStatus="Добави"
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$sudoIcon" \
       --text="<b>Sudo</b>
@@ -638,7 +638,7 @@ autoLogin(){
     BtStatus="Добави"
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$loginIcon" \
       --text="<b>AutoLogin</b>
@@ -670,7 +670,7 @@ setSelinux() {
     BtStatus='Изключи'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$selinuxIcon" \
       --text="<b>SELinux</b>
@@ -703,7 +703,7 @@ install_playonlinux(){
     BtStatus='Инсталирай'
   fi
 
- yad --title="$prog" --width=520 \
+ yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$playonlinuxIcon" \
       --text="<b>PlayOnLinux</b>
@@ -733,7 +733,7 @@ install_megasync(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width=520 \
+  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$megaIcon" \
       --text="<b>MEGASync client</b>
