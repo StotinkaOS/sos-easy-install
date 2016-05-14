@@ -45,6 +45,7 @@ atomIcon="/usr/share/icons/sos-ei-app-icons/atom.png"
 loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
 megaIcon="/usr/share/icons/sos-ei-app-icons/mega.png"
 gnomeIcon="/usr/share/icons/sos-ei-app-icons/gnome-session.png"
+operaIcon="/usr/share/icons/sos-ei-app-icons/opera.png"
 
 ## Functions
 
@@ -766,6 +767,46 @@ EOF
   fi
 }
 
+install_opera(){
+  if isInstalled opera-beta; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$operaIcon" \
+      --text="<b>Opera Browser (BETA)</b>
+
+Бърз, безопасен и лесен за използване браузър.
+
+<b>Лиценз:</b> Собственически
+<b>Уеб сайт на проекта:</b> <a href='http://www.opera.com/bg/computer'>www.opera.com/bg</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage opera-beta
+      rm -f /etc/yum.repos.d/opera.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/opera.repo
+[opera]
+name=Opera packages
+type=rpm-md
+baseurl=https://rpm.opera.com/rpm
+gpgcheck=1
+gpgkey=https://rpm.opera.com/rpmrepo.key
+enabled=1
+EOF
+      installPackage opera-beta
+    fi
+  fi
+}
+
 switching_gnome(){
   yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
@@ -967,21 +1008,22 @@ do
                false 2 "Sudo" \
                false 3 "Google Chrome" \
                false 4 "Google Talk Plugin" \
-               false 5 "Spotify Client" \
-               false 6 "Sublime Text 3" \
-               false 7 "Atom Text Editor" \
-               false 8 "Skype" \
-               false 9 "Viber" \
-               false 10 "TeamViewer" \
-               false 11 "Tor Browser Launcher" \
-               false 12 "MEGASync Client" \
-               false 13 "Msttcorefonts (Microsoft шрифтове)" \
-               false 14 "VirtualBox-5.0" \
-               false 15 "PlayOnLinux" \
-               false 16 "Намиране и инсталиране на видео драйвер" \
-               false 17 "SELinux" \
-               false 18 "Автоматично влизане в системата" \
-               false 19 "Преминаване в друга сесия (GNOME)");
+               false 5 "Opera Browser (BETA)" \
+               false 6 "Spotify Client" \
+               false 7 "Sublime Text 3" \
+               false 8 "Atom Text Editor" \
+               false 9 "Skype" \
+               false 10 "Viber" \
+               false 11 "TeamViewer" \
+               false 12 "Tor Browser Launcher" \
+               false 13 "MEGASync Client" \
+               false 14 "Msttcorefonts (Microsoft шрифтове)" \
+               false 15 "VirtualBox-5.0" \
+               false 16 "PlayOnLinux" \
+               false 17 "Намиране и инсталиране на видео драйвер" \
+               false 18 "SELinux" \
+               false 19 "Автоматично влизане в системата" \
+               false 20 "Преминаване в друга сесия (GNOME)");
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -994,21 +1036,22 @@ do
     "2|")addSudo ;;
     "3|")install_chrome ;;
     "4|")install_gtalk ;;
-    "5|")install_spotify ;;
-    "6|")install_sublimetext ;;
-    "7|")install_atom ;;
-    "8|")install_skype ;;
-    "9|")install_viber ;;
-    "10|")install_teamviewer ;;
-    "11|")install_tor ;;
-    "12|")install_megasync ;;
-    "13|")install_mscorefonts ;;
-    "14|")install_virtualbox ;;
-    "15|")install_playonlinux ;;
-    "16|")ASKinstallVideo ;;
-    "17|")setSelinux ;;
-    "18|")autoLogin ;;
-    "19|")switching_gnome ;;
+    "5|")install_opera ;;
+    "6|")install_spotify ;;
+    "7|")install_sublimetext ;;
+    "8|")install_atom ;;
+    "9|")install_skype ;;
+    "10|")install_viber ;;
+    "11|")install_teamviewer ;;
+    "12|")install_tor ;;
+    "13|")install_megasync ;;
+    "14|")install_mscorefonts ;;
+    "15|")install_virtualbox ;;
+    "16|")install_playonlinux ;;
+    "17|")ASKinstallVideo ;;
+    "18|")setSelinux ;;
+    "19|")autoLogin ;;
+    "20|")switching_gnome ;;
     *) break ;;
   esac
 done
