@@ -44,6 +44,7 @@ sublimetextIcon="/usr/share/icons/sos-ei-app-icons/sublimetext.png"
 atomIcon="/usr/share/icons/sos-ei-app-icons/atom.png"
 loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
 megaIcon="/usr/share/icons/sos-ei-app-icons/mega.png"
+gnomeIcon="/usr/share/icons/sos-ei-app-icons/gnome-session.png"
 
 ## Functions
 
@@ -765,6 +766,26 @@ EOF
   fi
 }
 
+switching_gnome(){
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$gnomeIcon" \
+      --text="<b>GNOME Сесия</b>
+Потребителите може да превключват от класически GNOME на GNOME Shell сесия и обратното ." \
+      --selectable-labels \
+      --button="GNOME SHELL":1 --button="GNOME CLASSIC":2 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "1" ]]; then
+    runuser -l ${user} -c 'gnome-shell --mode=user -r &'
+    log "INFO:Преминавана в GNOME SHELL сесия"
+  elif [[ "$ret" -eq "2" ]]; then
+    runuser -l ${user} -c 'gnome-shell --mode=classic -r &'
+    log "INFO:Преминавана в GNOME CLASSIC сесия"
+  fi
+}
+
 install_intel_driver(){
   if isInstalled libva-intel-driver libva-utils libva; then
     notifyUser "Вече е инсталиран драйвер"
@@ -959,7 +980,8 @@ do
                false 15 "PlayOnLinux" \
                false 16 "Намиране и инсталиране на видео драйвер" \
                false 17 "SELinux" \
-               false 18 "Автоматично влизане в системата");
+               false 18 "Автоматично влизане в системата" \
+               false 19 "Преминаване в друга сесия (GNOME)");
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -986,6 +1008,7 @@ do
     "16|")ASKinstallVideo ;;
     "17|")setSelinux ;;
     "18|")autoLogin ;;
+    "19|")switching_gnome ;;
     *) break ;;
   esac
 done
