@@ -790,7 +790,7 @@ install_opera(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage opera-beta
+      removePackage opera-beta chromium-pepper-flash
       rm -f /etc/yum.repos.d/opera.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
       cat << EOF > /etc/yum.repos.d/opera.repo
@@ -802,7 +802,7 @@ gpgcheck=1
 gpgkey=https://rpm.opera.com/rpmrepo.key
 enabled=1
 EOF
-      installPackage opera-beta
+      installPackage opera-beta chromium-pepper-flash
     fi
   fi
 }
