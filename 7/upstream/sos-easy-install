@@ -46,6 +46,7 @@ loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
 megaIcon="/usr/share/icons/sos-ei-app-icons/mega.png"
 gnomeIcon="/usr/share/icons/sos-ei-app-icons/gnome-session.png"
 operaIcon="/usr/share/icons/sos-ei-app-icons/opera.png"
+telegramIcon="/usr/share/icons/sos-ei-app-icons/telegram.png"
 
 ## Functions
 
@@ -269,6 +270,47 @@ install_viber(){
       installPackage https://download.cdn.viber.com/desktop/Linux/viber.rpm
       # fix $PATH
       ln -s /opt/viber/Viber /usr/bin/Viber
+    fi
+  fi
+}
+
+install_telegram(){
+  if isInstalled telegram-desktop; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$telegramIcon" \
+      --text="<b>Telegram</b>
+
+Приложение за съобщения с акцент върху скоростта и сигурността, telegram е супер бърз, лесен и безплатен .
+
+<b>Лиценз: GPLv3</b>
+<b>Уеб сайт на проекта:</b> <a href='https://telegram.org/'>https://telegram.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage telegram-desktop
+      rm -f /etc/yum.repos.d/rommon-telegram-epel-7.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/rommon-telegram-epel-7.repo
+[rommon-telegram]
+name=Copr repo for telegram owned by rommon
+baseurl=https://copr-be.cloud.fedoraproject.org/results/rommon/telegram/epel-7-x86_64/
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/rommon/telegram/pubkey.gpg
+enabled=1
+enabled_metadata=1
+EOF
+      installPackage telegram-desktop
     fi
   fi
 }
@@ -1014,16 +1056,17 @@ do
                false 8 "Atom Text Editor" \
                false 9 "Skype" \
                false 10 "Viber" \
-               false 11 "TeamViewer" \
-               false 12 "Tor Browser Launcher" \
-               false 13 "MEGASync Client" \
-               false 14 "Msttcorefonts (Microsoft шрифтове)" \
-               false 15 "VirtualBox-5.0" \
-               false 16 "PlayOnLinux" \
-               false 17 "Намиране и инсталиране на видео драйвер" \
-               false 18 "SELinux" \
-               false 19 "Автоматично влизане в системата" \
-               false 20 "Преминаване в друга сесия (GNOME)");
+               false 11 "Telegram" \
+               false 12 "TeamViewer" \
+               false 13 "Tor Browser Launcher" \
+               false 14 "MEGASync Client" \
+               false 15 "Msttcorefonts (Microsoft шрифтове)" \
+               false 16 "VirtualBox-5.0" \
+               false 17 "PlayOnLinux" \
+               false 18 "Намиране и инсталиране на видео драйвер" \
+               false 19 "SELinux" \
+               false 20 "Автоматично влизане в системата" \
+               false 21 "Преминаване в друга сесия (GNOME)");
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -1042,16 +1085,17 @@ do
     "8|")install_atom ;;
     "9|")install_skype ;;
     "10|")install_viber ;;
-    "11|")install_teamviewer ;;
-    "12|")install_tor ;;
-    "13|")install_megasync ;;
-    "14|")install_mscorefonts ;;
-    "15|")install_virtualbox ;;
-    "16|")install_playonlinux ;;
-    "17|")ASKinstallVideo ;;
-    "18|")setSelinux ;;
-    "19|")autoLogin ;;
-    "20|")switching_gnome ;;
+    "11|")install_telegram ;;
+    "12|")install_teamviewer ;;
+    "13|")install_tor ;;
+    "14|")install_megasync ;;
+    "15|")install_mscorefonts ;;
+    "16|")install_virtualbox ;;
+    "17|")install_playonlinux ;;
+    "18|")ASKinstallVideo ;;
+    "19|")setSelinux ;;
+    "20|")autoLogin ;;
+    "21|")switching_gnome ;;
     *) break ;;
   esac
 done
