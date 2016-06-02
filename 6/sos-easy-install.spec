@@ -2,7 +2,7 @@ Summary: A simple GUI program that enables you to install additional software, s
 Summary(bg): Прост графичен потребителски интерфейс който позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.
 Name: sos-easy-install
 Version: 2.1
-Release: 1%{?dist}.sos
+Release: 2%{?dist}.sos
 URL: http://stotinkaos.net
 License: GPLv3
 Group: Applications/System
@@ -66,4 +66,3 @@ rm -rf ${RPM_BUILD_ROOT}
 %config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
 
 %changelog
-
