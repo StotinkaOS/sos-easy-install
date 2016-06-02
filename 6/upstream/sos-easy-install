@@ -19,7 +19,7 @@ COMMENT
 ## General
 
 prog="${0##*/}"
-ver=2.0
+ver=2.1
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-Easy-Install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
@@ -29,7 +29,6 @@ user=$(who | cut -d' ' -f1 | sort | uniq);
 steamIcon="/usr/share/icons/sos-ei-app-icons/steam1.png"
 dropboxIcon="/usr/share/icons/sos-ei-app-icons/dropbox.png"
 chromeIcon="/usr/share/icons/sos-ei-app-icons/chrome.png"
-chromiumIcon="/usr/share/icons/sos-ei-app-icons/chromium.png"
 compizIcon="/usr/share/icons/sos-ei-app-icons/compiz.png"
 infinalityIcon="/usr/share/icons/sos-ei-app-icons/infinality.png"
 javaIcon="/usr/share/icons/sos-ei-app-icons/java.png"
@@ -301,38 +300,13 @@ install_chrome() {
       if [[ "$arch" == "x86_64" ]]; then
         installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm"
       else
-        installPackage chrome-deps "https://dl.google.com/linux/direct/google-chrome-stable_current_i386.rpm"
+        yad --text="Само за 64-битови системи!" \
+        --button="ОК":0 --button="Затваряне":1 \
+        --window-icon="$window_icon" \
+        --title="$prog" \
+        --image=gtk-dialog-error \
+        --center
       fi
-    fi
-  fi
-}
-
-install_chromium(){
-  if isInstalled chromium-browser; then
-    BtStatus="Премахни"
-  else
-    BtStatus='Инсталирай'
-  fi
-
-  yad --title="$prog" --width=420 \
-      --window-icon="$window_icon" \
-      --image="$chromiumIcon" \
-      --text="<b>Chromium Browser</b>
-
-Open-source версията на Google Chrome уеб браузъра.
-
-<b>Лиценз:</b> BSD and LGPLv2+
-<b>Уеб сайт на проекта:</b> <a href='https://www.chromium.org/Home'>https://www.chromium.org</a>" \
-      --selectable-labels \
-      --button="$BtStatus":0 \
-      --center
-  ret=$?
-
-  if [[ "$ret" -eq "0" ]]; then
-    if [[ "$BtStatus" == Премахни ]]; then
-      removePackage chromium-browser
-    elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage chromium-browser
     fi
   fi
 }
@@ -1052,18 +1026,17 @@ do
                false 1 "Dropbox" \
                false 2 "Sudo" \
                false 3 "Google Chrome" \
-               false 4 "Chromium" \
-               false 5 "Skype" \
-               false 6 "TeamViewer" \
-               false 7 "Msttcorefonts (Microsoft шрифтове)" \
-               false 8 "Оптимизиране на шрифтовете с Infinality" \
-               false 9 "VirtualBox-5.0" \
-               false 10 "Compiz-Fusion" \
-               false 11 "PlayOnLinux" \
-               false 12 "Oracle Java" \
-               false 13 "Намиране и инсталиране на видео драйвер" \
-               false 14 "SELinux" \
-               false 15 "Автоматично влизане в системата");
+               false 4 "Skype" \
+               false 5 "TeamViewer" \
+               false 6 "Msttcorefonts (Microsoft шрифтове)" \
+               false 7 "Оптимизиране на шрифтовете с Infinality" \
+               false 8 "VirtualBox-5.0" \
+               false 9 "Compiz-Fusion" \
+               false 10 "PlayOnLinux" \
+               false 11 "Oracle Java" \
+               false 12 "Намиране и инсталиране на видео драйвер" \
+               false 13 "SELinux" \
+               false 14 "Автоматично влизане в системата");
   ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
@@ -1075,18 +1048,17 @@ do
     "1|")install_dropbox ;;
     "2|")addSudo ;;
     "3|")install_chrome ;;
-    "4|")install_chromium ;;
-    "5|")install_skype ;;
-    "6|")install_teamviewer ;;
-    "7|")install_mscorefonts ;;
-    "8|")install_infinality ;;
-    "9|")install_virtualbox ;;
-    "10|")install_compiz ;;
-    "11|")install_playonlinux ;;
-    "12|")whichJava ;;
-    "13|")ASKinstallVideo ;;
-    "14|")setSelinux ;;
-    "15|")autoLogin ;;
+    "4|")install_skype ;;
+    "5|")install_teamviewer ;;
+    "6|")install_mscorefonts ;;
+    "7|")install_infinality ;;
+    "8|")install_virtualbox ;;
+    "9|")install_compiz ;;
+    "10|")install_playonlinux ;;
+    "11|")whichJava ;;
+    "12|")ASKinstallVideo ;;
+    "13|")setSelinux ;;
+    "14|")autoLogin ;;
     *) break ;;
   esac
 done

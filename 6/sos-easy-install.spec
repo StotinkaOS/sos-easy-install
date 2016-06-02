@@ -1,7 +1,7 @@
 Summary: A simple GUI program that enables you to install additional software, such as Skype, Chrome, Steam, etc.
 Summary(bg): Прост графичен потребителски интерфейс който позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.
 Name: sos-easy-install
-Version: 2.0
+Version: 2.1
 Release: 1%{?dist}.sos
 URL: http://stotinkaos.net
 License: GPLv3
@@ -66,53 +66,4 @@ rm -rf ${RPM_BUILD_ROOT}
 %config(noreplace) %{_sysconfdir}/security/console.apps/%{name}
 
 %changelog
-* Fri Dec 04 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 2.0-1
-- Fix Teamviewer install
-- Install VirtualBox-5.0
-- Remove VirtualBox-4.3
-- Fix steam repo
-
-* Sat Aug 29 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.10-1
-- Fix user group bumblebee
-- Check exit status of yum
-
-* Fri Aug 28 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.9-1
-- Add Bumblebee support
-
-* Tue Aug 18 2015 Ivaylo Kuzev <ivo@stotinkaos.net>- 1.8-1
-- Fix java-jdk
-- Add authentication via PAM 
-- Update dropbox plugin to find the latest version
-
-* Sat Aug 15 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.7-1
-- Ask to install video drivers
-- fix wrong variable
-
-* Thu Aug 13 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.6-1
-- Revert to place all dialogs at center of the screen
-- Update broken Dropbox links
-
-* Fri Aug 07 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.5-1
-- Add autoLogin func
-
-* Tue Aug 04 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.4-1
-- Fix Bug with installPackage
-
-* Mon Aug 03 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.3-1
-- Update to version 1.3
-- Add Java and Video drivers install
-- Add new install dialog 
-
-* Tue Jul 28 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.2-1
-- Do not resize the main menu 
-- Ask to remove packages
-- Fix version number 
-- Place all dialogs at the position where mouse cursor is
-- Allow to select the text from a about dialog
-
-* Mon Jul 27 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.1.1
-- Fix Steam and protected multilib packages
-
-* Sun Jul 26 2015 Ivaylo Kuzev <ivo@stotinkaos.net> - 1.0-1
-- Initial spec
 
