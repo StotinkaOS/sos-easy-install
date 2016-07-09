@@ -1,0 +1,172 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+prog="sos-easy-install"
+ver=2.7
+window_icon="/usr/share/icons/hicolor/96x96/apps/sos-easy-install.png"
+image_icon="/usr/share/pixmaps/sosEI-header.png"
+license="/usr/share/licenses/sos-easy-install/COPYING"
+arch=$(uname -m)
+user=$(who | cut -d' ' -f1 | sort | uniq);
+
+# Applications
+steamIcon="/usr/share/icons/sos-ei-app-icons/steam1.png"
+dropboxIcon="/usr/share/icons/sos-ei-app-icons/dropbox.png"
+chromeIcon="/usr/share/icons/sos-ei-app-icons/chrome.png"
+msIcon="/usr/share/icons/sos-ei-app-icons/ms-fonts.png"
+playonlinuxIcon="/usr/share/icons/sos-ei-app-icons/playonlinux.png"
+skypeIcon="/usr/share/icons/sos-ei-app-icons/skype.png"
+teamvIcon="/usr/share/icons/sos-ei-app-icons/teamviewer.png"
+viberIcon="/usr/share/icons/sos-ei-app-icons/viber.png"
+vboxIcon="/usr/share/icons/sos-ei-app-icons/virtualbox.png"
+sudoIcon="/usr/share/icons/sos-ei-app-icons/sudo.png"
+selinuxIcon="/usr/share/icons/sos-ei-app-icons/selinux.png"
+gtalkIcon="/usr/share/icons/sos-ei-app-icons/gtalk.png"
+torIcon="/usr/share/icons/sos-ei-app-icons/tor.png"
+spotifyIcon="/usr/share/icons/sos-ei-app-icons/spotify.png"
+sublimetextIcon="/usr/share/icons/sos-ei-app-icons/sublimetext.png"
+atomIcon="/usr/share/icons/sos-ei-app-icons/atom.png"
+loginIcon="/usr/share/icons/sos-ei-app-icons/autologin.png"
+megaIcon="/usr/share/icons/sos-ei-app-icons/mega.png"
+gnomeIcon="/usr/share/icons/sos-ei-app-icons/gnome-session.png"
+operaIcon="/usr/share/icons/sos-ei-app-icons/opera.png"
+telegramIcon="/usr/share/icons/sos-ei-app-icons/telegram.png"
+kodiIcon="/usr/share/icons/sos-ei-app-icons/kodiIcon.png"
+vivaldiIcon="/usr/share/icons/sos-ei-app-icons/vivaldi.png"
+chromiumIcon="/usr/share/icons/sos-ei-app-icons/chromium.png"
+
+# Desktop
+kdeIcon="/usr/share/icons/sos-ei-app-icons/kde.png"
+xfceIcon="/usr/share/icons/sos-ei-app-icons/xfce.png"
+mateIcon="/usr/share/icons/sos-ei-app-icons/mate.png"
+cinnamonIcon="/usr/share/icons/sos-ei-app-icons/cinnamon.png"
+lxdeIcon="/usr/share/icons/sos-ei-app-icons/lxde.png"
+lxqtIcon="/usr/share/icons/sos-ei-app-icons/lxqt.png"
+
+## Functions
+
+## from version 1.8 is using authentication via PAM
+# Checking user's privileges
+#if [[ $EUID -ne 0 ]]; then
+#  yad --text="Програмата трябва да се стартира с правата на потребител root.\nСтартирайте отново, по следният начин:\n\n<b>su -c '$prog'</b>\nили\n<b>beesu $prog</b>" \
+#      --window-icon="$window_icon" \
+#      --title="$prog" \
+#      --width="450" --height="200" \
+#      --button="ОК":0 --button="Затваряне":1 \
+#      --selectable-labels \
+#      --center
+#  exit 1
+#fi
+
+# Set up log facilities
+# Example output: [02/06/15 20:03:12] message input
+LOGFILE=/var/log/sos-easy-install.log
+log(){
+    message="$@"
+    echo '['$(date +%D\ %H:%M:%S)'] '$message >>$LOGFILE
+}
+
+# Log last activities to retrieve errors
+TMP_LOG=/tmp/sos-easy-install.log
+
+# Notify message
+notifyUser(){
+  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --width=450 --center
+}
+
+# Kill off any package managers that may be running
+if [[ "$(pgrep yumex)"||"$(pgrep yum)" ]]; then
+    if yad --title="$prog" --window-icon="$window_icon" \
+           --text="<b>YUM</b> Мениджъра на пакети работи. Искате ли да го затворите?" \
+           --width="450" --height="200" \
+           --image=dialog-question \
+           --button="Да":0 --button="Не":1 \
+           --center ; then
+      killall -9 yumex yum
+    else
+      notifyUser "Изход от програмата!"
+      log "ERROR:Изход от програмата, YUM пакет мениджъра работи!"
+      exit 0
+    fi
+fi
+
+# Checking installed packages
+isInstalled(){
+  rpm -q --quiet "$@"
+}
+
+# Check if yum install success
+checkInstallSuccess(){
+  yum --nogpgcheck install -y "$@" 2>&1
+
+  if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+    log "ERROR:Грешка при инсталиране на $*"
+    yad --text="Грешка при инсталиране на $*
+Проверете файла <b>/tmp/sos-easy-install.log</b> за подробна информация!" \
+        --button="ОК":0 --button="Затваряне":1 \
+        --window-icon="$window_icon" \
+        --title="$prog" \
+        --image=gtk-dialog-error \
+        --center
+    return
+  else
+    notifyUser "Инсталирането на $* приключи успешно"
+    log "INFO:Инсталирането на $* приключи успешно"
+  fi
+}
+
+# Install package
+installPackage(){
+  checkInstallSuccess "$@" | tee $TMP_LOG | stdbuf -oL sed -n 's/^/# /p' | yad --title="Инсталиране на $*" \
+                            --text='Моля изчакайте....' \
+                            --height=250 --width=500 \
+                            --progress --pulsate --auto-close --auto-kill \
+                            --window-icon="$window_icon" \
+                            --no-buttons \
+                            --image=system-software-install \
+                            --center
+}
+
+# Check if yum remove success
+checkRemoveSuccess(){
+  yum remove -y --setopt clean_requirements_on_remove=1 "$@" 2>&1
+
+  if [ "${PIPESTATUS[0]}" -ne "0" ]; then
+    log "ERROR:Грешка при премахване на $*"
+    yad --text="Грешка при премахване на $*" \
+        --button="ОК":0 --button="Затваряне":1 \
+        --window-icon="$window_icon" \
+        --title="$prog" \
+        --image=gtk-dialog-error \
+        --center
+    return
+  else
+     notifyUser "Пакета $* е успешно премахнат"
+     log "INFO:Пакета $* е успешно премахнат"
+  fi
+}
+
+# Remove installed packages
+removePackage(){
+   checkRemoveSuccess "$@" | tee $TMP_LOG | stdbuf -oL sed -n 's/^/# /p' | yad --title="Премахване на $*" \
+                             --text='Моля изчакайте....' \
+                             --height=250 --width=500 \
+                             --progress --pulsate --auto-close --auto-kill \
+                             --window-icon="$window_icon" \
+                             --no-buttons \
+                             --image=gtk-remove \
+                             --center
+}

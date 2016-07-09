@@ -1,0 +1,52 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+setSelinux() {
+  if grep --quiet ^SELINUX=permissive$ /etc/selinux/config; then
+    BtStatus="Включи"
+  else
+    BtStatus='Изключи'
+  fi
+
+  yad --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$selinuxIcon" \
+      --title="$prog - Опция SELinux" \
+      --text="<b>SELinux</b>
+Изключване или Включване на SELinux защитната среда." \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" ==  Включи ]]; then
+      setenforce 1 > /dev/null
+      sed -i 's/^SELINUX=.*$/SELINUX=enforcing/g' /etc/selinux/config
+      notifyUser "Включване на SELinux!"
+      log "INFO:Включване на SELinux!"
+    elif [[ "$BtStatus" == Изключи ]]; then
+      setenforce 0 > /dev/null
+      sed -i 's/^SELINUX=.*$/SELINUX=permissive/g' /etc/selinux/config
+      notifyUser "Изключване на SELinux!"
+      log "INFO:Изключване на SELinux!"
+    fi
+  fi
+}
+
+setSelinux

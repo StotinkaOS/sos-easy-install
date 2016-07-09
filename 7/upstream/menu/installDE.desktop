@@ -1,0 +1,12 @@
+[Desktop Entry]
+Exec=/usr/bin/sos-easy-install-plugins/plugins/install_DE
+Version=1.0
+Type=Application
+Name=Install desktop environment
+Name[bg_BG]=Инсталиране на графични среди
+GenericName=Install desktop environment
+GenericName[bg_BG]=Инсталиране на графични среди
+Comment[bg_BG]=Изберете най удобната за вас десктоп среда
+Icon=/usr/share/icons/sos-ei-app-icons/desktop-env-menu.png
+Categories=AudioVideo;Player;Qt;
+StartupNotify=false

@@ -1,0 +1,14 @@
+[Desktop Entry]
+Exec=/usr/bin/sos-easy-install-plugins/plugins/gnome-session
+Version=1.0
+Type=Application
+Name=GNOME session
+Name[bg_BG]=GNOME сесия
+GenericName=GNOME session
+GenericName[bg_BG]=GNOME сесия
+Comment=Switching from Gnome Classic to Gnome Shell session
+Comment[bg_BG]=Превключване от класически GNOME на GNOME Shell сесия и обратното
+Icon=/usr/share/icons/sos-ei-app-icons/gnome-session-menu.png
+Categories=AudioVideo;Player;Qt;
+StartupNotify=false
+

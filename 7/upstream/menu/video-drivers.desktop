@@ -1,0 +1,13 @@
+[Desktop Entry]
+Exec=/usr/bin/sos-easy-install-plugins/plugins/video-drivers
+Version=1.0
+Type=Application
+Name=Video drivers
+Name[bg_BG]=Видео драйвери
+GenericName=Video drivers
+GenericName[bg_BG]=Видео драйвери
+Comment[bg_BG]=Намиране и инсталиране на видео драйвер
+Icon=/usr/share/icons/sos-ei-app-icons/video-drivers-menu.png
+Categories=AudioVideo;Player;Qt;
+StartupNotify=false
+

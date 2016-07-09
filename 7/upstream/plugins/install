@@ -1,0 +1,811 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+install_steam() {
+  if isInstalled steam; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$steamIcon" \
+      --text="<b>Steam</b>
+Най-добрата платформа за онлайн игра.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Games
+<b><span color='dark gray'>Лиценз:</span></b> Steam Лицензионно Споразумение
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://store.steampowered.com/'>http://store.steampowered.com/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage steam
+      rm -f /etc/yum.repos.d/epel-steam.repo
+      rm -f /etc/yum.repos.d/adobe-linux-i386.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      yum-config-manager --add-repo=http://negativo17.org/repos/epel-steam.repo
+        cat << EOF > /etc/yum.repos.d/adobe-linux-i386.repo
+[adobe-linux-i386]
+name=Adobe Systems Incorporated
+baseurl=http://linuxdownload.adobe.com/linux/i386/
+enabled=1
+skip_if_unavailable=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+EOF
+        # install steam
+        installPackage flash-plugin.i386 flash-plugin.x86_64 steam
+        # allow Steam to start in Big Picture mode
+        setsebool -P allow_execheap 1
+    fi
+  fi
+}
+
+install_dropbox() {
+  if isInstalled nautilus-dropbox; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+ yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$dropboxIcon" \
+      --text="<b>Dropbox</b>
+Разширение за файловият мениджър Nautilus, което интегрира облак услугата Dropbox със GNOME десктопа.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Utilities → Internet
+<b><span color='dark gray'>Лиценз:</span></b> GPLv3
+<b><span color='dark gray'>Обем:</span></b> 201 k
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage nautilus-dropbox
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      # find latest version
+      URL=$(wget "https://www.dropbox.com/install?os=lnx" -O - | tr ' ' '\n' | grep -o "nautilus-dropbox-[0-9]*.[0-9]*.[0-9]*-[0-9]*.fedora.x86_64.rpm" | head -n 1 | sed -e 's/^/http:\/\/linux.dropbox.com\/packages\/fedora\//')
+      installPackage "$URL"
+      rm -f /etc/yum.repos.d/dropbox.repo
+    fi
+  fi
+}
+
+install_viber(){
+  if isInstalled viber; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$viberIcon" \
+      --text="<b>Viber</b>
+Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
+<b><span color='dark gray'>Лиценз:</span></b> Adware
+<b><span color='dark gray'>Обем:</span></b> 342 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.viber.com/en/'>http://www.viber.com/en/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage viber
+      rm -f usr/bin/Viber
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage https://download.cdn.viber.com/desktop/Linux/viber.rpm
+      # fix $PATH
+      ln -s /opt/viber/Viber /usr/bin/Viber
+    fi
+  fi
+}
+
+install_telegram(){
+  if isInstalled telegram-desktop; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$telegramIcon" \
+      --text="<b>Telegram</b>
+Приложение за съобщения с акцент върху скоростта и сигурността, telegram е супер бърз, лесен и безплатен .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
+<b><span color='dark gray'>Лиценз: GPLv3</span></b>
+<b><span color='dark gray'>Обем:</span></b> 43 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://telegram.org/'>https://telegram.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage telegram-desktop
+      rm -f /etc/yum.repos.d/rommon-telegram-epel-7.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/rommon-telegram-epel-7.repo
+[rommon-telegram]
+name=Copr repo for telegram owned by rommon
+baseurl=https://copr-be.cloud.fedoraproject.org/results/rommon/telegram/epel-7-x86_64/
+skip_if_unavailable=True
+gpgcheck=1
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/rommon/telegram/pubkey.gpg
+enabled=1
+enabled_metadata=1
+EOF
+      installPackage telegram-desktop
+    fi
+  fi
+}
+
+install_spotify(){
+  if isInstalled spotify-client; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$spotifyIcon" \
+      --text="<b>Spotify Client</b>
+Дигитална музикална услуга, която ви дава достъп до милиони песни .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Audio → Music
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.spotify.com/legal/end-user-agreement'>end-user-agreement</a>
+<b><span color='dark gray'>Обем:</span></b> 205,0 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.spotify.com/bg/'>www.spotify.com/bg/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage spotify-client
+      rm -f /etc/yum.repos.d/epel-spotify.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+  cat << EOF > /etc/yum.repos.d/epel-spotify.repo
+[epel-spotify]
+name=negativo17 - Spotify
+baseurl=http://negativo17.org/repos/spotify/epel-7/x86_64/
+enabled=1
+skip_if_unavailable=1
+gpgkey=http://negativo17.org/repos/RPM-GPG-KEY-slaanesh
+gpgcheck=1
+exclude=a52dec faad2 faad2-libs lame lame-libs libdvdcss libdvdnav libdvdread libmad libmpeg2 librtmp x264 x264-libs x265 x265-libs xvidcore ffmpeg ffmpeg-compat gpac rtmpdump
+EOF
+      installPackage spotify-client
+    fi
+  fi
+}
+
+install_sublimetext(){
+  if isInstalled sublime_text; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$sublimetextIcon" \
+      --text="<b>Sublime Text 3</b>
+Приятен за работа редактор за текст и код
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
+<b><span color='dark gray'>Лиценз:</span></b> EULA
+<b><span color='dark gray'>Обем:</span></b> 20 MB
+<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.sublimetext.com/3'>www.sublimetext.com/3</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage sublime_text
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage sublime_text
+    fi
+  fi
+}
+
+install_atom() {
+  if isInstalled atom; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$atomIcon" \
+      --text="<b>Atom Text Editor</b>
+Свободен и отворен код текстов редактор за OS X, Linux и Windows с поддръжка на плъгини разработен от github.
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
+<b><span color='dark gray'>Лиценз:</span></b> MIT
+<b><span color='dark gray'>Обем:</span></b> 225 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://atom.io/'>https://atom.io/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage atom
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage "https://github.com/atom/atom/releases/download/v1.7.3/atom.x86_64.rpm"
+    fi
+  fi
+}
+
+install_gtalk() {
+  if isInstalled google-talkplugin; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$gtalkIcon" \
+      --text="<b>Google Talk Plugin</b>
+Плъгин за браузъра, който позволява да се правят гласови и видео-чат разговори с приятели чрез уеб камера и микрофон, свързан към компютър.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
+<b><span color='dark gray'>Лиценз:</span></b> Безплатна програма, Google условия за ползване на услугата.
+<b><span color='dark gray'>Обем:</span></b> 17 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='www.google.com/chat/video'>www.google.com/chat/video</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage google-talkplugin
+      rm -f /etc/yum.repos.d/google-talkplugin.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+cat << EOF > /etc/yum.repos.d/google-talkplugin.repo
+[google-talkplugin]
+name=google-talkplugin
+baseurl=http://dl.google.com/linux/talkplugin/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+skip_if_unavailable=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-google-talkplugin
+EOF
+      installPackage google-talkplugin
+    fi
+  fi
+}
+
+install_chrome() {
+  if isInstalled google-chrome-stable; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$chromeIcon" \
+      --text="<b>Google Chrome</b>
+Бърз, лесен и защитен уеб браузър, изграден за модерният уеб.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
+<b><span color='dark gray'>Лиценз:</span></b> Безплатна програма, Google Chrome условия за ползване на услугата.
+<b><span color='dark gray'>Обем:</span></b> 189,3 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage google-chrome-stable
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage google-chrome-stable
+    fi
+  fi
+}
+
+install_skype() {
+  if isInstalled skype; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+ yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$skypeIcon" \
+      --text="<b>Skype</b>
+Приложен софтуер за чат, VOIP телефония и видеовръзка
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
+<b><span color='dark gray'>Лиценз:</span></b> Собственически лиценз, Безплатен софтуер с допълнителни, платени възможности.
+<b><span color='dark gray'>Обем:</span></b> 35 MB
+<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.skype.com/'>https://www.skype.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+ ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage skype
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage skype
+    fi
+  fi
+}
+
+install_virtualbox() {
+  if isInstalled VirtualBox-5.0; then
+   BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$vboxIcon" \
+      --text="<b>Oracle VM VirtualBox</b>
+VirtualBox създава виртуална среда, в която може да инсталирате различни операционни системи, да инсталирате и тествате програми или с други думи може да правите почти всичко, което правите в нормалната ви ОС, без да се притеснявате, че може да повредите нещо.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> System → Emulator
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2
+<b><span color='dark gray'>Обем:</span></b> 157,4 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.virtualbox.org/'>https://www.virtualbox.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage VirtualBox-5.0
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.0
+      usermod -G vboxusers,vboxsf "$user"
+      /usr/lib/virtualbox/vboxdrv.sh setup
+    fi
+  fi
+}
+
+install_teamviewer() {
+  if isInstalled teamviewer; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$teamvIcon" \
+      --text="<b>TeamViewer</b>
+Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет.
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория:</span></b> Internet
+<b><span color='dark gray'>Лиценз:</span></b> Патентован, безплатен за некомерсиална употреба.
+<b><span color='dark gray'>Обем:</span></b> 185 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://teamviewer.com/'>http://teamviewer.com</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage teamviewer
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage "http://download.teamviewer.com/download/teamviewer.i686.rpm"
+    fi
+  fi
+}
+
+install_tor() {
+  if isInstalled torbrowser-launcher; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$torIcon" \
+      --text="<b>Tor Browser Launcher</b>
+Надеждно и лесно изтегляне, проверяване, инсталиране и стартиране на Tor браузъра в Linux .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
+<b><span color='dark gray'>Лиценз:</span></b> MIT
+<b><span color='dark gray'>Обем:</span></b> 297 K
+<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/micahflee/torbrowser-launcher'>https://github.com/micahflee/torbrowser-launcher</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage torbrowser-launcher
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage torbrowser-launcher
+    fi
+  fi
+}
+
+install_mscorefonts(){
+  if isInstalled msttcorefonts; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$msIcon" \
+      --text="<b>Msttcorefonts</b>
+Инсталира Microsoft TrueType шрифтовете за по добра Windows съвместимост.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Fonts
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2
+<b><span color='dark gray'>Обем:</span></b> 24 K
+<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://mscorefonts2.sourceforge.net/'>http://mscorefonts2.sourceforge.net</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage msttcorefonts
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage msttcorefonts
+    fi
+  fi
+}
+
+install_playonlinux(){
+  if isInstalled playonlinux; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+ yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$playonlinuxIcon" \
+      --text="<b>PlayOnLinux</b>
+Графичен софтуер който е съвместим в Wine, което позволява лесно и удобно на потребителите да инсталират Windows Linux-базирани видео игри, Microsoft Office и др.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Games
+<b><span color='dark gray'>Лиценз:</span></b> GPL/LGPL
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.playonlinux.com/en/'>https://www.playonlinux.com/en</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage playonlinux
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage nc playonlinux
+    fi
+  fi
+}
+
+install_megasync(){
+  if isInstalled megasync nautilus-megasync; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$megaIcon" \
+      --text="<b>MEGASync client</b>
+Разширение за файловият мениджър Nautilus, което интегрира облак услугата MEGA със GNOME десктопа.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Utilities → Internet
+<b><span color='dark gray'>Лиценз:</span></b> Freeware
+<b><span color='dark gray'>Обем:</span></b> 7 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://mega.nz/'>https://mega.nz/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage megasync nautilus-megasync
+      rm -f /etc/yum.repos.d/megasync.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/megasync.repo
+[MEGAsync]
+name=MEGAsync
+baseurl=http://mega.nz/linux/MEGAsync/CentOS_7/
+gpgkey=https://mega.nz/linux/MEGAsync/CentOS_7/repodata/repomd.xml.key
+gpgcheck=1
+enabled=1
+EOF
+      installPackage megasync nautilus-megasync
+    fi
+  fi
+}
+
+install_opera(){
+  if isInstalled opera-beta; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$operaIcon" \
+      --text="<b>Opera Browser (BETA)</b>
+Бърз, безопасен и лесен за използване браузър.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
+<b><span color='dark gray'>Лиценз:</span></b> Собственически
+<b><span color='dark gray'>Обем:</span></b> 46 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.opera.com/bg/computer'>www.opera.com/bg</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage opera-beta chromium-pepper-flash
+      rm -f /etc/yum.repos.d/opera.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/opera.repo
+[opera]
+name=Opera packages
+type=rpm-md
+baseurl=https://rpm.opera.com/rpm
+gpgcheck=1
+gpgkey=https://rpm.opera.com/rpmrepo.key
+enabled=1
+EOF
+      installPackage opera-beta chromium-pepper-flash
+    fi
+  fi
+}
+
+install_kodi(){
+  if isInstalled kodi; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$kodiIcon" \
+      --text="<b>Kodi</b>
+Крос-медиен плейър, jukebox и център за забавление.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Video → Players
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2+ and GPLv3+ and LGPLv2+ and BSD and MIT
+<b><span color='dark gray'>Обем:</span></b> 42,5 MB
+<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://kodi.tv/'>https://kodi.tv/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage kodi
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage kodi
+    fi
+  fi
+}
+
+install_vivaldi(){
+  if isInstalled vivaldi-stable; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$vivaldiIcon" \
+      --text="<b>Vivaldi</b>
+Интернет браузър създаден на базата на Chromium и енджин Blink
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
+<b><span color='dark gray'>Лиценз:</span></b> Multiple, see https://www.vivaldi.com/
+<b><span color='dark gray'>Обем:</span></b> 165 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://vivaldi.com/?lang=bg'>https://www.vivaldi.com/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage vivaldi-stable
+      rm -f /etc/yum.repos.d/vivaldi.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/vivaldi.repo
+[vivaldi]
+name=vivaldi
+baseurl=http://repo.vivaldi.com/archive/rpm/x86_64
+enabled=1
+gpgcheck=1
+gpgkey=http://repo.vivaldi.com/archive/linux_signing_key.pub
+EOF
+      installPackage vivaldi-stable
+    fi
+  fi
+}
+
+install_chromium(){
+  if isInstalled chromium; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$chromiumIcon" \
+      --text="<b>Chromium</b>
+Open-source версията на Google Chrome уеб браузъра
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
+<b><span color='dark gray'>Лиценз:</span></b>BSD and LGPLv2+
+<b><span color='dark gray'>Обем:</span></b> 188 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.chromium.org/Home'>https://www.chromium.org</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage chromium
+      rm -f /etc/yum.repos.d/chromium.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+cat << EOF > /etc/yum.repos.d/chromium.repo
+[chromium]
+name=chromium for RHEL Linux $releasever - $basearch - Base
+baseurl=http://install.linux.ncsu.edu/pub/yum/itecs/public/chromium/7/
+failovermethod=priority
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-chromiumpublic file:///etc/pki/rpm-gpg/RPM-GPG-KEY-chromiumpublic1 file:///etc/pki/rpm-gpg/RPM-GPG-KEY-chromiumpublic2
+EOF
+      installPackage chromium
+    fi
+  fi
+}
+
+# Main menu
+menu(){
+while :
+do
+  choise=$(yad --title="$prog - Опция Инсталиране на приложения" --name="$prog" \
+               --window-icon="$window_icon" \
+               --width="450" --height="630" --center --fixed \
+               --print-column=2 --list --radiolist --column "Изберете" --column null --column "Опция" --hide-column 2 \
+               --button="ОК":0 --button="Затваряне":1 \
+               true 0 "Steam" \
+               false 1 "Dropbox" \
+               false 2 "Google Chrome" \
+               false 3 "Google Talk Plugin" \
+               false 4 "Opera Browser (BETA)" \
+               false 5 "Spotify Client" \
+               false 6 "Sublime Text 3" \
+               false 7 "Atom Text Editor" \
+               false 8 "Skype" \
+               false 9 "Viber" \
+               false 10 "Telegram" \
+               false 11 "TeamViewer" \
+               false 12 "Tor Browser Launcher" \
+               false 13 "MEGASync Client" \
+               false 14 "Msttcorefonts (Microsoft шрифтове)" \
+               false 15 "VirtualBox-5.0" \
+               false 16 "PlayOnLinux" \
+               false 17 "Kodi" \
+               false 18 "Vivaldi" \
+               false 19 "Chromium");
+
+  case ${choise} in
+    "0|")install_steam ;;
+    "1|")install_dropbox ;;
+    "2|")install_chrome ;;
+    "3|")install_gtalk ;;
+    "4|")install_opera ;;
+    "5|")install_spotify ;;
+    "6|")install_sublimetext ;;
+    "7|")install_atom ;;
+    "8|")install_skype ;;
+    "9|")install_viber ;;
+    "10|")install_telegram ;;
+    "11|")install_teamviewer ;;
+    "12|")install_tor ;;
+    "13|")install_megasync ;;
+    "14|")install_mscorefonts ;;
+    "15|")install_virtualbox ;;
+    "16|")install_playonlinux ;;
+    "17|")install_kodi ;;
+    "18|")install_vivaldi ;;
+    "19|")install_chromium ;;
+    *) break ;;
+  esac
+done
+}
+
+menu

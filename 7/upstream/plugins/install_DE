@@ -1,0 +1,239 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+install_kde() {
+  if isInstalled kde-runtime; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$kdeIcon" \
+      --text="<b>KDE</b>
+Мощна графична среда с отворен код, използвана главно за UNIX системи, ГНУ/Линукс и др.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> Посетете https://community.kde.org/Policies/Licensing_Policy
+<b><span color='dark gray'>Обем:</span></b> 430 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.kde.org/'>https://www.kde.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage @kde-desktop
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage @kde-desktop
+    fi
+  fi
+}
+
+install_xfce() {
+  if isInstalled xfce4-session; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$xfceIcon" \
+      --text="<b>XFCE</b>
+Лека графична среда за UNIX и UNIX-подобни платформи.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> GPL or BSDL
+<b><span color='dark gray'>Обем:</span></b> 12 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.xfce.org/'>http://www.xfce.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage @xfce
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage @xfce
+    fi
+  fi
+}
+
+install_cinnamon() {
+  if isInstalled cinnamon; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$cinnamonIcon" \
+      --text="<b>CINNAMON</b>
+Графична среда базирана на GTK+ 3 и Gnome Shell
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2
+<b><span color='dark gray'>Обем:</span></b> 27 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/linuxmint/Cinnamon'>https://github.com/linuxmint/Cinnamon</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage cinnamon
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage cinnamon
+    fi
+  fi
+}
+
+install_mate() {
+  if isInstalled mate-desktop marco; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$mateIcon" \
+      --text="<b>MATE</b>
+Графична среда базирана на кода на вече неподържаната работна среда GNOME 2
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> GNU LGPL, GNU GPL
+<b><span color='dark gray'>Обем:</span></b> 185 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://mate-desktop.org/'>http://mate-desktop.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage @mate
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage @mate
+    fi
+  fi
+}
+
+install_lxde() {
+  if isInstalled lxde-common; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$lxdeIcon" \
+      --text="<b>LXDE</b>
+Лека графична среда за Gnu/Linux
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> GPL/LGPL
+<b><span color='dark gray'>Обем:</span></b> 12 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://lxde.org/'>http://lxde.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage @lxde-desktop
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage @lxde-desktop
+    fi
+  fi
+}
+
+install_lxqt() {
+  if isInstalled lxqt-common; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$lxqtIcon" \
+      --text="<b>LXQT</b>
+Графична среда формирана в резултат на сливането на LXDE и Razor-qt
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> GNU GPL, GNU LGPL
+<b><span color='dark gray'>Обем:</span></b> 44 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://lxqt.org/'>http://lxqt.org/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage lxqt-"*" pcmanfm-qt
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage lxqt-"*" pcmanfm-qt
+    fi
+  fi
+}
+
+# Main menu
+menu(){
+while :
+do
+  choise=$(yad --title="$prog - Опция Инсталиране на Графична среда" --name="$prog" \
+               --window-icon="$window_icon" \
+               --width="450" --height="500" --center --fixed \
+               --print-column=2 --list --radiolist --column "Изберете" --column null --column "Опция" --hide-column 2 \
+               --button="ОК":0 --button="Затваряне":1 \
+               true 0 "KDE" \
+               false 1 "CINNAMON" \
+               false 2 "MATE" \
+               false 3 "XFCE" \
+               false 4 "LXDE" \
+               false 5 "LXQT" );
+
+  case ${choise} in
+    "0|")install_kde ;;
+    "1|")install_cinnamon ;;
+    "2|")install_mate ;;
+    "3|")install_xfce ;;
+    "4|")install_lxde ;;
+    "5|")install_lxqt ;;
+    *) break ;;
+  esac
+done
+}
+
+menu

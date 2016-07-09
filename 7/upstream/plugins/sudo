@@ -1,0 +1,53 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+addSudo() {
+  if grep --quiet -w "$user ALL=(ALL) ALL" /etc/sudoers; then
+    BtStatus="Изтрий"
+  else
+    BtStatus="Добави"
+  fi
+
+  yad --title="$prog - Опция sudo" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$sudoIcon" \
+      --text="<b>Sudo</b>
+Добавете или изтрийте потребителя <b>$user</b> от групата sudo
+
+Командата sudo позволява на потребителя да изпълнява команди като root или друг потребител, придобивайки администраторски/root права над системата." \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" ==  Добави ]]; then
+      echo "$user ALL=(ALL) ALL" >> /etc/sudoers
+      notifyUser "Добавени са sudo права за потребителя <b>$user</b>"
+      log "INFO:Добавени са sudo права за потребителя $user"
+    elif [[ "$BtStatus" ==  Изтрий ]]; then
+      sed -i '/'$user'/d' /etc/sudoers
+      notifyUser "Премахнати са sudo правата за потребителя <b>$user</b>"
+      log "INFO:Премахнати са sudo правата за потребителя $user"
+    else
+      exit 1
+    fi
+  fi
+}
+
+addSudo

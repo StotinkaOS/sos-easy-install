@@ -1,0 +1,14 @@
+[Desktop Entry]
+Exec=/usr/bin/sos-easy-install-plugins/plugins/log
+Version=1.0
+Type=Application
+Name=View log file
+Name[bg_BG]=Преглед на лог файла
+GenericName=View log file
+GenericName[bg_BG]=Преглед на лог файла
+Comment[bg_BG]=Подробна информация за последното действие 
+Comment=Detailed information about the last action
+Icon=/usr/share/icons/sos-ei-app-icons/log-menu.png
+Categories=AudioVideo;Player;Qt;
+StartupNotify=false
+

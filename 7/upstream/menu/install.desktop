@@ -1,0 +1,12 @@
+[Desktop Entry]
+Exec=/usr/bin/sos-easy-install-plugins/plugins/install
+Version=1.0
+Type=Application
+Name=Install
+Name[bg_BG]=Инсталиране
+GenericName=Install
+GenericName[bg_BG]=Инсталиране
+Comment=Инсталиране или премахване на софтуер
+Icon=/usr/share/icons/sos-ei-app-icons/install-menu.png
+Categories=AudioVideo;Player;Qt;
+StartupNotify=false

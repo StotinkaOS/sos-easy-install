@@ -1,0 +1,168 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+install_intel_driver(){
+  if isInstalled libva-intel-driver libva-utils libva; then
+    notifyUser "Вече е инсталиран драйвер"
+    log "INFO:Вече е инсталиран драйвер"
+  else
+    installPackage libva-intel-driver libva-utils
+  fi
+}
+
+install_nvidia_driver(){
+  if isInstalled nvidia-x11-drv nvidia-detect "$(nvidia-detect)" libva-vdpau-driver libva-utils libva; then
+    notifyUser "Вече е инсталиран драйвер"
+    log "INFO:Вече е инсталиран драйвер"
+  else
+    installPackage nvidia-detect
+    installPackage nvidia-x11-drv "$(nvidia-detect)" nvidia-x11-drv-32bit libva-vdpau-driver libva-utils libva
+  fi
+}
+
+install_amd_driver(){
+  value=${vga#*HD}
+  Rx_xxx='R[0-9] [0-9]{3}' # for R series
+  if [[ $vga =~ $Rx_xxx ]] || [[ $value -ge 5000 ]]; then
+    if isInstalled fglrx-x11-drv kmod-fglrx fglrx-x11-drv-32bit liba-utils libva; then
+      notifyUser "Вече е инсталиран драйвер"
+      log "INFO:Вече е инсталиран драйвер"
+    else
+      installPackage fglrx-x11-drv kmod-fglrx fglrx-x11-drv-32bit libva-utils libva
+    fi
+  else
+    if isInstalled fglrx-x11-drv kmod-fglrx-legacy fglrx-legacy-x11-drv-32bit liba-utils libva; then
+      notifyUser "Вече е инсталиран драйвер"
+      log "INFO:Вече е инсталиран драйвер"
+    else
+      installPackage fglrx-x11-drv kmod-fglrx-legacy fglrx-legacy-x11-drv-32bit libva-utils libva
+    fi
+  fi
+}
+
+install_bumblebee(){
+  if isInstalled bumblebee; then
+    notifyUser "Вече е инсталиран"
+    log "INFO:Вече е инсталиран драйвер"
+  else
+    # http://elrepo.org/tiki/bumblebee
+    removePackage xorg-x11-glamor
+    installPackage bumblebee kmod-bbswitch kmod-nvidia VirtualGL libbsd nvidia-x11-drv-32bit.x86_64 libva-vdpau-driver libva-utils libva xorg-x11-drv-synaptics xorg-x11-drv-evdev
+    usermod -G bumblebee "$user"
+    cat << EOF > /etc/bumblebee/bumblebee.conf
+[bumblebeed]
+VirtualDisplay=:8
+KeepUnusedXServer=false
+ServerGroup=bumblebee
+TurnCardOffAtExit=false
+NoEcoModeOverride=false
+Driver=nvidia
+XorgConfDir=/etc/bumblebee/xorg.conf.d
+
+[optirun]
+Bridge=auto
+VGLTransport=proxy
+PrimusLibraryPath=/usr/lib/primus:/usr/lib32/primus
+AllowFallbackToIGC=false
+
+[driver-nvidia]
+KernelDriver=nvidia
+PMMethod=bbswitch
+LibraryPath=/usr/lib64/nvidia:/usr/lib64/vdpau:/usr/lib/nvidia:/usr/lib/vdpau
+XorgModulePath=/usr/lib64/xorg/modules/extensions/nvidia,/usr/lib64/xorg/modules/drivers,/usr/lib64/xorg/modules
+
+XorgConfFile=/etc/bumblebee/xorg.conf.nvidia
+
+[driver-nouveau]
+KernelDriver=nouveau
+PMMethod=auto
+XorgConfFile=/etc/bumblebee/xorg.conf.nouveau
+EOF
+    sed -i 's/Exec=.*/Exec=optirun nvidia-settings -c :8.0/' /usr/share/applications/nvidia-settings.desktop
+    sed -i "s/WantedBy=.*/WantedBy=multi-user.target/g" /usr/lib/systemd/system/bumblebeed.service
+    systemctl restart bumblebeed.service
+  fi
+}
+
+info_driver(){
+  yad --title="Информация за драйвер" --selectable-labels --text-align=left --text="INTEL: използва се само вградената в процесора видео карта\n\nNVIDIA: използва се само дискретната видео карта\n\nBUMBLEBEE: дава възможност за динамично използване на двете видео карти\n\n" \
+      --window-icon="$window_icon" \
+      --width="200" --height="300" \
+      --button="ОК":0 \
+      --image="$window_icon" \
+      --center
+}
+
+install_video(){
+  shopt -s nocasematch
+  vga=$(lspci | grep -i "vga\|3d");
+  amd='\bAMD\b'
+  ati='\bATI\b'
+  intel='\bINTEL\b'
+  nvidia='\bNVIDIA\b'
+  if [[ $vga =~ $intel ]] && [[ $vga =~ $nvidia ]]; then
+    while :
+    do
+      choise=$(yad  --title="Хибриден драйвер" --name="INTEL/NVIDIA" \
+                    --image="$image_icon" --image-on-top --window-icon="$window_icon" \
+                    --width="450" --height="560" --center --fixed \
+                    --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
+                    --button="ОК":0 --button="Научи повече":2 --button="Затваряне":1 \
+                    false 0 "INTEL" \
+                    false 1 "NVIDIA" \
+                    false 2 "BUMBLEBEE");
+      ret=$?
+
+      if [[ "$ret" -eq "2" ]]; then
+        info_driver
+      fi
+
+      case ${choise} in
+        "0|")install_intel_driver ;;
+        "1|")install_nvidia_driver ;;
+        "2|")install_bumblebee ;;
+        *) break ;;
+      esac
+    done
+
+    elif [[ $vga =~ $nvidia ]]; then
+      install_nvidia_driver
+    elif [[ $vga =~ $amd ]] || [[ $vga =~ $ati ]]; then
+      install_amd_driver
+    elif [[ $vga =~ $intel ]]; then
+      install_intel_driver
+    else
+      notifyUser "Непозната видео карта, моля поискайте помощ в нашият форум!"
+      log "ERROR:Непозната видео карта, моля поискайте помощ в нашият форум!"
+    fi
+    shopt nocasematch # restore case matching
+}
+
+ASKinstallVideo(){
+  aks=$(yad --title="$prog - Опция Видео драйвери" --width=520 --window-icon="$window_icon" --image=dialog-question --text='Искате ли да инсталирате видео драйверите?
+<b>Моля, имайте предвид тази функция е все още експериментална!</b>' --button="Не":0 --button="Да":1 --center)
+  ret=$?
+
+  if [[ "$ret" -eq "1" ]]; then
+    install_video
+  else
+    exit 1
+  fi
+}
+
+ASKinstallVideo
