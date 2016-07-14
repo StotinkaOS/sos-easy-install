@@ -385,6 +385,8 @@ install_skype() {
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage skype
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      # remove old skype repo
+      rm -f /etc/yum.repos.d/skype.repo
       installPackage skype
     fi
   fi
