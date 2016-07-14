@@ -125,7 +125,7 @@ install_viber(){
       removePackage viber
       rm -f usr/bin/Viber
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage https://download.cdn.viber.com/desktop/Linux/viber.rpm
+      installPackage qt5-qtbase-gui https://download.cdn.viber.com/desktop/Linux/viber.rpm
       # fix $PATH
       ln -s /opt/viber/Viber /usr/bin/Viber
     fi
