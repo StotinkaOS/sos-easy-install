@@ -94,8 +94,10 @@ PMMethod=auto
 XorgConfFile=/etc/bumblebee/xorg.conf.nouveau
 EOF
     sed -i 's/Exec=.*/Exec=optirun nvidia-settings -c :8.0/' /usr/share/applications/nvidia-settings.desktop
+    systemctl disable bumblebeed.service
     sed -i "s/WantedBy=.*/WantedBy=multi-user.target/g" /usr/lib/systemd/system/bumblebeed.service
-    systemctl restart bumblebeed.service
+    systemctl enable bumblebeed.service
+    systemctl start bumblebeed.service
   fi
 }
 
