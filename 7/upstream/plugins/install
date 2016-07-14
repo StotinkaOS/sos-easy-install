@@ -45,6 +45,8 @@ install_steam() {
       rm -f /etc/yum.repos.d/adobe-linux-i386.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
       yum-config-manager --add-repo=http://negativo17.org/repos/epel-steam.repo
+      #  for libva-intel-driver(x86-32) (This is a temporary workaround!)
+      yum-config-manager --add-repo=http://negativo17.org/repos/epel-handbrake.repo
         cat << EOF > /etc/yum.repos.d/adobe-linux-i386.repo
 [adobe-linux-i386]
 name=Adobe Systems Incorporated
@@ -56,6 +58,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
 EOF
         # install steam
         installPackage flash-plugin.i386 flash-plugin.x86_64 steam
+        # remove incompatible repo (This is a temporary workaround!)
+        rm -f /etc/yum.repos.d/epel-handbrake.repo
         # allow Steam to start in Big Picture mode
         setsebool -P allow_execheap 1
     fi
