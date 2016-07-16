@@ -1,7 +1,7 @@
 Summary: A simple GUI program that enables you to install additional software, such as Skype, Chrome, Steam, etc.
 Summary(bg): Прост графичен потребителски интерфейс който позволява да се инсталира допълнителен софтуер като Skype, Chrome, Steam и др.
 Name: sos-easy-install
-Version: 2.5
+Version: 2.7
 Release: 1%{?dist}
 URL: http://stotinkaos.net
 License: GPLv3
@@ -30,14 +30,17 @@ BuildArch: noarch
 %install
 rm -rf ${RPM_BUILD_ROOT}
 mkdir -p %{buildroot}/usr/bin
+mkdir -p %{buildroot}/usr/bin/%{name}-plugins
 mkdir -p %{buildroot}%{_datadir}/polkit-1/actions
 mkdir -p %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/
 
 install -m 755 %{name} ${RPM_BUILD_ROOT}%{_bindir}
 install -m 755 %{name}-pkexec ${RPM_BUILD_ROOT}%{_bindir}
+install -m 755 global ${RPM_BUILD_ROOT}%{_bindir}/%{name}-plugins/
+cp -pr plugins/ ${RPM_BUILD_ROOT}%{_bindir}/%{name}-plugins/plugins
+cp -pr menu/ ${RPM_BUILD_ROOT}%{_bindir}/%{name}-plugins/menu
 install -m 644 org.freedesktop.%{name}.policy ${RPM_BUILD_ROOT}%{_datadir}/polkit-1/actions/org.freedesktop.%{name}.policy
 install -Dpm 644 %{name}.desktop ${RPM_BUILD_ROOT}%{_datadir}/applications/%{name}.desktop
-install -Dpm 644 sosEI-header.png ${RPM_BUILD_ROOT}%{_datadir}/pixmaps/sosEI-header.png
 install -Dpm 644 sos-easy-install.png ${RPM_BUILD_ROOT}%{_datadir}/icons/hicolor/96x96/apps/sos-easy-install.png
 install -d -m755 %{RPM_BUILD_ROOT}%{_datadir}/icons/
 cp -pr sos-ei-app-icons/ ${RPM_BUILD_ROOT}%{_datadir}/icons/
@@ -64,14 +67,22 @@ fi
 %doc README.md COPYING
 %{_bindir}/%{name}
 %{_bindir}/%{name}-pkexec
+%{_bindir}/%{name}-plugins/menu
+%{_bindir}/%{name}-plugins/plugins
+%{_bindir}/%{name}-plugins/global
 %{_datadir}/polkit-1/actions/org.freedesktop.%{name}.policy
 %{_datadir}/applications/%{name}.desktop
-%{_datadir}/pixmaps/sosEI-header.png
 %{_datadir}/icons/hicolor/96x96/apps/%{name}.png
 %{_datadir}/icons/sos-ei-app-icons
 %{_datadir}/licenses/%{name}/COPYING
 
 %changelog
+* Sat Jul 16 2016 StotinkaOS Team <stotinkaos.bg@gmail.com> - 2.7-1
+- Update to 2.7
+
+* Sun May 15 2016 StotinkaOS Team <stotinkaos.bg@gmail.com> - 2.6-1
+- Update to 2.6
+
 * Mon May 09 2016 StotinkaOS Team <stotinkaos.bg@gmail.com> - 2.5-1
 - Update to 2.5
 
