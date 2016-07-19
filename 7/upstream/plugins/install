@@ -57,7 +57,7 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
 EOF
         # install steam
-        installPackage flash-plugin.i386 flash-plugin.x86_64 steam
+        installPackage flash-plugin.i386 flash-plugin.x86_64 steam libtxc_dxtn.x86_64
         # remove incompatible repo (This is a temporary workaround!)
         rm -f /etc/yum.repos.d/epel-handbrake.repo
         # allow Steam to start in Big Picture mode
