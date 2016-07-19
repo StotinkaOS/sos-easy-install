@@ -758,6 +758,38 @@ EOF
   fi
 }
 
+install_brackets(){
+  if isInstalled brackets; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$bracketsIcon" \
+      --text="<b>Brackets</b>
+Отворен код редактор за уеб дизайн и разработка, изградени по технологии като HTML, CSS и JavaScript. Проекта е създаден и поддържан от Adobe и се разпространява под MIT лиценз .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
+<b><span color='dark gray'>Лиценз:</span></b> MIT
+<b><span color='dark gray'>Обем:</span></b> 145 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://brackets.io/'>http://brackets.io/</a>" \
+      --selectable-labels \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage brackets
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage brackets
+    fi
+  fi
+}
+
 # Main menu
 menu(){
 while :
@@ -786,7 +818,8 @@ do
                false 16 "PlayOnLinux" \
                false 17 "Kodi" \
                false 18 "Vivaldi" \
-               false 19 "Chromium");
+               false 19 "Chromium" \
+               false 20 "Brackets" );
 
   case ${choise} in
     "0|")install_steam ;;
@@ -809,6 +842,7 @@ do
     "17|")install_kodi ;;
     "18|")install_vivaldi ;;
     "19|")install_chromium ;;
+    "20|")install_brackets ;;
     *) break ;;
   esac
 done
