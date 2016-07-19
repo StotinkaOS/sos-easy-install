@@ -76,8 +76,8 @@ lxqtIcon="/usr/share/icons/sos-ei-app-icons/lxqt.png"
 # Example output: [02/06/15 20:03:12] message input
 LOGFILE=/var/log/sos-easy-install.log
 log(){
-    message="$@"
-    echo '['$(date +%D\ %H:%M:%S)'] '$message >>$LOGFILE
+  message="$@"
+  echo '['$(date +%D\ %H:%M:%S)'] '$message >>$LOGFILE
 }
 
 # Log last activities to retrieve errors
@@ -89,14 +89,14 @@ notifyUser(){
 }
 
 # Kill off any package managers that may be running
-if [[ "$(pgrep yumex)"||"$(pgrep yum)" ]]; then
+if [[ "$(pgrep gnome-software)" || "$(pgrep yumex)" || "$(pgrep yum)" ]]; then
     if yad --title="$prog" --window-icon="$window_icon" \
            --text="<b>YUM</b> Мениджъра на пакети работи. Искате ли да го затворите?" \
            --width="450" --height="200" \
            --image=dialog-question \
            --button="Да":0 --button="Не":1 \
            --center ; then
-      killall -9 yumex yum
+      killall -9 gnome-software yumex yum
     else
       notifyUser "Изход от програмата!"
       log "ERROR:Изход от програмата, YUM пакет мениджъра работи!"
