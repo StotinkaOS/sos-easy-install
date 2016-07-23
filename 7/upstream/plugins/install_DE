@@ -171,6 +171,9 @@ yad --title="$prog" --width="520" --height="300" \
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage @lxde-desktop
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      # fix http://www.stotinkaos.net/forums/thread-576-post-5698.html
+      # conflict with the package libfm-1.2.4 from EPEL repo
+      sed -i '9i exclude=libfm*' /etc/yum.repos.d/epel.repo
       installPackage @lxde-desktop
     fi
   fi
@@ -203,6 +206,9 @@ yad --title="$prog" --width="520" --height="300" \
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage lxqt-"*" pcmanfm-qt
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      # fix http://www.stotinkaos.net/forums/thread-576-post-5698.html
+      # conflict with the package libfm-1.2.3 from StotinkaOS-Base repo
+      sed -i '/exclude=libfm*/d' /etc/yum.repos.d/epel.repo
       installPackage lxqt-"*" pcmanfm-qt
     fi
   fi
