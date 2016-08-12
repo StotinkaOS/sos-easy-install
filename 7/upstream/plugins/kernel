@@ -1,0 +1,56 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+kernel(){
+if isInstalled kernel-ml; then
+  BtStatus="Премахни"
+else
+  BtStatus="Инсталирай"
+fi
+
+yad --title="$prog" --width="520" --height="300" \
+    --window-icon="$window_icon" \
+    --image="$kernelIcon" \
+    --text="<b>kernel-ml</b>
+Инсталиране на последното стабилно ядро - <b>kernel-ml</b> (mainline stable) 4.x
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> System
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2
+<b><span color='dark gray'>Обем:</span></b> 210 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://elrepo.org/tiki/kernel-ml'>http://elrepo.org/tiki/kernel-ml</a>" \
+    --selectable-labels \
+    --button="$BtStatus":0 \
+    --center
+ret=$?
+
+if [[ "$ret" -eq "0" ]]; then
+  if [[ "$BtStatus" == Премахни ]]; then
+    removePackage kernel-ml kernel-ml-devel
+    # disable elrepo-kernel
+    sed -i -e '/\[elrepo-kernel\]/,/^\[/s/enabled=1/enabled=0/' /etc/yum.repos.d/elrepo.repo
+  elif [[ "$BtStatus" == Инсталирай ]]; then
+    installPackage kernel-ml kernel-ml-devel
+    # enable elrepo-kernel for updates
+    sed -i -e '/\[elrepo-kernel\]/,/^\[/s/enabled=0/enabled=1/' /etc/yum.repos.d/elrepo.repo
+    notifyUser "За да използвате ядрото рестартирайте системата и изберете ядрото от менюто за зареждане на grub"
+  fi
+fi
+}
+
+kernel

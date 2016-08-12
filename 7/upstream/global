@@ -48,6 +48,7 @@ kodiIcon="/usr/share/icons/sos-ei-app-icons/kodiIcon.png"
 vivaldiIcon="/usr/share/icons/sos-ei-app-icons/vivaldi.png"
 chromiumIcon="/usr/share/icons/sos-ei-app-icons/chromium.png"
 bracketsIcon="/usr/share/icons/sos-ei-app-icons/brackets.png"
+kernelIcon="/usr/share/icons/sos-ei-app-icons/kernel.png"
 
 # Desktop
 kdeIcon="/usr/share/icons/sos-ei-app-icons/kde.png"
