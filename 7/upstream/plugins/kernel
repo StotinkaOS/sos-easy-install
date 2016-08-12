@@ -48,7 +48,6 @@ if [[ "$ret" -eq "0" ]]; then
     installPackage kernel-ml kernel-ml-devel
     # enable elrepo-kernel for updates
     sed -i -e '/\[elrepo-kernel\]/,/^\[/s/enabled=0/enabled=1/' /etc/yum.repos.d/elrepo.repo
-    notifyUser "За да използвате ядрото рестартирайте системата и изберете ядрото от менюто за зареждане на grub"
   fi
 fi
 }
