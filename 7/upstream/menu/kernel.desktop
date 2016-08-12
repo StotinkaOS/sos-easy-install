@@ -4,10 +4,9 @@ Version=1.0
 Type=Application
 Name=Install latest kernel
 Name[bg_BG]=Инсталиране на kernel-ml
-GenericName=Install
+GenericName=Install latest kernel
 GenericName[bg_BG]=Инсталиране на kernel-ml
 Comment=Инсталиране на последното стабилно ядро kernel-ml
 Icon=/usr/share/icons/sos-ei-app-icons/kernel-menu.png
 Categories=AudioVideo;Player;Qt;
 StartupNotify=false
-
