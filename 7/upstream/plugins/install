@@ -554,7 +554,7 @@ install_playonlinux(){
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage playonlinux
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage nc playonlinux
+      installPackage nc mesa-libGL.i686 mesa-libGLU.i686 mesa-dri-drivers.i686 SDL.i686 libGLEW.i686 playonlinux
     fi
   fi
 }
