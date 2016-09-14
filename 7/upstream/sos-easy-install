@@ -18,7 +18,7 @@ source /usr/bin/sos-easy-install-plugins/global
 
 # Show about dialog
 info() {
-  yad --title="$prog" --selectable-labels --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015-2016 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
+  yad --title="$prog" --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015-2016 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
       --window-icon="$window_icon" \
       --width="600" --height="300" \
       --button="ОК":0 --button="Лиценз":2 --button="Затваряне":1 \
