@@ -29,7 +29,6 @@ setSelinux() {
       --title="$prog - Опция SELinux" \
       --text="<b>SELinux</b>
 Изключване или Включване на SELinux защитната среда." \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?

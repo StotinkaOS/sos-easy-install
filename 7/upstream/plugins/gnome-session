@@ -23,7 +23,6 @@ switching_gnome(){
       --title="$prog - Опция Gnome сесия" \
       --text="<b>GNOME Сесия</b>
 Потребителите може да превключват от класически GNOME на GNOME Shell сесия и обратното ." \
-      --selectable-labels \
       --button="GNOME SHELL":1 --button="GNOME CLASSIC":2 \
       --center
   ret=$?

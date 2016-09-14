@@ -34,7 +34,6 @@ yad --title="$prog" --width="520" --height="300" \
 <b><span color='dark gray'>Лиценз:</span></b> Посетете https://community.kde.org/Policies/Licensing_Policy
 <b><span color='dark gray'>Обем:</span></b> 430 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.kde.org/'>https://www.kde.org/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -66,7 +65,6 @@ yad --title="$prog" --width="520" --height="300" \
 <b><span color='dark gray'>Лиценз:</span></b> GPL or BSDL
 <b><span color='dark gray'>Обем:</span></b> 12 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.xfce.org/'>http://www.xfce.org/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -98,7 +96,6 @@ yad --title="$prog" --width="520" --height="300" \
 <b><span color='dark gray'>Лиценз:</span></b> GPLv2
 <b><span color='dark gray'>Обем:</span></b> 27 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/linuxmint/Cinnamon'>https://github.com/linuxmint/Cinnamon</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -130,7 +127,6 @@ yad --title="$prog" --width="520" --height="300" \
 <b><span color='dark gray'>Лиценз:</span></b> GNU LGPL, GNU GPL
 <b><span color='dark gray'>Обем:</span></b> 185 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://mate-desktop.org/'>http://mate-desktop.org/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -162,7 +158,6 @@ yad --title="$prog" --width="520" --height="300" \
 <b><span color='dark gray'>Лиценз:</span></b> GPL/LGPL
 <b><span color='dark gray'>Обем:</span></b> 12 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://lxde.org/'>http://lxde.org/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -197,7 +192,6 @@ yad --title="$prog" --width="520" --height="300" \
 <b><span color='dark gray'>Лиценз:</span></b> GNU GPL, GNU LGPL
 <b><span color='dark gray'>Обем:</span></b> 44 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://lxqt.org/'>http://lxqt.org/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?

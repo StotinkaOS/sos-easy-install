@@ -34,7 +34,6 @@ yad --title="$prog" --width="520" --height="300" \
 <b><span color='dark gray'>Лиценз:</span></b> GPLv2
 <b><span color='dark gray'>Обем:</span></b> 210 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://elrepo.org/tiki/kernel-ml'>http://elrepo.org/tiki/kernel-ml</a>" \
-    --selectable-labels \
     --button="$BtStatus":0 \
     --center
 ret=$?

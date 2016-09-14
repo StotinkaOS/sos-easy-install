@@ -33,7 +33,6 @@ install_steam() {
 <b><span color='dark gray'>Категория:</span></b> Games
 <b><span color='dark gray'>Лиценз:</span></b> Steam Лицензионно Споразумение
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://store.steampowered.com/'>http://store.steampowered.com/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -84,7 +83,6 @@ install_dropbox() {
 <b><span color='dark gray'>Лиценз:</span></b> GPLv3
 <b><span color='dark gray'>Обем:</span></b> 201 k
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -119,7 +117,6 @@ install_viber(){
 <b><span color='dark gray'>Лиценз:</span></b> Adware
 <b><span color='dark gray'>Обем:</span></b> 342 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.viber.com/en/'>http://www.viber.com/en/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -154,7 +151,6 @@ install_telegram(){
 <b><span color='dark gray'>Лиценз: GPLv3</span></b>
 <b><span color='dark gray'>Обем:</span></b> 43 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://telegram.org/'>https://telegram.org/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -197,7 +193,6 @@ install_spotify(){
 <b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.spotify.com/legal/end-user-agreement'>end-user-agreement</a>
 <b><span color='dark gray'>Обем:</span></b> 205,0 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.spotify.com/bg/'>www.spotify.com/bg/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -241,7 +236,6 @@ install_sublimetext(){
 <b><span color='dark gray'>Обем:</span></b> 20 MB
 <b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.sublimetext.com/3'>www.sublimetext.com/3</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -273,7 +267,6 @@ install_atom() {
 <b><span color='dark gray'>Лиценз:</span></b> MIT
 <b><span color='dark gray'>Обем:</span></b> 225 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://atom.io/'>https://atom.io/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -305,7 +298,6 @@ install_gtalk() {
 <b><span color='dark gray'>Лиценз:</span></b> Безплатна програма, Google условия за ползване на услугата.
 <b><span color='dark gray'>Обем:</span></b> 17 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='www.google.com/chat/video'>www.google.com/chat/video</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -347,7 +339,6 @@ install_chrome() {
 <b><span color='dark gray'>Лиценз:</span></b> Безплатна програма, Google Chrome условия за ползване на услугата.
 <b><span color='dark gray'>Обем:</span></b> 189,3 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -380,7 +371,6 @@ install_skype() {
 <b><span color='dark gray'>Обем:</span></b> 35 MB
 <b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.skype.com/'>https://www.skype.com</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
  ret=$?
@@ -414,7 +404,6 @@ VirtualBox създава виртуална среда, в която може 
 <b><span color='dark gray'>Лиценз:</span></b> GPLv2
 <b><span color='dark gray'>Обем:</span></b> 157,4 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.virtualbox.org/'>https://www.virtualbox.org/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -448,7 +437,6 @@ install_teamviewer() {
 <b><span color='dark gray'>Лиценз:</span></b> Патентован, безплатен за некомерсиална употреба.
 <b><span color='dark gray'>Обем:</span></b> 185 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://teamviewer.com/'>http://teamviewer.com</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -481,7 +469,6 @@ install_tor() {
 <b><span color='dark gray'>Обем:</span></b> 297 K
 <b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/micahflee/torbrowser-launcher'>https://github.com/micahflee/torbrowser-launcher</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -514,7 +501,6 @@ install_mscorefonts(){
 <b><span color='dark gray'>Обем:</span></b> 24 K
 <b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://mscorefonts2.sourceforge.net/'>http://mscorefonts2.sourceforge.net</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -545,7 +531,6 @@ install_playonlinux(){
 <b><span color='dark gray'>Категория:</span></b> Games
 <b><span color='dark gray'>Лиценз:</span></b> GPL/LGPL
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.playonlinux.com/en/'>https://www.playonlinux.com/en</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -577,7 +562,6 @@ install_megasync(){
 <b><span color='dark gray'>Лиценз:</span></b> Freeware
 <b><span color='dark gray'>Обем:</span></b> 7 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://mega.nz/'>https://mega.nz/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -618,7 +602,6 @@ install_opera(){
 <b><span color='dark gray'>Лиценз:</span></b> Собственически
 <b><span color='dark gray'>Обем:</span></b> 46 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.opera.com/bg/computer'>www.opera.com/bg</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -661,7 +644,6 @@ install_kodi(){
 <b><span color='dark gray'>Обем:</span></b> 42,5 MB
 <b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://kodi.tv/'>https://kodi.tv/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -693,7 +675,6 @@ install_vivaldi(){
 <b><span color='dark gray'>Лиценз:</span></b> Multiple, see https://www.vivaldi.com/
 <b><span color='dark gray'>Обем:</span></b> 165 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://vivaldi.com/?lang=bg'>https://www.vivaldi.com/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -734,7 +715,6 @@ Open-source версията на Google Chrome уеб браузъра
 <b><span color='dark gray'>Лиценз:</span></b>BSD and LGPLv2+
 <b><span color='dark gray'>Обем:</span></b> 188 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.chromium.org/Home'>https://www.chromium.org</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -776,7 +756,6 @@ install_brackets(){
 <b><span color='dark gray'>Лиценз:</span></b> MIT
 <b><span color='dark gray'>Обем:</span></b> 145 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://brackets.io/'>http://brackets.io/</a>" \
-      --selectable-labels \
       --button="$BtStatus":0 \
       --center
   ret=$?
