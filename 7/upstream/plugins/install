@@ -769,6 +769,42 @@ install_brackets(){
   fi
 }
 
+install_syncthing(){
+  if isInstalled syncthing; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$syncthingIcon" \
+      --text="<b>Syncthing</b>
+Отворен код за непрекъсната синхронизация на файлове .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Utilities → Internet
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2
+<b><span color='dark gray'>Обем:</span></b> 17 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://syncthing.net/'>https://syncthing.net/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage syncthing syncthing-gtk
+      rm -f /etc/yum.repos.d/decathorpe-syncthing-epel-7.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      yum-config-manager --add-repo="https://copr.fedorainfracloud.org/coprs/decathorpe/syncthing/repo/epel-7/decathorpe-syncthing-epel-7.repo"
+      installPackage syncthing syncthing-gtk
+      # start/enable systemd service
+      systemctl start syncthing@"$user".service
+      systemctl enable syncthing@"$user".service
+    fi
+  fi
+}
+
 # Main menu
 menu(){
 while :
@@ -798,7 +834,8 @@ do
                false 17 "Kodi" \
                false 18 "Vivaldi" \
                false 19 "Chromium" \
-               false 20 "Brackets" );
+               false 20 "Brackets" \
+               false 21 "Syncthing" );
 
   case ${choise} in
     "0|")install_steam ;;
@@ -822,6 +859,7 @@ do
     "18|")install_vivaldi ;;
     "19|")install_chromium ;;
     "20|")install_brackets ;;
+    "21|")install_syncthing ;;
     *) break ;;
   esac
 done
