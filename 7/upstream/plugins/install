@@ -275,7 +275,7 @@ install_atom() {
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage atom
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage "https://github.com/atom/atom/releases/download/v1.8.0/atom.x86_64.rpm"
+      installPackage "https://github.com/atom/atom/releases/download/v1.10.2/atom.x86_64.rpm"
     fi
   fi
 }
