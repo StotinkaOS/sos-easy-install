@@ -208,6 +208,55 @@ yad --title="$prog" --width="520" --height="300" \
   fi
 }
 
+install_tde() {
+  if isInstalled trinity-desktop; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$tdeIcon" \
+      --text="<b>TDE (Trinity Desktop Environment)</b>
+Графична среда базирана на кода на вече неподържаната работна среда KDE 3.5
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> GPL
+<b><span color='dark gray'>Обем:</span></b> 600 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.trinitydesktop.org/index.php'>https://www.trinitydesktop.org/index.php</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage trinity-desktop trinity-tde-i18n-Bulgarian trinity-koffice-i18n-Bulgarian
+      rm -f /etc/yum.repos.d/trinity.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+cat << EOF > /etc/yum.repos.d/trinity.repo
+[trinity-r14]
+name=trinity-r14
+baseurl=https://ftp.fau.de/trinity/trinity/rpm/el7/trinity-r14/RPMS/x86_64/
+#mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/trinity/rpm/el7/trinity-r14-$basearch.list
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-trinity
+
+[trinity-r14-noarch]
+name=trinity-r14-noarch
+baseurl=https://ftp.fau.de/trinity/trinity/rpm/el7/trinity-r14/RPMS/noarch
+#mirrorlist=http://mirror.ppa.trinitydesktop.org/trinity/trinity/rpm/el7/trinity-r14-noarch.list
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-trinity
+EOF
+     installPackage trinity-desktop trinity-tde-i18n-Bulgarian trinity-koffice-i18n-Bulgarian
+    fi
+  fi
+}
+
 # Main menu
 menu(){
 while :
@@ -222,7 +271,8 @@ do
                false 2 "MATE" \
                false 3 "XFCE" \
                false 4 "LXDE" \
-               false 5 "LXQT" );
+               false 5 "LXQT" \
+               false 6 "TDE (Trinity)" );
 
   case ${choise} in
     "0|")install_kde ;;
@@ -231,6 +281,7 @@ do
     "3|")install_xfce ;;
     "4|")install_lxde ;;
     "5|")install_lxqt ;;
+    "6|")install_tde  ;;
     *) break ;;
   esac
 done

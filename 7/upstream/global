@@ -58,6 +58,7 @@ mateIcon="/usr/share/icons/sos-ei-app-icons/mate.png"
 cinnamonIcon="/usr/share/icons/sos-ei-app-icons/cinnamon.png"
 lxdeIcon="/usr/share/icons/sos-ei-app-icons/lxde.png"
 lxqtIcon="/usr/share/icons/sos-ei-app-icons/lxqt.png"
+tdeIcon="/usr/share/icons/sos-ei-app-icons/tde.png"
 
 ## Functions
 
