@@ -138,7 +138,7 @@ installPackage(){
   checkInstallSuccess "$@" | tee $TMP_LOG | stdbuf -oL sed -n 's/^/# /p' | yad --title="Инсталиране на $*" \
                             --text='Моля изчакайте....' \
                             --height=250 --width=500 \
-                            --progress --pulsate --auto-close --auto-kill \
+                            --no-escape --progress --pulsate --enable-log="Детайли" --log-height=600 --auto-close \
                             --window-icon="$window_icon" \
                             --no-buttons \
                             --image=system-software-install \
@@ -169,7 +169,7 @@ removePackage(){
    checkRemoveSuccess "$@" | tee $TMP_LOG | stdbuf -oL sed -n 's/^/# /p' | yad --title="Премахване на $*" \
                              --text='Моля изчакайте....' \
                              --height=250 --width=500 \
-                             --progress --pulsate --auto-close --auto-kill \
+                             --no-escape --progress --pulsate --enable-log="Детайли" --log-height=600 --auto-close \
                              --window-icon="$window_icon" \
                              --no-buttons \
                              --image=gtk-remove \
