@@ -585,7 +585,7 @@ EOF
 }
 
 install_opera(){
-  if isInstalled opera-beta; then
+  if isInstalled opera-stable; then
     BtStatus="Премахни"
   else
     BtStatus='Инсталирай'
@@ -594,7 +594,7 @@ install_opera(){
   yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$operaIcon" \
-      --text="<b>Opera Browser (BETA)</b>
+      --text="<b>Opera Browser (STABLE)</b>
 Бърз, безопасен и лесен за използване браузър.
 
 <b>Детайли:</b>
@@ -608,7 +608,7 @@ install_opera(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage opera-beta chromium-pepper-flash
+      removePackage opera-stable chromium-pepper-flash
       rm -f /etc/yum.repos.d/opera.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
       cat << EOF > /etc/yum.repos.d/opera.repo
@@ -620,7 +620,7 @@ gpgcheck=1
 gpgkey=https://rpm.opera.com/rpmrepo.key
 enabled=1
 EOF
-      installPackage opera-beta chromium-pepper-flash
+      installPackage opera-stable chromium-pepper-flash
     fi
   fi
 }
@@ -849,7 +849,7 @@ do
                false 1 "Dropbox" \
                false 2 "Google Chrome" \
                false 3 "Google Talk Plugin" \
-               false 4 "Opera Browser (BETA)" \
+               false 4 "Opera Browser (STABLE)" \
                false 5 "Spotify Client" \
                false 6 "Sublime Text 3" \
                false 7 "Atom Text Editor" \
