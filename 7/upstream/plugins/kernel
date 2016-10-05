@@ -44,9 +44,9 @@ if [[ "$ret" -eq "0" ]]; then
     # disable elrepo-kernel
     sed -i -e '/\[elrepo-kernel\]/,/^\[/s/enabled=1/enabled=0/' /etc/yum.repos.d/elrepo.repo
   elif [[ "$BtStatus" == Инсталирай ]]; then
-    installPackage kernel-ml kernel-ml-devel
     # enable elrepo-kernel for updates
     sed -i -e '/\[elrepo-kernel\]/,/^\[/s/enabled=0/enabled=1/' /etc/yum.repos.d/elrepo.repo
+    installPackage kernel-ml kernel-ml-devel
   fi
 fi
 }
