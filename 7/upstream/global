@@ -63,18 +63,17 @@ tdeIcon="/usr/share/icons/sos-ei-app-icons/tde.png"
 
 ## Functions
 
-## from version 1.8 is using authentication via PAM
 # Checking user's privileges
-#if [[ $EUID -ne 0 ]]; then
-#  yad --text="Програмата трябва да се стартира с правата на потребител root.\nСтартирайте отново, по следният начин:\n\n<b>su -c '$prog'</b>\nили\n<b>beesu $prog</b>" \
-#      --window-icon="$window_icon" \
-#      --title="$prog" \
-#      --width="450" --height="200" \
-#      --button="ОК":0 --button="Затваряне":1 \
-#      --selectable-labels \
-#      --center
-#  exit 1
-#fi
+if [[ $EUID -ne 0 ]]; then
+  yad --text="ГРЕШКА:Програмата трябва да се стартира с права на потребител <b>root</b>!" \
+      --window-icon="$window_icon" \
+      --title="$prog" \
+      --width="450" --height="200" \
+      --image=gtk-dialog-error \
+      --button="ОК":0 --button="Затваряне":1 \
+      --center
+  exit 1
+fi
 
 # Set up log facilities
 # Example output: [02/06/15 20:03:12] message input
