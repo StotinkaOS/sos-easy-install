@@ -70,7 +70,7 @@ if [[ $EUID -ne 0 ]]; then
       --title="$prog" \
       --width="450" --height="200" \
       --image=gtk-dialog-error \
-      --button="ОК":0 --button="Затваряне":1 \
+      --button="Затваряне":1 \
       --center
   exit 1
 fi
