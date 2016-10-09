@@ -387,7 +387,7 @@ install_skype() {
 }
 
 install_virtualbox() {
-  if isInstalled VirtualBox-5.0; then
+  if isInstalled VirtualBox-5.1; then
    BtStatus="Премахни"
   else
     BtStatus='Инсталирай'
@@ -410,9 +410,9 @@ VirtualBox създава виртуална среда, в която може 
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage VirtualBox-5.0
+      removePackage VirtualBox-5.1
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.0
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.1
       usermod -G vboxusers,vboxsf "$user"
       /usr/lib/virtualbox/vboxdrv.sh setup
     fi
