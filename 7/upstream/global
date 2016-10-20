@@ -15,7 +15,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 COMMENT
 
 prog="sos-easy-install"
-ver=3.1
+ver=3.2
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-easy-install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 license="/usr/share/licenses/sos-easy-install/COPYING"
