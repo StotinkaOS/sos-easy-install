@@ -862,7 +862,7 @@ do
                false 12 "Tor Browser Launcher" \
                false 13 "MEGASync Client" \
                false 14 "Msttcorefonts (Microsoft шрифтове)" \
-               false 15 "VirtualBox-5.0" \
+               false 15 "VirtualBox-5.1" \
                false 16 "PlayOnLinux" \
                false 17 "Kodi" \
                false 18 "Vivaldi" \
