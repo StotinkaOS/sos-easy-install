@@ -274,8 +274,10 @@ install_atom() {
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage atom
+      rm -f /etc/yum.repos.d/mosquito-atom-epel-7.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage "https://github.com/atom/atom/releases/download/v1.10.2/atom.x86_64.rpm"
+      yum-config-manager --add-repo="https://copr.fedorainfracloud.org/coprs/mosquito/atom/repo/epel-7/mosquito-atom-epel-7.repo"
+      installPackage atom
     fi
   fi
 }
