@@ -726,16 +726,10 @@ Open-source версията на Google Chrome уеб браузъра
       removePackage chromium chromium-pepper-flash chromium-widevinecdm-plugin
       rm -f /etc/yum.repos.d/chromium.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
-cat << EOF > /etc/yum.repos.d/chromium.repo
-[chromium]
-name=chromium for RHEL Linux $releasever - $basearch - Base
-baseurl=http://install.linux.ncsu.edu/pub/yum/itecs/public/chromium/7/
-failovermethod=priority
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-chromiumpublic file:///etc/pki/rpm-gpg/RPM-GPG-KEY-chromiumpublic1 file:///etc/pki/rpm-gpg/RPM-GPG-KEY-chromiumpublic2
-EOF
       installPackage chromium chromium-pepper-flash chromium-widevinecdm-plugin
+      # fix plugins
+      cp -R /usr/lib64/chromium/PepperFlash /usr/lib64/chromium-browser
+      cp /usr/lib64/chromium/{libwidevinecdmadapter.so,libwidevinecdm.so} /usr/lib64/chromium-browser/
     fi
   fi
 }
