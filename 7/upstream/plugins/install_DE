@@ -218,12 +218,12 @@ yad --title="$prog" --width="520" --height="300" \
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage lxqt-"*" pcmanfm-qt openbox
+      removePackage lxqt-"*" pcmanfm-qt openbox qterminal-qt5
     elif [[ "$BtStatus" == Инсталирай ]]; then
       # fix http://www.stotinkaos.net/forums/thread-576-post-5698.html
       # conflict with the package libfm-1.2.3 from StotinkaOS-Base repo
       sed -i '/exclude=libfm*/d' /etc/yum.repos.d/epel.repo
-      installPackage lxqt-"*" pcmanfm-qt openbox
+      installPackage lxqt-"*" pcmanfm-qt openbox qterminal-qt5
     fi
   fi
 }
