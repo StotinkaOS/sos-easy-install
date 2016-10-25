@@ -277,6 +277,37 @@ EOF
   fi
 }
 
+install_lumina() {
+  if isInstalled lumina-desktop; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$luminaIcon" \
+      --text="<b>Lumina</b>
+Лека графична среда предназначена за Unix-подобни операционни системи .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Desktop environment
+<b><span color='dark gray'>Лиценз:</span></b> BSD
+<b><span color='dark gray'>Обем:</span></b> 70 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://lumina-desktop.org/'>https://lumina-desktop.org/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage lumina-desktop lumina-desktop-wallpapers lumina-config lumina-fm lumina-info lumina-open lumina-screenshot lumina-search lumina-textedit lumina-xconfig lumina-fileinfo oxygen-icon-theme
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage lumina-desktop lumina-desktop-wallpapers lumina-config lumina-fm lumina-info lumina-open lumina-screenshot lumina-search lumina-textedit lumina-xconfig lumina-fileinfo oxygen-icon-theme
+    fi
+  fi
+}
+
 # Main menu
 menu(){
 while :
@@ -292,7 +323,8 @@ do
                false 3 "XFCE" \
                false 4 "LXDE" \
                false 5 "LXQT" \
-               false 6 "TDE (Trinity)" );
+               false 6 "TDE (Trinity)" \
+               false 7 "Lumina" );
 
   case ${choise} in
     "0|")install_kde ;;
@@ -302,6 +334,7 @@ do
     "4|")install_lxde ;;
     "5|")install_lxqt ;;
     "6|")install_tde  ;;
+    "7|")install_lumina ;;
     *) break ;;
   esac
 done
