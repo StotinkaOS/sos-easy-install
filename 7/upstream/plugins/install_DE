@@ -312,11 +312,11 @@ yad --title="$prog" --width="520" --height="300" \
 menu(){
 while :
 do
-  choise=$(yad --title="$prog - Опция Инсталиране на Графична среда" --name="$prog" \
+  choise=$(yad --title="$prog - Инсталиране на Графична среда" --name="$prog" \
                --window-icon="$window_icon" \
                --width="450" --height="500" --center --fixed \
                --print-column=2 --list --radiolist --column "Изберете" --column null --column "Опция" --hide-column 2 \
-               --button="ОК":0 --button="Затваряне":1 \
+               --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
                true 0 "KDE" \
                false 1 "CINNAMON" \
                false 2 "MATE" \

@@ -105,7 +105,7 @@ info_driver(){
   yad --title="Информация за драйвер" --text-align=left --text="INTEL: използва се само вградената в процесора видео карта\n\nNVIDIA: използва се само дискретната видео карта\n\nBUMBLEBEE: дава възможност за динамично използване на двете видео карти\n\n" \
       --window-icon="$window_icon" \
       --width="200" --height="300" \
-      --button="ОК":0 \
+      --button="ОК!gtk-ok":0 \
       --image="$window_icon" \
       --center
 }
@@ -124,7 +124,7 @@ install_video(){
                     --image="$image_icon" --image-on-top --window-icon="$window_icon" \
                     --width="450" --height="560" --center --fixed \
                     --print-column=2 --list --radiolist --column "Избери" --column null --column "Опция" --hide-column 2 \
-                    --button="ОК":0 --button="Научи повече":2 --button="Затваряне":1 \
+                    --button="ОК!gtk-ok":0 --button="Научи повече":2 --button="Затваряне!gtk-close":1 \
                     false 0 "INTEL" \
                     false 1 "NVIDIA" \
                     false 2 "BUMBLEBEE");
@@ -156,7 +156,7 @@ install_video(){
 }
 
 ASKinstallVideo(){
-  aks=$(yad --title="$prog - Опция Видео драйвери" --width=520 --window-icon="$window_icon" --image=dialog-question --text='Искате ли да инсталирате видео драйверите?
+  aks=$(yad --title="$prog - Видео драйвери" --width=520 --window-icon="$window_icon" --image=dialog-question --text='Искате ли да инсталирате видео драйверите?
 <b>Моля, имайте предвид тази функция е все още експериментална!</b>' --button="Не":0 --button="Да":1 --center)
   ret=$?
 

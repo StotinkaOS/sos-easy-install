@@ -23,7 +23,7 @@ addSudo() {
     BtStatus="Добави"
   fi
 
-  yad --title="$prog - Опция sudo" --width="520" --height="300" \
+  yad --title="$prog - sudo" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$sudoIcon" \
       --text="<b>Sudo</b>

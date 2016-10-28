@@ -26,7 +26,7 @@ setSelinux() {
   yad --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$selinuxIcon" \
-      --title="$prog - Опция SELinux" \
+      --title="$prog - SELinux" \
       --text="<b>SELinux</b>
 Изключване или Включване на SELinux защитната среда." \
       --button="$BtStatus":0 \

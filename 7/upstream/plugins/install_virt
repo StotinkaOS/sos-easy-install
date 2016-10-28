@@ -1,0 +1,134 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+install_virtualbox() {
+  if isInstalled VirtualBox-5.1; then
+   BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$vboxIcon" \
+      --text="<b>Oracle VM VirtualBox</b>
+VirtualBox създава виртуална среда, в която може да инсталирате различни операционни системи, да инсталирате и тествате програми или с други думи може да правите почти всичко, което правите в нормалната ви ОС, без да се притеснявате, че може да повредите нещо.
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> System → Emulator
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2
+<b><span color='dark gray'>Обем:</span></b> 157,4 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.virtualbox.org/'>https://www.virtualbox.org/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage VirtualBox-5.1
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.1
+      usermod -G vboxusers,vboxsf "$user"
+      /usr/lib/virtualbox/vboxdrv.sh setup
+    fi
+  fi
+}
+
+install_gnomeboxes() {
+  if isInstalled gnome-boxes; then
+   BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$boxesIcon" \
+      --text="<b>Gnome Boxes</b>
+Gnome 3 приложения за достъп до отдалечени или виртуални машини .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> System → Emulator
+<b><span color='dark gray'>Лиценз:</span></b> LGPLv2+
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://live.gnome.org/Boxes'>https://live.gnome.org/Boxes</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage gnome-boxes
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage gnome-boxes
+    fi
+  fi
+}
+
+install_virtmanager() {
+  if isInstalled virt-manager; then
+   BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$virtIcon" \
+      --text="<b>KVM - Virt Manager</b>
+Графично приложение за управление на виртуални машини за KVM, Xen, и LXC .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> System → Emulator
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2+
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://virt-manager.org/'>http://virt-manager.org/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client libvirt-daemon-kvm virt-install virt-viewer bridge-utils
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client libvirt-daemon-kvm virt-install virt-viewer bridge-utils
+    fi
+  fi
+}
+
+# Main menu
+menu(){
+while :
+do
+  choise=$(yad --title="$prog - Клиенти за виртуализация" --name="$prog" \
+               --window-icon="$window_icon" \
+               --width="450" --height="500" --center --fixed \
+               --print-column=2 --list --radiolist --column "Изберете" --column null --column "Опция" --hide-column 2 \
+               --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
+               true 0 "VirtualBox-5.1" \
+               false 1 "GNOME Boxes" \
+               false 2 "Virt Manager");
+
+  case ${choise} in
+    "0|")install_virtualbox ;;
+    "1|")install_gnomeboxes ;;
+    "2|")install_virtmanager ;;
+    *) break ;;
+  esac
+done
+}
+
+menu

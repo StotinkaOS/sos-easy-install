@@ -51,6 +51,8 @@ bracketsIcon="/usr/share/icons/sos-ei-app-icons/brackets.png"
 kernelIcon="/usr/share/icons/sos-ei-app-icons/kernel.png"
 syncthingIcon="/usr/share/icons/sos-ei-app-icons/syncthing.png"
 terminixIcon="/usr/share/icons/sos-ei-app-icons/terminix.png"
+boxesIcon="/usr/share/icons/sos-ei-app-icons/gnome-boxes.png"
+virtIcon="/usr/share/icons/sos-ei-app-icons/virt-manager.png"
 
 # Desktop
 kdeIcon="/usr/share/icons/sos-ei-app-icons/kde.png"
@@ -71,7 +73,7 @@ if [[ $EUID -ne 0 ]]; then
       --title="$prog" \
       --width="450" --height="200" \
       --image=gtk-dialog-error \
-      --button="Затваряне":1 \
+      --button="Затваряне!gtk-close":1 \
       --center
   exit 1
 fi
@@ -89,7 +91,7 @@ TMP_LOG=/tmp/sos-easy-install.log
 
 # Notify message
 notifyUser(){
-  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК":1 --text="$1" --width=450 --center
+  yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК!gtk-ok":1 --text="$1" --width=450 --center
 }
 
 # Kill off any package managers that may be running
@@ -121,7 +123,7 @@ checkInstallSuccess(){
     log "ERROR:Грешка при инсталиране на $*"
     yad --text="Грешка при инсталиране на $*
 Проверете файла <b>/tmp/sos-easy-install.log</b> за подробна информация!" \
-        --button="ОК":0 --button="Затваряне":1 \
+        --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-error \
@@ -152,7 +154,7 @@ checkRemoveSuccess(){
   if [ "${PIPESTATUS[0]}" -ne "0" ]; then
     log "ERROR:Грешка при премахване на $*"
     yad --text="Грешка при премахване на $*" \
-        --button="ОК":0 --button="Затваряне":1 \
+        --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
         --window-icon="$window_icon" \
         --title="$prog" \
         --image=gtk-dialog-error \

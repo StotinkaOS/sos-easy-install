@@ -1,0 +1,12 @@
+[Desktop Entry]
+Exec=/usr/bin/sos-easy-install-plugins/plugins/install_virt
+Version=1.0
+Type=Application
+Name=Virtualization clients
+Name[bg_BG]=Клиенти за виртуализация
+GenericName=Virtualization clients
+GenericName[bg_BG]=Клиенти за виртуализация
+Comment[bg_BG]=Инсталиране на десктоп клиенти за виртуализация
+Icon=/usr/share/icons/sos-ei-app-icons/virt-menu.png
+Categories=AudioVideo;Player;Qt;
+StartupNotify=false

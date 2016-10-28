@@ -388,39 +388,6 @@ install_skype() {
   fi
 }
 
-install_virtualbox() {
-  if isInstalled VirtualBox-5.1; then
-   BtStatus="Премахни"
-  else
-    BtStatus='Инсталирай'
-  fi
-
-  yad --title="$prog" --width="520" --height="300" \
-      --window-icon="$window_icon" \
-      --image="$vboxIcon" \
-      --text="<b>Oracle VM VirtualBox</b>
-VirtualBox създава виртуална среда, в която може да инсталирате различни операционни системи, да инсталирате и тествате програми или с други думи може да правите почти всичко, което правите в нормалната ви ОС, без да се притеснявате, че може да повредите нещо.
-
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> System → Emulator
-<b><span color='dark gray'>Лиценз:</span></b> GPLv2
-<b><span color='dark gray'>Обем:</span></b> 157,4 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.virtualbox.org/'>https://www.virtualbox.org/</a>" \
-      --button="$BtStatus":0 \
-      --center
-  ret=$?
-
-  if [[ "$ret" -eq "0" ]]; then
-    if [[ "$BtStatus" == Премахни ]]; then
-      removePackage VirtualBox-5.1
-    elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.1
-      usermod -G vboxusers,vboxsf "$user"
-      /usr/lib/virtualbox/vboxdrv.sh setup
-    fi
-  fi
-}
-
 install_teamviewer() {
   if isInstalled teamviewer; then
     BtStatus="Премахни"
@@ -836,11 +803,11 @@ GTK 3 Терминал емулатор за Linux който има функц�
 menu(){
 while :
 do
-  choise=$(yad --title="$prog - Опция Инсталиране на приложения" --name="$prog" \
+  choise=$(yad --title="$prog - Инсталиране на приложения" --name="$prog" \
                --window-icon="$window_icon" \
                --width="450" --height="630" --center --fixed \
                --print-column=2 --list --radiolist --column "Изберете" --column null --column "Опция" --hide-column 2 \
-               --button="ОК":0 --button="Затваряне":1 \
+               --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
                true 0 "Steam" \
                false 1 "Dropbox" \
                false 2 "Google Chrome" \
@@ -856,14 +823,13 @@ do
                false 12 "Tor Browser Launcher" \
                false 13 "MEGASync Client" \
                false 14 "Msttcorefonts (Microsoft шрифтове)" \
-               false 15 "VirtualBox-5.1" \
-               false 16 "PlayOnLinux" \
-               false 17 "Kodi" \
-               false 18 "Vivaldi" \
-               false 19 "Chromium" \
-               false 20 "Brackets" \
-               false 21 "Syncthing" \
-               false 22 "Terminix" );
+               false 15 "PlayOnLinux" \
+               false 16 "Kodi" \
+               false 17 "Vivaldi" \
+               false 18 "Chromium" \
+               false 19 "Brackets" \
+               false 20 "Syncthing" \
+               false 21 "Terminix" );
 
   case ${choise} in
     "0|")install_steam ;;
@@ -881,14 +847,13 @@ do
     "12|")install_tor ;;
     "13|")install_megasync ;;
     "14|")install_mscorefonts ;;
-    "15|")install_virtualbox ;;
-    "16|")install_playonlinux ;;
-    "17|")install_kodi ;;
-    "18|")install_vivaldi ;;
-    "19|")install_chromium ;;
-    "20|")install_brackets ;;
-    "21|")install_syncthing ;;
-    "22|")install_terminix ;;
+    "15|")install_playonlinux ;;
+    "16|")install_kodi ;;
+    "17|")install_vivaldi ;;
+    "18|")install_chromium ;;
+    "19|")install_brackets ;;
+    "20|")install_syncthing ;;
+    "21|")install_terminix ;;
     *) break ;;
   esac
 done

@@ -21,7 +21,7 @@ info() {
   yad --title="$prog" --text-align=left --text="<span font_weight='bold' font='17'>$prog $ver </span>\n\n\Програма, която ви позволява да инсталирате допълнителен софтуер като Skype, Chrome, Steam и др., също така, дава възможност да настройте допълнително вашата StotinkaOS, само с няколко щраквания на мишката.   \n\n<span font='9'>Copyright © 2015-2016 StotinkaOS Team\nwebsite: <a href='http://stotinkaos.net'>http://stotinkaos.net</a></span>" \
       --window-icon="$window_icon" \
       --width="600" --height="300" \
-      --button="ОК":0 --button="Лиценз":2 --button="Затваряне":1 \
+      --button="ОК!gtk-ok":0 --button="Лиценз!gtk-file":2 --button="Затваряне!gtk-close":1 \
       --image="$window_icon" \
       --center
   ret=$?
@@ -30,19 +30,48 @@ info() {
     yad --title="$prog" --text-info --filename="$license" \
         --window-icon="$window_icon" \
         --width="500" --height="300" \
-        --button="Затваряне":1 \
+        --button="Затваряне!gtk-close":1 \
         --center
   fi
   menu
 }
 
+checklog() {
+  if [[ ! -f /tmp/sos-easy-install.log ]]; then
+    TMP_LOG=$(yad --text="Няма създаден лог файл $*" \
+                  --button="Затваряне!gtk-close":1 \
+                  --window-icon="$window_icon" \
+                  --title="Грешка" \
+                  --image=gtk-dialog-error \
+                  --center)
+    menu
+  else
+    TMP_LOG="/tmp/sos-easy-install.log"
+  fi
+}
+
+log() {
+  checklog
+  yad --title="$prog" --text-info --filename="$TMP_LOG" \
+      --window-icon="$window_icon" \
+      --width="650" --height="400" \
+      --button="Затваряне!gtk-close":1 \
+      --selectable-labels \
+      --center
+  menu
+}
+
 menu(){
-yad --center --icons --name="sos-easy-install - Меню" --window-icon="$window_icon" --width=750 --height=450 --read-dir="/usr/bin/sos-easy-install-plugins/menu" --item-width=100 --single-click --sort-by-name --title="sos-easy-install - Меню" --button="gtk-about":2 --button="Затваряне":1
+yad --center --icons --name="sos-easy-install - Меню" --window-icon="$window_icon" --width=750 --height=450 --read-dir="/usr/bin/sos-easy-install-plugins/menu" --item-width=100 --single-click --sort-by-name --title="sos-easy-install - Меню" --button="Log!gtk-file":3 --button="gtk-about":2 --button="Затваряне!gtk-close":1
 
 ret=$?
 
   if [[ "$ret" -eq "2" ]]; then
     info
+  elif [[ "$ret" -eq "3" ]]; then
+    log
+  else
+    exit
   fi
 }
 

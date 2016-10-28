@@ -20,7 +20,7 @@ switching_gnome(){
   yad --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$gnomeIcon" \
-      --title="$prog - Опция Gnome сесия" \
+      --title="$prog - Gnome сесия" \
       --text="<b>GNOME Сесия</b>
 Потребителите може да превключват от класически GNOME на GNOME Shell сесия и обратното ." \
       --button="GNOME SHELL":1 --button="GNOME CLASSIC":2 \
