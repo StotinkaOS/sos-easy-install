@@ -17,7 +17,7 @@ COMMENT
 source /usr/bin/sos-easy-install-plugins/global
 
 install_kde() {
-  if isInstalled kde-runtime; then
+  if isInstalled konsole kde-runtime kde-base-artwork kde-workspace; then
     BtStatus="Премахни"
   else
     BtStatus='Инсталирай'
@@ -40,14 +40,14 @@ yad --title="$prog" --width="520" --height="300" \
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage @kde-desktop
+      removePackage @kde-desktop @kde-apps @kde-media
     elif [[ "$BtStatus" == Инсталирай ]]; then
       # Fix issue with yum groups
       # https://access.redhat.com/discussions/1262603
       # https://access.redhat.com/solutions/1310043
       yum groups mark install kde-desktop-environment
       yum groups mark convert kde-desktop-environment
-      installPackage @kde-desktop
+      installPackage @kde-desktop @kde-apps @kde-media
     fi
   fi
 }
