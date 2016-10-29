@@ -42,11 +42,6 @@ yad --title="$prog" --width="520" --height="300" \
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage @kde-desktop @kde-apps @kde-media
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      # Fix issue with yum groups
-      # https://access.redhat.com/discussions/1262603
-      # https://access.redhat.com/solutions/1310043
-      yum groups mark install kde-desktop-environment
-      yum groups mark convert kde-desktop-environment
       installPackage @kde-desktop @kde-apps @kde-media
     fi
   fi
@@ -78,11 +73,6 @@ yad --title="$prog" --width="520" --height="300" \
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage @xfce
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      # Fix issue with yum groups
-      # https://access.redhat.com/discussions/1262603
-      # https://access.redhat.com/solutions/1310043
-      yum groups mark install xfce-desktop
-      yum groups mark convert xfce-desktop
       installPackage @xfce
     fi
   fi
@@ -145,11 +135,6 @@ yad --title="$prog" --width="520" --height="300" \
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage @mate
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      # Fix issue with yum groups
-      # https://access.redhat.com/discussions/1262603
-      # https://access.redhat.com/solutions/1310043
-      yum groups mark install mate-desktop-environment
-      yum groups mark convert mate-desktop-environment
       installPackage @mate
     fi
   fi
@@ -184,11 +169,6 @@ yad --title="$prog" --width="520" --height="300" \
       # fix http://www.stotinkaos.net/forums/thread-576-post-5698.html
       # conflict with the package libfm-1.2.4 from EPEL repo
       sed -i '9i exclude=libfm*' /etc/yum.repos.d/epel.repo
-      # Fix issue with yum groups
-      # https://access.redhat.com/discussions/1262603
-      # https://access.redhat.com/solutions/1310043
-      yum groups mark install lxde-desktop
-      yum groups mark convert lxde-desktop
       installPackage @lxde-desktop
     fi
   fi
