@@ -13,6 +13,7 @@ Requires: coreutils
 Requires: wget
 Requires: yad
 Requires: yum-utils
+Requires: gnome-icon-theme-legacy
 Source0: %{name}-%{version}.tar.gz
 
 %description
@@ -120,4 +121,3 @@ fi
 
 * Thu Feb 04 2016 StotinkaOS Team <stotinkaos.bg@gmail.com> - 2.1-1
 - Initial spec
-
