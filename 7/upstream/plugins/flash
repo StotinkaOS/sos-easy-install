@@ -1,0 +1,59 @@
+#!/bin/env bash
+
+<<"COMMENT"
+Copyright (C) 2016 StotinkaOS Team <stotinkaos.bg@gmail.com>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+COMMENT
+
+source /usr/bin/sos-easy-install-plugins/global
+
+flash(){
+  if isInstalled flash-plugin; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+  yad --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$flashIcon" \
+      --title="$prog - Flash plugin" \
+      --text="<b>Flash plugin</b>
+Adobe Flash Player 11.2
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Multimedia
+<b><span color='dark gray'>Лиценз:</span></b> Commercial
+<b><span color='dark gray'>Обем:</span></b> 20 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://get.adobe.com/flashplayer/'>https://get.adobe.com/flashplayer/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage flash-plugin
+      rm -f /etc/yum.repos.d/adobe-linux-x86_64.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat << EOF > /etc/yum.repos.d/adobe-linux-x86_64.repo
+[adobe-linux-x86_64]
+name=Adobe Systems Incorporated
+baseurl=http://linuxdownload.adobe.com/linux/x86_64/
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+EOF
+      installPackage flash-plugin
+    fi
+  fi
+}
+
+flash

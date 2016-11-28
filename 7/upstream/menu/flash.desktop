@@ -1,0 +1,13 @@
+[Desktop Entry]
+Exec=/usr/bin/sos-easy-install-plugins/plugins/flash
+Version=1.0
+Type=Application
+Name=Flash plugin
+Name[bg_BG]=Flash plugin
+GenericName=Flash plugin
+GenericName[bg_BG]=Flash plugin
+Comment=Install Flash plugin
+Comment[bg_BG]=Инсталиране на Flash plugin
+Icon=/usr/share/icons/sos-ei-app-icons/flash-menu.png
+Categories=AudioVideo;Player;Qt;
+StartupNotify=false
