@@ -83,8 +83,14 @@ Gnome 3 приложения за достъп до отдалечени или 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage gnome-boxes
+       # for libvirtd service
+      systemctl stop libvirtd
+      systemctl disable libvirtd
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage gnome-boxes
+       # for libvirtd service
+      systemctl start libvirtd
+      systemctl enable libvirtd
     fi
   fi
 }
