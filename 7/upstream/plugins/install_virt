@@ -41,7 +41,17 @@ VirtualBox създава виртуална среда, в която може 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage VirtualBox-5.1
+      rm -f /etc/yum.repos.d/virtualbox.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat > /etc/yum.repos.d/virtualbox.repo << EOF_VIRTUALBOX_REPO
+[virtualbox]
+name=Oracle Linux / RHEL / CentOS-$releasever / $basearch - VirtualBox
+baseurl=http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch
+enabled=1
+gpgcheck=1
+skip_if_unavailable=1
+gpgkey=http://www.virtualbox.org/download/oracle_vbox.asc
+EOF_VIRTUALBOX_REPO
       installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.1
       usermod -G vboxusers,vboxsf "$user"
       /usr/lib/virtualbox/vboxdrv.sh setup

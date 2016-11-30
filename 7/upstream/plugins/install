@@ -348,7 +348,17 @@ install_chrome() {
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage google-chrome-stable
+      rm -f /etc/yum.repos.d/google-chrome.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat > /etc/yum.repos.d/google-chrome.repo << EOF_GOOGLE_CHROME_REPO
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/x86_64
+enabled=1
+gpgcheck=1
+skip_if_unavailable=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+EOF_GOOGLE_CHROME_REPO
       installPackage google-chrome-stable
     fi
   fi
@@ -507,7 +517,17 @@ install_playonlinux(){
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage playonlinux
+      rm -f /etc/yum.repos.d/playonlinux.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat > /etc/yum.repos.d/playonlinux.repo << EOF_PLAYONLINUX_REPO
+[playonlinux]
+name=PlayOnLinux Official repository
+baseurl=http://rpm.playonlinux.com/fedora/yum/base
+enable=1
+gpgcheck=0
+skip_if_unavailable=1
+gpgkey=http://rpm.playonlinux.com/public.gpg
+EOF_PLAYONLINUX_REPO
       installPackage nc mesa-libGL.i686 mesa-libGLU.i686 mesa-dri-drivers.i686 SDL.i686 libGLEW.i686 playonlinux
     fi
   fi
