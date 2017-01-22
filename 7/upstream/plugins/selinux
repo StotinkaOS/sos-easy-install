@@ -38,12 +38,10 @@ setSelinux() {
       setenforce 1 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=enforcing/g' /etc/selinux/config
       notifyUser "Включване на SELinux!"
-      log "INFO:Включване на SELinux!"
     elif [[ "$BtStatus" == Изключи ]]; then
       setenforce 0 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=permissive/g' /etc/selinux/config
       notifyUser "Изключване на SELinux!"
-      log "INFO:Изключване на SELinux!"
     fi
   fi
 }

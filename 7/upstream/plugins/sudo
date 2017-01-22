@@ -38,11 +38,9 @@ addSudo() {
     if [[ "$BtStatus" ==  Добави ]]; then
       echo "$user ALL=(ALL) ALL" >> /etc/sudoers
       notifyUser "Добавени са sudo права за потребителя <b>$user</b>"
-      log "INFO:Добавени са sudo права за потребителя $user"
     elif [[ "$BtStatus" ==  Изтрий ]]; then
       sed -i '/'$user'/d' /etc/sudoers
       notifyUser "Премахнати са sudo правата за потребителя <b>$user</b>"
-      log "INFO:Премахнати са sudo правата за потребителя $user"
     else
       exit 1
     fi

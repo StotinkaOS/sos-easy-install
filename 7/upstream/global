@@ -80,17 +80,6 @@ if [[ $EUID -ne 0 ]]; then
   exit 1
 fi
 
-# Set up log facilities
-# Example output: [02/06/15 20:03:12] message input
-LOGFILE=/var/log/sos-easy-install.log
-log(){
-  message="$@"
-  echo '['$(date +%D\ %H:%M:%S)'] '$message >>$LOGFILE
-}
-
-# Log last activities to retrieve errors
-TMP_LOG=/tmp/sos-easy-install.log
-
 # Notify message
 notifyUser(){
   yad --title="$prog" --window-icon="$window_icon" --image=gtk-dialog-info --button="ОК!gtk-ok":1 --text="$1" --width=450 --center
@@ -107,7 +96,6 @@ if [[ "$(pgrep gnome-software)" || "$(pgrep yumex)" || "$(pgrep yum)" ]]; then
       killall -9 gnome-software yumex yum
     else
       notifyUser "Изход от програмата!"
-      log "ERROR:Изход от програмата, YUM пакет мениджъра работи!"
       exit 0
     fi
 fi
@@ -122,7 +110,6 @@ checkInstallSuccess(){
   yum --nogpgcheck install -y "$@" 2>&1
 
   if [ "${PIPESTATUS[0]}" -ne "0" ]; then
-    log "ERROR:Грешка при инсталиране на $*"
     yad --text="Грешка при инсталиране на $*
 Проверете файла <b>/tmp/sos-easy-install.log</b> за подробна информация!" \
         --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
@@ -133,7 +120,6 @@ checkInstallSuccess(){
     return
   else
     notifyUser "Инсталирането на $* приключи успешно"
-    log "INFO:Инсталирането на $* приключи успешно"
   fi
 }
 
@@ -154,7 +140,6 @@ checkRemoveSuccess(){
   yum remove -y --setopt clean_requirements_on_remove=1 "$@" 2>&1
 
   if [ "${PIPESTATUS[0]}" -ne "0" ]; then
-    log "ERROR:Грешка при премахване на $*"
     yad --text="Грешка при премахване на $*" \
         --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
         --window-icon="$window_icon" \
@@ -164,7 +149,6 @@ checkRemoveSuccess(){
     return
   else
      notifyUser "Пакета $* е успешно премахнат"
-     log "INFO:Пакета $* е успешно премахнат"
   fi
 }
 
