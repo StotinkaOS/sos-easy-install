@@ -631,7 +631,6 @@ install_kodi(){
 <b><span color='dark gray'>Категория:</span></b> Video → Players
 <b><span color='dark gray'>Лиценз:</span></b> GPLv2+ and GPLv3+ and LGPLv2+ and BSD and MIT
 <b><span color='dark gray'>Обем:</span></b> 42,5 MB
-<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://kodi.tv/'>https://kodi.tv/</a>" \
       --button="$BtStatus":0 \
       --center
@@ -639,9 +638,9 @@ install_kodi(){
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage kodi
+      removePackage kodi kodi-pvr-addons-common kodi-pvr-iptvsimple
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage kodi
+      installPackage kodi "https://li.nux.ro/download/nux/dextop/el7/x86_64/kodi-pvr-addons-common-14.0-0.2.20150125gita0a437e.el7.nux.noarch.rpm" "https://li.nux.ro/download/nux/dextop/el7/x86_64/kodi-pvr-iptvsimple-14.0-0.2.20150125gita0a437e.el7.nux.x86_64.rpm"
     fi
   fi
 }
