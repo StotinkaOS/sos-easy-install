@@ -645,6 +645,57 @@ install_kodi(){
   fi
 }
 
+install_plex(){
+  if isInstalled plexmediaserver; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$plexIcon" \
+      --text="<b>Plex Media Server</b>
+Stream media everywhere(tm)
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> Video → Players
+<b><span color='dark gray'>Лиценз:</span></b> <a href='/usr/share/doc/plexmediaserver/copyright'>copyright</a>
+<b><span color='dark gray'>Обем:</span></b> 200 MB
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.plex.tv/'>https://www.plex.tv/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage plexmediaserver
+       # for plex service
+      systemctl stop plexmediaserver
+      systemctl disable plexmediaserver
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage "https://downloads.plex.tv/plex-media-server/1.3.3.3148-b38628e/plexmediaserver-1.3.3.3148-b38628e.x86_64.rpm"
+      # for plex service
+      systemctl enable plexmediaserver
+      systemctl start plexmediaserver
+      # The following ports are used for different services:
+      #
+      # TCP: 32400 (for access to the Plex Media Server) [required]
+      #
+      # UDP: 1900 (for access to the Plex DLNA Server)
+      # TCP: 3005 (for controlling Plex Home Theater via Plex Companion)
+      # UDP: 5353 (for older Bonjour/Avahi network discovery)
+      # TCP: 8324 (for controlling Plex for Roku via Plex Companion)
+      # UDP: 32410, 32412, 32413, 32414 (for current GDM network discovery)
+      # TCP: 32469 (for access to the Plex DLNA Server
+      #
+      # Firewalld allow access to the Plex Media Server
+      firewall-cmd --zone=public --add-port=32400/tcp --permanent
+      firewall-cmd --reload
+    fi
+  fi
+}
+
 install_vivaldi(){
   if isInstalled vivaldi-stable; then
     BtStatus="Премахни"
@@ -848,7 +899,8 @@ do
                false 18 "Chromium" \
                false 19 "Brackets" \
                false 20 "Syncthing" \
-               false 21 "Terminix" );
+               false 21 "Terminix" \
+               false 22 "Plex Media Server" );
 
   case ${choise} in
     "0|")install_steam ;;
@@ -873,6 +925,7 @@ do
     "19|")install_brackets ;;
     "20|")install_syncthing ;;
     "21|")install_terminix ;;
+    "22|")install_plex ;;
     *) break ;;
   esac
 done

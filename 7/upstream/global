@@ -55,6 +55,7 @@ syncthingIcon="$app_icon/syncthing.png"
 terminixIcon="$app_icon/terminix.png"
 boxesIcon="$app_icon/gnome-boxes.png"
 virtIcon="$app_icon/virt-manager.png"
+plexIcon="$app_icon/plex.png"
 
 # Desktop
 kdeIcon="$app_icon/kde.png"
