@@ -29,6 +29,8 @@ yad --title="$prog" --width="520" --height="300" \
     --text="<b>kernel-ml</b>
 Инсталиране на последното стабилно ядро - <b>kernel-ml</b> (mainline stable) 4.x
 
+<b>Важно!</b> Драйвери kmod компилирани да работят за ядро 3.10.x, няма да работят под това ядро - <a href='https://elrepo.org/tiki/FAQ'>FAQ</a> !
+
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> System
 <b><span color='dark gray'>Лиценз:</span></b> GPLv2
