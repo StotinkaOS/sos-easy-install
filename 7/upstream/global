@@ -67,6 +67,9 @@ lxqtIcon="$app_icon/lxqt.png"
 tdeIcon="$app_icon/tde.png"
 luminaIcon="$app_icon/lumina.png"
 
+# Log last activities to retrieve errors
+TMP_LOG="/tmp/sos-easy-install.log"
+
 ## Functions
 
 # Checking user's privileges
