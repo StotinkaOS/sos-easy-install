@@ -878,29 +878,29 @@ do
                --width="700" --height="630" --center --fixed \
                --list --radiolist --column "" --column "Приложение" --column "Описание" \
                --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
-               true  "<b>Steam</b>" "<i>Най-добрата платформа за онлайн игра</i>" \
-               false "<b>Dropbox</b>" "<i>Разширение за файловият мениджър Nautilus</i>" \
-               false "<b>Google Chrome</b>" "<i>Бърз, лесен и защитен уеб браузър</i>" \
-               false "<b>Google Talk Plugin</b>" "<i>Гласови и видео-чат разговори</i>" \
-               false "<b>Opera Browser (STABLE)</b>" "<i>Бърз, безопасен и лесен за използване браузър</i>" \
-               false "<b>Spotify Client</b>" "<i>Дигитална музикална услуга, която ви дава достъп до милиони песни</i>" \
-               false "<b>Sublime Text 3</b>" "<i>Приятен за работа редактор за текст и код</i>" \
-               false "<b>Atom Text Editor</b>" "<i>Свободен и отворен код текстов редактор за OS X, Linux и Windows</i>" \
-               false "<b>Skype</b>" "<i>Приложен софтуер за чат, VOIP телефония и видеовръзка</i>" \
-               false "<b>Viber</b>" "<i>Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде</i>" \
-               false "<b>Telegram</b>" "<i>Приложение за съобщения с акцент върху скоростта и сигурността</i>" \
-               false "<b>TeamViewer</b>" "<i>Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет</i>" \
-               false "<b>Tor Browser Launcher</b>" "<i>Инсталиране и стартиране на Tor браузъра в Linux</i>" \
-               false "<b>MEGASync Client</b>" "<i>Интегрира облак услугата MEGA със GNOME десктопа</i>" \
-               false "<b>Msttcorefonts</b>" "<i>Инсталира Microsoft TrueType шрифтовете за по добра Windows съвместимост</i>" \
-               false "<b>PlayOnLinux</b>" "<i>Инсталира Windows видео игри, Microsoft Office и др.</i>" \
-               false "<b>Kodi</b>" "<i>Крос-медиен плейър, jukebox и център за забавление</i>" \
-               false "<b>Vivaldi</b>" "<i>Интернет браузър създаден на базата на Chromium и енджин Blink</i>" \
-               false "<b>Chromium</b>" "<i>Open-source версията на Google Chrome уеб браузъра</i>" \
-               false "<b>Brackets</b>" "<i>Отворен код редактор за уеб дизайн и разработка</i>" \
-               false "<b>Syncthing</b>" "<i>Непрекъсната синхронизация на файлове</i>" \
-               false "<b>Terminix</b>" "<i>GTK 3 Терминал емулатор за Linux</i>" \
-               false "<b>Plex Media Server</b>" "<i>Stream media everywhere</i>" );
+               true  "<b>Steam</b>" "Най-добрата платформа за онлайн игра" \
+               false "<b>Dropbox</b>" "Разширение за файловият мениджър Nautilus" \
+               false "<b>Google Chrome</b>" "Бърз, лесен и защитен уеб браузър" \
+               false "<b>Google Talk Plugin</b>" "Гласови и видео-чат разговори" \
+               false "<b>Opera Browser (STABLE)</b>" "Бърз, безопасен и лесен за използване браузър" \
+               false "<b>Spotify Client</b>" "Дигитална музикална услуга, която ви дава достъп до милиони песни" \
+               false "<b>Sublime Text 3</b>" "Приятен за работа редактор за текст и код" \
+               false "<b>Atom Text Editor</b>" "Свободен и отворен код текстов редактор за OS X, Linux и Windows" \
+               false "<b>Skype</b>" "Приложен софтуер за чат, VOIP телефония и видеовръзка" \
+               false "<b>Viber</b>" "Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде" \
+               false "<b>Telegram</b>" "Приложение за съобщения с акцент върху скоростта и сигурността" \
+               false "<b>TeamViewer</b>" "Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет" \
+               false "<b>Tor Browser Launcher</b>" "Инсталиране и стартиране на Tor браузъра в Linux" \
+               false "<b>MEGASync Client</b>" "Интегрира облак услугата MEGA със GNOME десктопа" \
+               false "<b>Msttcorefonts</b>" "Инсталира Microsoft TrueType шрифтовете за по добра Windows съвместимост" \
+               false "<b>PlayOnLinux</b>" "Инсталира Windows видео игри, Microsoft Office и др." \
+               false "<b>Kodi</b>" "Крос-медиен плейър, jukebox и център за забавление" \
+               false "<b>Vivaldi</b>" "Интернет браузър създаден на базата на Chromium и енджин Blink" \
+               false "<b>Chromium</b>" "Open-source версията на Google Chrome уеб браузъра" \
+               false "<b>Brackets</b>" "Отворен код редактор за уеб дизайн и разработка" \
+               false "<b>Syncthing</b>" "Непрекъсната синхронизация на файлове" \
+               false "<b>Terminix</b>" "GTK 3 Терминал емулатор за Linux" \
+               false "<b>Plex Media Server</b>" "Stream media everywhere" );
 
   case ${choise} in
     *"Steam"*)install_steam ;;
