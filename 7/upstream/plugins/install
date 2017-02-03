@@ -875,57 +875,57 @@ while :
 do
   choise=$(yad --title="$prog - Инсталиране на приложения" --name="$prog" \
                --window-icon="$window_icon" \
-               --width="450" --height="630" --center --fixed \
-               --print-column=2 --list --radiolist --column "Изберете" --column null --column "Опция" --hide-column 2 \
+               --width="700" --height="630" --center --fixed \
+               --list --radiolist --column "" --column "Приложение" --column "Описание" \
                --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
-               true 0 "Steam" \
-               false 1 "Dropbox" \
-               false 2 "Google Chrome" \
-               false 3 "Google Talk Plugin" \
-               false 4 "Opera Browser (STABLE)" \
-               false 5 "Spotify Client" \
-               false 6 "Sublime Text 3" \
-               false 7 "Atom Text Editor" \
-               false 8 "Skype" \
-               false 9 "Viber" \
-               false 10 "Telegram" \
-               false 11 "TeamViewer" \
-               false 12 "Tor Browser Launcher" \
-               false 13 "MEGASync Client" \
-               false 14 "Msttcorefonts (Microsoft шрифтове)" \
-               false 15 "PlayOnLinux" \
-               false 16 "Kodi" \
-               false 17 "Vivaldi" \
-               false 18 "Chromium" \
-               false 19 "Brackets" \
-               false 20 "Syncthing" \
-               false 21 "Terminix" \
-               false 22 "Plex Media Server" );
+               true  "<b>Steam</b>" "<i>Най-добрата платформа за онлайн игра</i>" \
+               false "<b>Dropbox</b>" "<i>Разширение за файловият мениджър Nautilus</i>" \
+               false "<b>Google Chrome</b>" "<i>Бърз, лесен и защитен уеб браузър</i>" \
+               false "<b>Google Talk Plugin</b>" "<i>Гласови и видео-чат разговори</i>" \
+               false "<b>Opera Browser (STABLE)</b>" "<i>Бърз, безопасен и лесен за използване браузър</i>" \
+               false "<b>Spotify Client</b>" "<i>Дигитална музикална услуга, която ви дава достъп до милиони песни</i>" \
+               false "<b>Sublime Text 3</b>" "<i>Приятен за работа редактор за текст и код</i>" \
+               false "<b>Atom Text Editor</b>" "<i>Свободен и отворен код текстов редактор за OS X, Linux и Windows</i>" \
+               false "<b>Skype</b>" "<i>Приложен софтуер за чат, VOIP телефония и видеовръзка</i>" \
+               false "<b>Viber</b>" "<i>Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде</i>" \
+               false "<b>Telegram</b>" "<i>Приложение за съобщения с акцент върху скоростта и сигурността</i>" \
+               false "<b>TeamViewer</b>" "<i>Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет</i>" \
+               false "<b>Tor Browser Launcher</b>" "<i>Инсталиране и стартиране на Tor браузъра в Linux</i>" \
+               false "<b>MEGASync Client</b>" "<i>Интегрира облак услугата MEGA със GNOME десктопа</i>" \
+               false "<b>Msttcorefonts</b>" "<i>Инсталира Microsoft TrueType шрифтовете за по добра Windows съвместимост</i>" \
+               false "<b>PlayOnLinux</b>" "<i>Инсталира Windows видео игри, Microsoft Office и др.</i>" \
+               false "<b>Kodi</b>" "<i>Крос-медиен плейър, jukebox и център за забавление</i>" \
+               false "<b>Vivaldi</b>" "<i>Интернет браузър създаден на базата на Chromium и енджин Blink</i>" \
+               false "<b>Chromium</b>" "<i>Open-source версията на Google Chrome уеб браузъра</i>" \
+               false "<b>Brackets</b>" "<i>Отворен код редактор за уеб дизайн и разработка</i>" \
+               false "<b>Syncthing</b>" "<i>Непрекъсната синхронизация на файлове</i>" \
+               false "<b>Terminix</b>" "<i>GTK 3 Терминал емулатор за Linux</i>" \
+               false "<b>Plex Media Server</b>" "<i>Stream media everywhere</i>" );
 
   case ${choise} in
-    "0|")install_steam ;;
-    "1|")install_dropbox ;;
-    "2|")install_chrome ;;
-    "3|")install_gtalk ;;
-    "4|")install_opera ;;
-    "5|")install_spotify ;;
-    "6|")install_sublimetext ;;
-    "7|")install_atom ;;
-    "8|")install_skype ;;
-    "9|")install_viber ;;
-    "10|")install_telegram ;;
-    "11|")install_teamviewer ;;
-    "12|")install_tor ;;
-    "13|")install_megasync ;;
-    "14|")install_mscorefonts ;;
-    "15|")install_playonlinux ;;
-    "16|")install_kodi ;;
-    "17|")install_vivaldi ;;
-    "18|")install_chromium ;;
-    "19|")install_brackets ;;
-    "20|")install_syncthing ;;
-    "21|")install_terminix ;;
-    "22|")install_plex ;;
+    *"Steam"*)install_steam ;;
+    *"Dropbox"*)install_dropbox ;;
+    *"Google Chrome"*)install_chrome ;;
+    *"Google Talk Plugin"*)install_gtalk ;;
+    *"Opera Browser (STABLE)"*)install_opera ;;
+    *"Spotify Client"*)install_spotify ;;
+    *"Sublime Text 3"*)install_sublimetext ;;
+    *"Atom Text Editor"*)install_atom ;;
+    *"Skype"*)install_skype ;;
+    *"Viber"*)install_viber ;;
+    *"Telegram"*)install_telegram ;;
+    *"TeamViewer"*)install_teamviewer ;;
+    *"Tor Browser Launcher"*)install_tor ;;
+    *"MEGASync Client"*)install_megasync ;;
+    *"Msttcorefonts"*)install_mscorefonts ;;
+    *"PlayOnLinux"*)install_playonlinux ;;
+    *"Kodi"*)install_kodi ;;
+    *"Vivaldi"*)install_vivaldi ;;
+    *"Chromium"*)install_chromium ;;
+    *"Brackets"*)install_brackets ;;
+    *"Syncthing"*)install_syncthing ;;
+    *"Terminix"*)install_terminix ;;
+    *"Plex Media Server"*)install_plex ;;
     *) break ;;
   esac
 done
