@@ -80,7 +80,7 @@ install_dropbox() {
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Utilities → Internet
-<b><span color='dark gray'>Лиценз:</span></b> GPLv3
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
 <b><span color='dark gray'>Обем:</span></b> 201 k
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
       --button="$BtStatus":0 \
@@ -114,7 +114,7 @@ install_viber(){
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
-<b><span color='dark gray'>Лиценз:</span></b> Adware
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.viber.com/en/eula'>EULA</a>
 <b><span color='dark gray'>Обем:</span></b> 342 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.viber.com/en/'>http://www.viber.com/en/</a>" \
       --button="$BtStatus":0 \
@@ -148,7 +148,7 @@ install_telegram(){
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
-<b><span color='dark gray'>Лиценз: GPLv3</span></b>
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
 <b><span color='dark gray'>Обем:</span></b> 43 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://telegram.org/'>https://telegram.org/</a>" \
       --button="$BtStatus":0 \
@@ -190,7 +190,7 @@ install_spotify(){
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Audio → Music
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.spotify.com/legal/end-user-agreement'>end-user-agreement</a>
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.spotify.com/legal/end-user-agreement'>EULA</a>
 <b><span color='dark gray'>Обем:</span></b> 205,0 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.spotify.com/bg/'>www.spotify.com/bg/</a>" \
       --button="$BtStatus":0 \
@@ -232,7 +232,7 @@ install_sublimetext(){
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
-<b><span color='dark gray'>Лиценз:</span></b> EULA
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.sublimetext.com/eula'>EULA<a/>
 <b><span color='dark gray'>Обем:</span></b> 20 MB
 <b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.sublimetext.com/3'>www.sublimetext.com/3</a>" \
@@ -264,7 +264,7 @@ install_atom() {
 
 <b>Детайли</b>
 <b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
-<b><span color='dark gray'>Лиценз:</span></b> MIT
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/MIT.html'>MIT</a>
 <b><span color='dark gray'>Обем:</span></b> 225 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://atom.io/'>https://atom.io/</a>" \
       --button="$BtStatus":0 \
@@ -338,7 +338,7 @@ install_chrome() {
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b> Безплатна програма, Google Chrome условия за ползване на услугата.
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.google.com/chrome/browser/privacy/eula_text.html'>EULA</a>
 <b><span color='dark gray'>Обем:</span></b> 189,3 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
       --button="$BtStatus":0 \
@@ -444,9 +444,8 @@ install_tor() {
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b> MIT
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/MIT.html'>MIT</a>
 <b><span color='dark gray'>Обем:</span></b> 297 K
-<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/micahflee/torbrowser-launcher'>https://github.com/micahflee/torbrowser-launcher</a>" \
       --button="$BtStatus":0 \
       --center
@@ -476,9 +475,8 @@ install_mscorefonts(){
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Fonts
-<b><span color='dark gray'>Лиценз:</span></b> GPLv2
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
 <b><span color='dark gray'>Обем:</span></b> 24 K
-<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://mscorefonts2.sourceforge.net/'>http://mscorefonts2.sourceforge.net</a>" \
       --button="$BtStatus":0 \
       --center
@@ -508,7 +506,7 @@ install_playonlinux(){
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Games
-<b><span color='dark gray'>Лиценз:</span></b> GPL/LGPL
+<b><span color='dark gray'>Лиценз:</span></b>  <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.playonlinux.com/en/'>https://www.playonlinux.com/en</a>" \
       --button="$BtStatus":0 \
       --center
@@ -584,11 +582,11 @@ install_opera(){
       --window-icon="$window_icon" \
       --image="$operaIcon" \
       --text="<b>Opera Browser (STABLE)</b>
-Бърз, безопасен и лесен за използване браузър.
+Браузърът Opera ви предоставя повече скорост, повече възможности за откриване на съдържание и повече сигурност в мрежата – и всичко това е безплатно.
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b> Собственически
+<b><span color='dark gray'>Лиценз:</span></b> <a href='http://www.opera.com/bg/eula/computers'>EULA</a>
 <b><span color='dark gray'>Обем:</span></b> 46 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.opera.com/bg/computer'>www.opera.com/bg</a>" \
       --button="$BtStatus":0 \
@@ -786,7 +784,7 @@ install_brackets(){
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
-<b><span color='dark gray'>Лиценз:</span></b> MIT
+<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/MIT.html'>MIT</a>
 <b><span color='dark gray'>Обем:</span></b> 145 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://brackets.io/'>http://brackets.io/</a>" \
       --button="$BtStatus":0 \
