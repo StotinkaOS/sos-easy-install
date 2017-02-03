@@ -27,7 +27,7 @@ flash(){
       --image="$flashIcon" \
       --title="$prog - Flash plugin" \
       --text="<b>Flash plugin</b>
-Adobe Flash Player 11.2
+Adobe Flash Player 24.x
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Multimedia
