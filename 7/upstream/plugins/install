@@ -894,7 +894,7 @@ do
                false "<b>PlayOnLinux</b>" "Инсталира Windows видео игри, Microsoft Office и др." \
                false "<b>Kodi</b>" "Крос-медиен плейър, jukebox и център за забавление" \
                false "<b>Vivaldi</b>" "Интернет браузър създаден на базата на Chromium и енджин Blink" \
-               false "<b>Chromium</b>" "Open-source версията на Google Chrome уеб браузъра" \
+               false "<b>Chromium</b>" "Open source версията на Chrome уеб браузъра" \
                false "<b>Brackets</b>" "Отворен код редактор за уеб дизайн и разработка" \
                false "<b>Syncthing</b>" "Непрекъсната синхронизация на файлове" \
                false "<b>Terminix</b>" "GTK 3 Терминал емулатор за Linux" \
