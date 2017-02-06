@@ -3,12 +3,11 @@ Exec=/usr/bin/sos-easy-install-plugins/plugins/selinux
 Version=1.0
 Type=Application
 Name=Disable SeLinux
-Name[bg_BG]=Изключване на SELinux
+Name[bg_BG]=Управление на SELinux
 GenericName=Disable SeLinux
-GenericName[bg_BG]=Изключване на SELinux
+GenericName[bg_BG]=Управление на SELinux
 Comment=Enable or Disable SELinux
-Comment[bg_BG]=Изключване или Включване на SELinux защитната среда
+Comment[bg_BG]=Изключи или Включи SELinux защитната среда
 Icon=/usr/share/icons/sos-ei-app-icons/selinux-menu.png
 Categories=AudioVideo;Player;Qt;
 StartupNotify=false
-

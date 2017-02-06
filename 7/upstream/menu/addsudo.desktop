@@ -3,12 +3,11 @@ Exec=/usr/bin/sos-easy-install-plugins/plugins/sudo
 Version=1.0
 Type=Application
 Name=Enable/Disable Sudo
-Name[bg_BG]=Добавяне на Sudo
+Name[bg_BG]=Управление на Sudo
 GenericName=Enable/Disable Sudo
-GenericName[bg_BG]=Добавяне на Sudo
+GenericName[bg_BG]=Управление на Sudo
 Comment=Add or remove the currect user to group sudo
-Comment=Добавяне или премахване на потребител към sudo групата
+Comment=Добави или премахни потребителя от sudo групата
 Icon=/usr/share/icons/sos-ei-app-icons/sudo-menu.png
 Categories=AudioVideo;Player;Qt;
 StartupNotify=false
-
