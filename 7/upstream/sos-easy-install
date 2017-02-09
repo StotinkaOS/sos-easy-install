@@ -42,6 +42,7 @@ checklog() {
                   --button="Затваряне!gtk-close":1 \
                   --window-icon="$window_icon" \
                   --title="Грешка" \
+                  --width="300" --height="200" \
                   --image=gtk-dialog-error \
                   --center)
     menu
