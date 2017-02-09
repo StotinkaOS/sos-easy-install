@@ -200,18 +200,7 @@ install_spotify(){
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage spotify-client
-      rm -f /etc/yum.repos.d/epel-spotify.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
-  cat << EOF > /etc/yum.repos.d/epel-spotify.repo
-[epel-spotify]
-name=negativo17 - Spotify
-baseurl=http://negativo17.org/repos/spotify/epel-7/x86_64/
-enabled=1
-skip_if_unavailable=1
-gpgkey=http://negativo17.org/repos/RPM-GPG-KEY-slaanesh
-gpgcheck=1
-exclude=a52dec faad2 faad2-libs lame lame-libs libdvdcss libdvdnav libdvdread libmad libmpeg2 librtmp x264 x264-libs x265 x265-libs xvidcore ffmpeg ffmpeg-compat gpac rtmpdump
-EOF
       installPackage spotify-client
     fi
   fi
