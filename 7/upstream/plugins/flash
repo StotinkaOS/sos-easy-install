@@ -25,9 +25,12 @@ flash(){
   yad --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$flashIcon" \
-      --title="$prog - Flash plugin" \
-      --text="<b>Flash plugin</b>
-Adobe Flash Player 24.x
+      --title="$prog - Flash Player" \
+      --text="<b>Adobe Flash Player 24.x</b>
+
+Adobe Flash Player е безплатен софтуер, който се използва за преглед на мултимедийно
+съдържание, за излъчване на аудио и видео, и за изпълнение на интернет приложения
+в повечето уеб браузери.
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Multimedia
