@@ -354,7 +354,7 @@ EOF_GOOGLE_CHROME_REPO
 }
 
 install_skype() {
-  if isInstalled skype; then
+  if isInstalled skypeforlinux; then
     BtStatus="Премахни"
   else
     BtStatus='Инсталирай'
@@ -363,14 +363,13 @@ install_skype() {
  yad --title="$prog" --width="520" --height="300" \
       --window-icon="$window_icon" \
       --image="$skypeIcon" \
-      --text="<b>Skype</b>
+      --text="<b>Skype for Linux Alpha</b>
 Приложен софтуер за чат, VOIP телефония и видеовръзка
 
 <b>Детайли:</b>
 <b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
 <b><span color='dark gray'>Лиценз:</span></b> Собственически лиценз, Безплатен софтуер с допълнителни, платени възможности.
-<b><span color='dark gray'>Обем:</span></b> 35 MB
-<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
+<b><span color='dark gray'>Обем:</span></b> 148 MB
 <b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.skype.com/'>https://www.skype.com</a>" \
       --button="$BtStatus":0 \
       --center
@@ -378,11 +377,11 @@ install_skype() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage skype
+      removePackage skypeforlinux
     elif [[ "$BtStatus" == Инсталирай ]]; then
       # remove old skype repo
       rm -f /etc/yum.repos.d/skype.repo
-      installPackage skype
+      installPackage "https://go.skype.com/skypeforlinux-64-alpha.rpm"
     fi
   fi
 }
