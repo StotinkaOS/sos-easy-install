@@ -39,28 +39,22 @@ install_steam() {
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage steam
+      removePackage steam flash-plugin.i386
+      # remove steam repo
       rm -f /etc/yum.repos.d/epel-steam.repo
-      rm -f /etc/yum.repos.d/adobe-linux-i386.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
+      # add steam repo
       yum-config-manager --add-repo=http://negativo17.org/repos/epel-steam.repo
-      #  for libva-intel-driver(x86-32) (This is a temporary workaround!)
-      yum-config-manager --add-repo=http://negativo17.org/repos/epel-handbrake.repo
-        cat << EOF > /etc/yum.repos.d/adobe-linux-i386.repo
-[adobe-linux-i386]
-name=Adobe Systems Incorporated
-baseurl=http://linuxdownload.adobe.com/linux/i386/
-enabled=1
-skip_if_unavailable=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
-EOF
-        # install steam
-        installPackage flash-plugin.i386 flash-plugin.x86_64 steam libtxc_dxtn.x86_64
-        # remove incompatible repo (This is a temporary workaround!)
-        rm -f /etc/yum.repos.d/epel-handbrake.repo
-        # allow Steam to start in Big Picture mode
-        setsebool -P allow_execheap 1
+      # import GPG key
+      rpm -ivh http://linuxdownload.adobe.com/adobe-release/adobe-release-i386-1.0-1.noarch.rpm
+      rpm -ivh http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
+      rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+      # install steam
+      installPackage flash-plugin.i386 flash-plugin.x86_64 steam libtxc_dxtn.x86_64
+      # remove incompatible repo (This is a temporary workaround!)
+      rm -f /etc/yum.repos.d/epel-handbrake.repo
+      # allow Steam to start in Big Picture mode
+      setsebool -P allow_execheap 1
     fi
   fi
 }
