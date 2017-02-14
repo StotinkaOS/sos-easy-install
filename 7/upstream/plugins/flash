@@ -52,6 +52,7 @@ name=Adobe Systems Incorporated
 baseurl=http://linuxdownload.adobe.com/linux/x86_64/
 enabled=1
 gpgcheck=1
+skip_if_unavailable=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
 EOF
       installPackage flash-plugin
