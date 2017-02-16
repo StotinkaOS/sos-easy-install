@@ -23,16 +23,21 @@ install_steam() {
     BtStatus="Инсталирай"
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="Steam" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$steamIcon" \
+      --image="$steam_Image" --borders=20 \
       --text="<b>Steam</b>
-Най-добрата платформа за онлайн игра.
+Софтуерна, мултиплейър и комуникационна платформа за разпространение на цифрово съдържание и мултимедия, разработена от Valve Corporation.
+Steam има също и обществени функции, автоматични обновления на игрите, и възможност за гласов и текстов чат в игра.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Games
-<b><span color='dark gray'>Лиценз:</span></b> Steam Лицензионно Споразумение
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://store.steampowered.com/'>http://store.steampowered.com/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Games
+<b><span color='dark gray'>Хранилище</span></b>  negativo17 - steam
+<b><span color='dark gray'>Лиценз</span></b>  <a href='http://store.steampowered.com/eula/eula_39190'>EULA</a>
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://store.steampowered.com/'>http://store.steampowered.com/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -66,17 +71,16 @@ install_dropbox() {
     BtStatus="Инсталирай"
   fi
 
- yad --title="$prog" --width="520" --height="300" \
-      --window-icon="$window_icon" \
-      --image="$dropboxIcon" \
+ yad --title="Dropbox" --width="1100" --height="480" \
+      --window-icon="$window_icon" --borders=20 \
       --text="<b>Dropbox</b>
 Разширение за файловият мениджър Nautilus, което интегрира облак услугата Dropbox със GNOME десктопа.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Utilities → Internet
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
-<b><span color='dark gray'>Обем:</span></b> 201 k
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Utilities → Internet
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
+<b><span color='dark gray'>Обем</span></b>  201 k
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -723,17 +727,21 @@ install_chromium(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★☆☆☆☆</span>'
+  yad --title="Chromium" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$chromiumIcon" \
+      --image="$chromium_image" --borders=20 \
       --text="<b>Chromium</b>
-Open-source версията на Google Chrome уеб браузъра
+Браузър с отворен код, който има за цел да изгради средство за по-безопасна, по-бърза и по-стабилна употреба на Интернет.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b>BSD and LGPLv2+
-<b><span color='dark gray'>Обем:</span></b> 188 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.chromium.org/Home'>https://www.chromium.org</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Web Browser
+<b><span color='dark gray'>Хранилище</span></b>  Epel
+<b><span color='dark gray'>Лиценз</span></b>  BSD and LGPLv2+
+<b><span color='dark gray'>Обем</span></b>  118,7 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.chromium.org/Home'>https://www.chromium.org</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -857,9 +865,9 @@ menu(){
                  --window-icon="$window_icon" \
                  --width="750" --height="630" --center --fixed \
                  --list --print-column=2 \
-                 --column=:IMG --column=Приложение:TEXT --column=Категория:TEXT --column=Описание:TEXT \
+                 --column=:IMG --column=Име:TEXT --column=Категория:TEXT --column=Описание:TEXT \
                  --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
-                 "$steamIcon"  "<b>Steam</b>" "Games" "Най-добрата платформа за онлайн игра" \
+                 "$steamIcon"  "<b>Steam</b>" "Games" "Инсталатор на Steam клиент" \
                  "$dropboxIcon" "<b>Dropbox</b>" "Internet" "Разширение за файловият мениджър Nautilus" \
                  "$chromeIcon" "<b>Google Chrome</b>" "Web Browser" "Бърз, лесен и защитен уеб браузър" \
                  "$gtalkIcon" "<b>Google Talk Plugin</b>" "Instant Messaging" "Гласови и видео-чат разговори" \

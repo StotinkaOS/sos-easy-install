@@ -25,36 +25,68 @@ arch=$(uname -m)
 user=$(who | cut -d' ' -f1 | sort | uniq);
 
 # Applications
+
+# steam
 steamIcon="$app_icon/steam1.png"
+steam_Image="$app_icon/steam_image.png"
+# dropbox
 dropboxIcon="$app_icon/dropbox.png"
+# chrome
 chromeIcon="$app_icon/chrome.png"
+# msfonts
 msIcon="$app_icon/ms-fonts.png"
+# playonlinux
 playonlinuxIcon="$app_icon/playonlinux.png"
+# skype
 skypeIcon="$app_icon/skype.png"
+# teamviewer
 teamvIcon="$app_icon/teamviewer.png"
+# viber
 viberIcon="$app_icon/viber.png"
+# virtualbox
 vboxIcon="$app_icon/virtualbox.png"
+# sudo
 sudoIcon="$app_icon/sudo.png"
+# selinux
 selinuxIcon="$app_icon/selinux.png"
+# gtalk plugin
 gtalkIcon="$app_icon/gtalk.png"
+# tor brower
 torIcon="$app_icon/tor.png"
+# spotify
 spotifyIcon="$app_icon/spotify.png"
+# sublime
 sublimetextIcon="$app_icon/sublimetext.png"
+# atom
 atomIcon="$app_icon/atom.png"
-loginIcon="$app_icon/autologin.png"
+# mega
 megaIcon="$app_icon/mega.png"
+# flash
 flashIcon="$app_icon/flash.png"
+# opera
 operaIcon="$app_icon/opera.png"
+# telegram
 telegramIcon="$app_icon/telegram.png"
+# kodi
 kodiIcon="$app_icon/kodiIcon.png"
+# vivaldi
 vivaldiIcon="$app_icon/vivaldi.png"
+# chromium
 chromiumIcon="$app_icon/chromium.png"
+chromium_image="$app_icon/chromium_image.png"
+# brackets
 bracketsIcon="$app_icon/brackets.png"
+# kernel-ml
 kernelIcon="$app_icon/kernel.png"
+# syncthing
 syncthingIcon="$app_icon/syncthing.png"
+# terminix
 terminixIcon="$app_icon/terminix.png"
+# gnome boxes
 boxesIcon="$app_icon/gnome-boxes.png"
+# virt-manager
 virtIcon="$app_icon/virt-manager.png"
+# plex
 plexIcon="$app_icon/plex.png"
 
 # Desktop
