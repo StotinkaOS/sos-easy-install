@@ -71,15 +71,18 @@ install_dropbox() {
     BtStatus="Инсталирай"
   fi
 
- yad --title="Dropbox" --width="1100" --height="480" \
+  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  yad --title="Dropbox" --width="1100" --height="480" \
       --window-icon="$window_icon" --borders=20 \
       --text="<b>Dropbox</b>
 Разширение за файловият мениджър Nautilus, което интегрира облак услугата Dropbox със GNOME десктопа.
 
+$stars
+
 <b>Детайли</b>
-<b><span color='dark gray'>Категория</span></b>  Utilities → Internet
+<b><span color='dark gray'>Категория</span></b>  Internet → File Transfer
 <b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
-<b><span color='dark gray'>Обем</span></b>  201 k
+<b><span color='dark gray'>Обем</span></b>  205,3 kB
 <b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.dropbox.com'>https://www.dropbox.com</a>" \
       --button="$BtStatus":0 \
       --center
@@ -868,7 +871,7 @@ menu(){
                  --column=:IMG --column=Име:TEXT --column=Категория:TEXT --column=Описание:TEXT \
                  --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
                  "$steamIcon"  "<b>Steam</b>" "Games" "Инсталатор на Steam клиент" \
-                 "$dropboxIcon" "<b>Dropbox</b>" "Internet" "Разширение за файловият мениджър Nautilus" \
+                 "$dropboxIcon" "<b>Dropbox</b>" "File Transfer" "Синхронизирайте файлове между компютри в интернет" \
                  "$chromeIcon" "<b>Google Chrome</b>" "Web Browser" "Бърз, лесен и защитен уеб браузър" \
                  "$gtalkIcon" "<b>Google Talk Plugin</b>" "Instant Messaging" "Гласови и видео-чат разговори" \
                  "$operaIcon" "<b>Opera Browser (STABLE)</b>" "Web Browser" "Бърз, безопасен и лесен за използване браузър" \
