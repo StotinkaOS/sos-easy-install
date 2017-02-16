@@ -33,6 +33,7 @@ steam_Image="$app_icon/steam_image.png"
 dropboxIcon="$app_icon/dropbox.png"
 # chrome
 chromeIcon="$app_icon/chrome.png"
+chrome_Image="$app_icon/chrome_image.png"
 # msfonts
 msIcon="$app_icon/ms-fonts.png"
 # playonlinux

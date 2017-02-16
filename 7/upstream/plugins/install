@@ -320,17 +320,22 @@ install_chrome() {
     BtStatus="Инсталирай"
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  yad --title="Google Chrome" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$chromeIcon" \
+      --image="$chrome_Image" \
       --text="<b>Google Chrome</b>
-Бърз, лесен и защитен уеб браузър, изграден за модерният уеб.
+Безплатен уеб браузър на компанията Google.
+Браузърът е създаден с цел да направи работата в интернет по-бърза, по-лесна и по-безопасна, с минимален дизайн, който не се натрапва.
+
+$stars
 
 <b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.google.com/chrome/browser/privacy/eula_text.html'>EULA</a>
-<b><span color='dark gray'>Обем:</span></b> 189,3 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
+<b><span color='dark gray'>Категория:</span></b>  Internet → Web Browser
+<b><span color='dark gray'>Хранилище</span></b>  google-chrome
+<b><span color='dark gray'>Лиценз:</span></b>  <a href='https://www.google.com/chrome/browser/privacy/eula_text.html'>EULA</a>
+<b><span color='dark gray'>Обем:</span></b>  179,0 MB
+<b><span color='dark gray'>Уеб сайт:</span></b>  <a href='https://www.google.com/chrome/'>https://www.google.com/chrome</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -872,7 +877,7 @@ menu(){
                  --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
                  "$steamIcon"  "<b>Steam</b>" "Games" "Инсталатор на Steam клиент" \
                  "$dropboxIcon" "<b>Dropbox</b>" "File Transfer" "Синхронизирайте файлове между компютри в интернет" \
-                 "$chromeIcon" "<b>Google Chrome</b>" "Web Browser" "Бърз, лесен и защитен уеб браузър" \
+                 "$chromeIcon" "<b>Google Chrome</b>" "Web Browser" "Безплатен уеб браузър на компанията Google" \
                  "$gtalkIcon" "<b>Google Talk Plugin</b>" "Instant Messaging" "Гласови и видео-чат разговори" \
                  "$operaIcon" "<b>Opera Browser (STABLE)</b>" "Web Browser" "Бърз, безопасен и лесен за използване браузър" \
                  "$spotifyIcon" "<b>Spotify Client</b>" "Multimedia" "Дигитална музикална услуга, която ви дава достъп до милиони песни" \
