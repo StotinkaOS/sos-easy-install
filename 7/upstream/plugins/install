@@ -851,64 +851,65 @@ GTK 3 Терминал емулатор за Linux който има функц�
 
 # Main menu
 menu(){
-while :
-do
-  choise=$(yad --title="$prog - Инсталиране на приложения" --name="$prog" \
-               --window-icon="$window_icon" \
-               --width="700" --height="630" --center --fixed \
-               --list --radiolist --column "" --column "Приложение" --column "Описание" \
-               --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
-               true  "<b>Steam</b>" "Най-добрата платформа за онлайн игра" \
-               false "<b>Dropbox</b>" "Разширение за файловият мениджър Nautilus" \
-               false "<b>Google Chrome</b>" "Бърз, лесен и защитен уеб браузър" \
-               false "<b>Google Talk Plugin</b>" "Гласови и видео-чат разговори" \
-               false "<b>Opera Browser (STABLE)</b>" "Бърз, безопасен и лесен за използване браузър" \
-               false "<b>Spotify Client</b>" "Дигитална музикална услуга, която ви дава достъп до милиони песни" \
-               false "<b>Sublime Text 3</b>" "Приятен за работа редактор за текст и код" \
-               false "<b>Atom Text Editor</b>" "Свободен и отворен код текстов редактор за OS X, Linux и Windows" \
-               false "<b>Skype</b>" "Приложен софтуер за чат, VOIP телефония и видеовръзка" \
-               false "<b>Viber</b>" "Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде" \
-               false "<b>Telegram</b>" "Приложение за съобщения с акцент върху скоростта и сигурността" \
-               false "<b>TeamViewer</b>" "Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет" \
-               false "<b>Tor Browser Launcher</b>" "Инсталиране и стартиране на Tor браузъра в Linux" \
-               false "<b>MEGASync Client</b>" "Интегрира облак услугата MEGA със GNOME десктопа" \
-               false "<b>Msttcorefonts</b>" "Инсталира Microsoft TrueType шрифтовете за по добра Windows съвместимост" \
-               false "<b>PlayOnLinux</b>" "Инсталира Windows видео игри, Microsoft Office и др." \
-               false "<b>Kodi</b>" "Крос-медиен плейър, jukebox и център за забавление" \
-               false "<b>Vivaldi</b>" "Интернет браузър създаден на базата на Chromium и енджин Blink" \
-               false "<b>Chromium</b>" "Open source версията на Chrome уеб браузъра" \
-               false "<b>Brackets</b>" "Отворен код редактор за уеб дизайн и разработка" \
-               false "<b>Syncthing</b>" "Непрекъсната синхронизация на файлове" \
-               false "<b>Terminix</b>" "GTK 3 Терминал емулатор за Linux" \
-               false "<b>Plex Media Server</b>" "Stream media everywhere" );
+  while :
+  do
+    choise=$(yad --title="$prog - Инсталиране на приложения" --name="$prog" \
+                 --window-icon="$window_icon" \
+                 --width="750" --height="630" --center --fixed \
+                 --list --print-column=2 \
+                 --column=:IMG --column=Приложение:TEXT --column=Категория:TEXT --column=Описание:TEXT \
+                 --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
+                 "$steamIcon"  "<b>Steam</b>" "Games" "Най-добрата платформа за онлайн игра" \
+                 "$dropboxIcon" "<b>Dropbox</b>" "Internet" "Разширение за файловият мениджър Nautilus" \
+                 "$chromeIcon" "<b>Google Chrome</b>" "Web Browser" "Бърз, лесен и защитен уеб браузър" \
+                 "$gtalkIcon" "<b>Google Talk Plugin</b>" "Instant Messaging" "Гласови и видео-чат разговори" \
+                 "$operaIcon" "<b>Opera Browser (STABLE)</b>" "Web Browser" "Бърз, безопасен и лесен за използване браузър" \
+                 "$spotifyIcon" "<b>Spotify Client</b>" "Multimedia" "Дигитална музикална услуга, която ви дава достъп до милиони песни" \
+                 "$sublimetextIcon" "<b>Sublime Text 3</b>" "Text Editor" "Приятен за работа редактор за текст и код" \
+                 "$atomIcon" "<b>Atom Text Editor</b>" "Text Editor" "Свободен и отворен код текстов редактор за OS X, Linux и Windows" \
+                 "$skypeIcon" "<b>Skype</b>" "Instant Messaging" "Приложен софтуер за чат, VOIP телефония и видеовръзка" \
+                 "$viberIcon" "<b>Viber</b>" "Instant Messaging" "Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде" \
+                 "$telegramIcon" "<b>Telegram</b>" "Instant Messaging" "Приложение за съобщения с акцент върху скоростта и сигурността" \
+                 "$teamvIcon" "<b>TeamViewer</b>" "Internet" "Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет" \
+                 "$torIcon" "<b>Tor Browser Launcher</b>" "Web Browser" "Инсталиране и стартиране на Tor браузъра в Linux" \
+                 "$megaIcon" "<b>MEGASync Client</b>" "Internet" "Интегрира облак услугата MEGA със GNOME десктопа" \
+                 "$msIcon" "<b>Msttcorefonts</b>" "Fonts" "Инсталира Microsoft TrueType шрифтовете за по добра Windows съвместимост" \
+                 "$playonlinuxIcon" "<b>PlayOnLinux</b>" "Games" "Инсталира Windows видео игри, Microsoft Office и др." \
+                 "$kodiIcon" "<b>Kodi</b>" "Multimedia" "Крос-медиен плейър, jukebox и център за забавление" \
+                 "$vivaldiIcon" "<b>Vivaldi</b>" "Web Browser" "Интернет браузър създаден на базата на Chromium и енджин Blink" \
+                 "$chromiumIcon" "<b>Chromium</b>" "Web Browser" "Open source версията на Chrome уеб браузъра" \
+                 "$bracketsIcon" "<b>Brackets</b>" "Text Editor" "Отворен код редактор за уеб дизайн и разработка" \
+                 "$syncthingIcon" "<b>Syncthing</b>" "Internet" "Непрекъсната синхронизация на файлове" \
+                 "$terminixIcon" "<b>Terminix</b>" "System" "GTK 3 Терминал емулатор за Linux" \
+                 "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Stream media everywhere" );
 
-  case ${choise} in
-    *"Steam"*)install_steam ;;
-    *"Dropbox"*)install_dropbox ;;
-    *"Google Chrome"*)install_chrome ;;
-    *"Google Talk Plugin"*)install_gtalk ;;
-    *"Opera Browser (STABLE)"*)install_opera ;;
-    *"Spotify Client"*)install_spotify ;;
-    *"Sublime Text 3"*)install_sublimetext ;;
-    *"Atom Text Editor"*)install_atom ;;
-    *"Skype"*)install_skype ;;
-    *"Viber"*)install_viber ;;
-    *"Telegram"*)install_telegram ;;
-    *"TeamViewer"*)install_teamviewer ;;
-    *"Tor Browser Launcher"*)install_tor ;;
-    *"MEGASync Client"*)install_megasync ;;
-    *"Msttcorefonts"*)install_mscorefonts ;;
-    *"PlayOnLinux"*)install_playonlinux ;;
-    *"Kodi"*)install_kodi ;;
-    *"Vivaldi"*)install_vivaldi ;;
-    *"Chromium"*)install_chromium ;;
-    *"Brackets"*)install_brackets ;;
-    *"Syncthing"*)install_syncthing ;;
-    *"Terminix"*)install_terminix ;;
-    *"Plex Media Server"*)install_plex ;;
-    *) break ;;
-  esac
-done
+    case ${choise} in
+      *"Steam"*)install_steam ;;
+      *"Dropbox"*)install_dropbox ;;
+      *"Google Chrome"*)install_chrome ;;
+      *"Google Talk Plugin"*)install_gtalk ;;
+      *"Opera Browser (STABLE)"*)install_opera ;;
+      *"Spotify Client"*)install_spotify ;;
+      *"Sublime Text 3"*)install_sublimetext ;;
+      *"Atom Text Editor"*)install_atom ;;
+      *"Skype"*)install_skype ;;
+      *"Viber"*)install_viber ;;
+      *"Telegram"*)install_telegram ;;
+      *"TeamViewer"*)install_teamviewer ;;
+      *"Tor Browser Launcher"*)install_tor ;;
+      *"MEGASync Client"*)install_megasync ;;
+      *"Msttcorefonts"*)install_mscorefonts ;;
+      *"PlayOnLinux"*)install_playonlinux ;;
+      *"Kodi"*)install_kodi ;;
+      *"Vivaldi"*)install_vivaldi ;;
+      *"Chromium"*)install_chromium ;;
+      *"Brackets"*)install_brackets ;;
+      *"Syncthing"*)install_syncthing ;;
+      *"Terminix"*)install_terminix ;;
+      *"Plex Media Server"*)install_plex ;;
+      *) break ;;
+    esac
+  done
 }
 
 menu
