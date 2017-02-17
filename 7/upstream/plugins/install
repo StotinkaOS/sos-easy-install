@@ -194,6 +194,7 @@ $stars
 
 <b>Детайли</b>
 <b><span color='dark gray'>Категория</span></b>  Audio → Music
+<b><span color='dark gray'>Хранилище</span></b>  StotinkaOS-Base
 <b><span color='dark gray'>Лиценз</span></b>  <a href='https://www.spotify.com/legal/end-user-agreement'>EULA</a>
 <b><span color='dark gray'>Обем</span></b>  167,9 MB
 <b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.spotify.com/bg/'>www.spotify.com/bg/</a>" \
@@ -297,6 +298,7 @@ $stars
 
 <b>Детайли</b>
 <b><span color='dark gray'>Категория</span></b>  Internet → Instant Messaging
+<b><span color='dark gray'>Хранилище</span></b>  google-talkplugin
 <b><span color='dark gray'>Лиценз</span></b>  Безплатна програма, Google условия за ползване на услугата.
 <b><span color='dark gray'>Обем</span></b>  17 MB
 <b><span color='dark gray'>Уеб сайт</span></b>  <a href='www.google.com/chat/video'>www.google.com/chat/video</a>" \
@@ -587,12 +589,13 @@ install_opera(){
       --window-icon="$window_icon" \
       --image="$opera_Image" --borders=20 \
       --text="<b>Opera Browser (STABLE)</b>
-Браузърът Opera ви предоставя повече скорост, повече възможности за откриване на съдържание и повече сигурност в мрежата – и всичко това е безплатно.
+Браузърът Opera ви предоставя повече скорост, повече възможности за откриване на съдържание и повече сигурност в мрежата и всичко това е безплатно.
 
 $stars
 
 <b>Детайли</b>
 <b><span color='dark gray'>Категория</span></b>  Internet → Web Browser
+<b><span color='dark gray'>Хранилище</span></b>  russianfedora-nonfree
 <b><span color='dark gray'>Лиценз</span></b>  <a href='http://www.opera.com/bg/eula/computers'>EULA</a>
 <b><span color='dark gray'>Обем</span></b>  176,9 MB
 <b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://www.opera.com/bg/computer'>www.opera.com/bg</a>" \
