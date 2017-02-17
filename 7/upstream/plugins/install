@@ -217,18 +217,22 @@ install_sublimetext(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  yad --title="Sublime Text 3" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$sublimetextIcon" \
+      --image="$sublimetext_Image" --borders=20 \
       --text="<b>Sublime Text 3</b>
-Приятен за работа редактор за текст и код
+Междуплатформен софтуер за обработка на изходен код и текстов редактор с приложно-програмен интерфейс (API) написан на Python.
+Функционалността му може да бъде допълвана от потребителите чрез плъгини.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.sublimetext.com/eula'>EULA</a>
-<b><span color='dark gray'>Обем:</span></b> 20 MB
-<b><span color='dark gray'>От хранилище:</span></b> StotinkaOS-Base
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.sublimetext.com/3'>www.sublimetext.com/3</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Utilities → Text Editor
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://www.sublimetext.com/eula'>EULA</a>
+<b><span color='dark gray'>Обем</span></b>  21 MB
+<b><span color='dark gray'>Хранилище</span></b>  StotinkaOS-Base
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.sublimetext.com/3'>www.sublimetext.com/3</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?

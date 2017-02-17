@@ -60,6 +60,7 @@ spotifyIcon="$app_icon/spotify.png"
 spotify_Image="$app_icon/spotify_image.png"
 # sublime
 sublimetextIcon="$app_icon/sublimetext.png"
+sublimetext_Image="$app_icon/sublimetext_image.png"
 # atom
 atomIcon="$app_icon/atom.png"
 # mega
