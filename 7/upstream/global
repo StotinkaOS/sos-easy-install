@@ -75,6 +75,7 @@ operaIcon="$app_icon/opera.png"
 opera_Image="$app_icon/opera_image.png"
 # telegram
 telegramIcon="$app_icon/telegram.png"
+telegram_Image="$app_icon/telegram_image.png"
 # kodi
 kodiIcon="$app_icon/kodiIcon.png"
 # vivaldi

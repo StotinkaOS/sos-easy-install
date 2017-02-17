@@ -144,17 +144,21 @@ install_telegram(){
     BtStatus="Инсталирай"
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★☆☆☆</span>'
+  yad --title="Telegram" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$telegramIcon" \
+      --image="$telegram_Image" --borders=20 \
       --text="<b>Telegram</b>
 Приложение за съобщения с акцент върху скоростта и сигурността, telegram е супер бърз, лесен и безплатен .
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
-<b><span color='dark gray'>Обем:</span></b> 43 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://telegram.org/'>https://telegram.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Instant Messaging
+<b><span color='dark gray'>Хранилище</span></b>  rommon-telegram
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
+<b><span color='dark gray'>Обем</span></b>  70,1 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://telegram.org/'>https://telegram.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
