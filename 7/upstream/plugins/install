@@ -282,9 +282,9 @@ install_gtalk() {
   stars='<span size="xx-large">☆☆☆☆☆</span>'
   yad --title="Google Talk Plugin" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$gtalk_Image" \
+      --image="$gtalk_Image" --borders=20 \
       --text="<b>Google Talk Plugin</b>
-Плъгин за браузъра, който позволява да се правят гласови и видео-чат разговори с приятели чрез уеб камера и микрофон, свързан към компютър.
+Провеждайте гласови и видеоразговори от компютъра си.
 
 $stars
 
@@ -326,10 +326,10 @@ install_chrome() {
   stars='<span size="xx-large">☆☆☆☆☆</span>'
   yad --title="Google Chrome" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$chrome_Image" \
+      --image="$chrome_Image" --borders=20 \
       --text="<b>Google Chrome</b>
 Безплатен уеб браузър на компанията Google.
-Браузърът е създаден с цел да направи работата в интернет по-бърза, по-лесна и по-безопасна, с минимален дизайн, който не се натрапва.
+Създаден с цел да направи работата в интернет по-бърза, по-лесна и по-безопасна, с минимален дизайн, който не се натрапва.
 
 $stars
 
@@ -575,17 +575,20 @@ install_opera(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  yad --title="Opera Browser" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$operaIcon" \
+      --image="$opera_Image" --borders=20 \
       --text="<b>Opera Browser (STABLE)</b>
 Браузърът Opera ви предоставя повече скорост, повече възможности за откриване на съдържание и повече сигурност в мрежата – и всичко това е безплатно.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b> <a href='http://www.opera.com/bg/eula/computers'>EULA</a>
-<b><span color='dark gray'>Обем:</span></b> 46 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.opera.com/bg/computer'>www.opera.com/bg</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Web Browser
+<b><span color='dark gray'>Лиценз</span></b>  <a href='http://www.opera.com/bg/eula/computers'>EULA</a>
+<b><span color='dark gray'>Обем</span></b>  176,9 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://www.opera.com/bg/computer'>www.opera.com/bg</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?

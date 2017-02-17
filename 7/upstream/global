@@ -67,6 +67,7 @@ megaIcon="$app_icon/mega.png"
 flashIcon="$app_icon/flash.png"
 # opera
 operaIcon="$app_icon/opera.png"
+opera_Image="$app_icon/opera_image.png"
 # telegram
 telegramIcon="$app_icon/telegram.png"
 # kodi
