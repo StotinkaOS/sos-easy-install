@@ -868,13 +868,12 @@ GTK 3 Терминал емулатор за Linux който има функц�
   fi
 }
 
-# Main menu
+# The installation menu
 menu(){
-  while :
-  do
+  while (true); do
     choise=$(yad --title="$prog - Инсталиране на приложения" --name="$prog" \
                  --window-icon="$window_icon" \
-                 --width="750" --height="630" --center --fixed \
+                 --width="1050" --height="630" --center \
                  --list --print-column=2 \
                  --column=:IMG --column=Име:TEXT --column=Категория:TEXT --column=Описание:TEXT \
                  --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
