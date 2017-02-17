@@ -71,7 +71,7 @@ install_dropbox() {
     BtStatus="Инсталирай"
   fi
 
-  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  stars='<span size="xx-large">★☆☆☆☆</span>'
   yad --title="Dropbox" --width="1100" --height="480" \
       --window-icon="$window_icon" --borders=20 \
       --text="<b>Dropbox</b>
@@ -107,17 +107,20 @@ install_viber(){
     BtStatus="Инсталирай"
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★☆☆☆</span>'
+  yad --title="Viber" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$viberIcon" \
+      --image="$viber_Image" --borders=20 \
       --text="<b>Viber</b>
 Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://www.viber.com/en/eula'>EULA</a>
-<b><span color='dark gray'>Обем:</span></b> 342 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.viber.com/en/'>http://www.viber.com/en/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Instant Messaging
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://www.viber.com/en/eula'>EULA</a>
+<b><span color='dark gray'>Обем</span></b>  352,2 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://www.viber.com/en/'>http://www.viber.com/en/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -183,7 +186,7 @@ install_spotify(){
     BtStatus="Инсталирай"
   fi
 
-  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  stars='<span size="xx-large">★☆☆☆☆</span>'
   yad --title="Spotify Client" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$spotify_Image" --borders=20 \
@@ -218,7 +221,7 @@ install_sublimetext(){
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  stars='<span size="xx-large">★★☆☆☆</span>'
   yad --title="Sublime Text 3" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$sublimetext_Image" --borders=20 \
@@ -254,7 +257,7 @@ install_atom() {
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  stars='<span size="xx-large">★★☆☆☆</span>'
   yad --title="Atom Text Editor" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$atom_Image" --borders=20 \
@@ -291,7 +294,7 @@ install_gtalk() {
     BtStatus="Инсталирай"
   fi
 
-  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  stars='<span size="xx-large">★☆☆☆☆</span>'
   yad --title="Google Talk Plugin" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$gtalk_Image" --borders=20 \
@@ -336,7 +339,7 @@ install_chrome() {
     BtStatus="Инсталирай"
   fi
 
-  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  stars='<span size="xx-large">★★★★☆</span>'
   yad --title="Google Chrome" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$chrome_Image" --borders=20 \
@@ -591,7 +594,7 @@ install_opera(){
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  stars='<span size="xx-large">★★★☆☆</span>'
   yad --title="Opera Browser" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$opera_Image" --borders=20 \
@@ -758,7 +761,7 @@ install_chromium(){
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">★☆☆☆☆</span>'
+  stars='<span size="xx-large">★★★☆☆</span>'
   yad --title="Chromium" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$chromium_image" --borders=20 \

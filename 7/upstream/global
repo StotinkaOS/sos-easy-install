@@ -45,6 +45,7 @@ skype_Image="$app_icon/skype_image.png"
 teamvIcon="$app_icon/teamviewer.png"
 # viber
 viberIcon="$app_icon/viber.png"
+viber_Image="$app_icon/viber_image.png"
 # virtualbox
 vboxIcon="$app_icon/virtualbox.png"
 # sudo
