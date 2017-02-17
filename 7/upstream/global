@@ -52,6 +52,7 @@ sudoIcon="$app_icon/sudo.png"
 selinuxIcon="$app_icon/selinux.png"
 # gtalk plugin
 gtalkIcon="$app_icon/gtalk.png"
+gtalk_Image="$app_icon/gtalk_image.png"
 # tor brower
 torIcon="$app_icon/tor.png"
 # spotify

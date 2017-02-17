@@ -279,17 +279,20 @@ install_gtalk() {
     BtStatus="Инсталирай"
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  yad --title="Google Talk Plugin" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$gtalkIcon" \
+      --image="$gtalk_Image" \
       --text="<b>Google Talk Plugin</b>
 Плъгин за браузъра, който позволява да се правят гласови и видео-чат разговори с приятели чрез уеб камера и микрофон, свързан към компютър.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
-<b><span color='dark gray'>Лиценз:</span></b> Безплатна програма, Google условия за ползване на услугата.
-<b><span color='dark gray'>Обем:</span></b> 17 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='www.google.com/chat/video'>www.google.com/chat/video</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Instant Messaging
+<b><span color='dark gray'>Лиценз</span></b>  Безплатна програма, Google условия за ползване на услугата.
+<b><span color='dark gray'>Обем</span></b>  17 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='www.google.com/chat/video'>www.google.com/chat/video</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -878,7 +881,7 @@ menu(){
                  "$steamIcon"  "<b>Steam</b>" "Games" "Инсталатор на Steam клиент" \
                  "$dropboxIcon" "<b>Dropbox</b>" "File Transfer" "Синхронизирайте файлове между компютри в интернет" \
                  "$chromeIcon" "<b>Google Chrome</b>" "Web Browser" "Безплатен уеб браузър на компанията Google" \
-                 "$gtalkIcon" "<b>Google Talk Plugin</b>" "Instant Messaging" "Гласови и видео-чат разговори" \
+                 "$gtalkIcon" "<b>Google Talk Plugin</b>" "Instant Messaging" "Провеждайте гласови и видеоразговори от компютъра си" \
                  "$operaIcon" "<b>Opera Browser (STABLE)</b>" "Web Browser" "Бърз, безопасен и лесен за използване браузър" \
                  "$spotifyIcon" "<b>Spotify Client</b>" "Multimedia" "Дигитална музикална услуга, която ви дава достъп до милиони песни" \
                  "$sublimetextIcon" "<b>Sublime Text 3</b>" "Text Editor" "Приятен за работа редактор за текст и код" \
