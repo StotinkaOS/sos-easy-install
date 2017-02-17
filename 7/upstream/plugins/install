@@ -382,17 +382,20 @@ install_skype() {
     BtStatus='Инсталирай'
   fi
 
- yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  yad --title="Skype for Linux Alpha" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$skypeIcon" \
+      --image="$skype_Image" --borders=20 \
       --text="<b>Skype for Linux Alpha</b>
-Приложен софтуер за чат, VOIP телефония и видеовръзка
+Приложен софтуер за чат, VOIP телефония и видеовръзка.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Instant Messaging
-<b><span color='dark gray'>Лиценз:</span></b> Собственически лиценз, Безплатен софтуер с допълнителни, платени възможности.
-<b><span color='dark gray'>Обем:</span></b> 148 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.skype.com/'>https://www.skype.com</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Instant Messaging
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://www.skype.com/en/legal/ios/tos/#4'>EULA</a>
+<b><span color='dark gray'>Обем</span></b>  155,3 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.skype.com/'>https://www.skype.com</a>" \
       --button="$BtStatus":0 \
       --center
  ret=$?
