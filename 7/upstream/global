@@ -63,6 +63,7 @@ sublimetextIcon="$app_icon/sublimetext.png"
 sublimetext_Image="$app_icon/sublimetext_image.png"
 # atom
 atomIcon="$app_icon/atom.png"
+atom_Image="$app_icon/atom_image.png"
 # mega
 megaIcon="$app_icon/mega.png"
 # flash

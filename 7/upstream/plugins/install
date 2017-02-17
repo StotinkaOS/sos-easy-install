@@ -254,17 +254,21 @@ install_atom() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">☆☆☆☆☆</span>'
+  yad --title="Atom Text Editor" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$atomIcon" \
+      --image="$atom_Image" --borders=20 \
       --text="<b>Atom Text Editor</b>
 Свободен и отворен код текстов редактор за OS X, Linux и Windows с поддръжка на плъгини разработен от github.
 
+$stars
+
 <b>Детайли</b>
-<b><span color='dark gray'>Категория:</span></b> Utilities → Text Editor
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/MIT.html'>MIT</a>
-<b><span color='dark gray'>Обем:</span></b> 225 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://atom.io/'>https://atom.io/</a>" \
+<b><span color='dark gray'>Категория </span></b>  Utilities → Text Editor
+<b><span color='dark gray'>Хранилище</span></b>  mosquito-atom-epel-7
+<b><span color='dark gray'>Лиценз </span></b>  <a href='https://spdx.org/licenses/MIT.html'>MIT</a>
+<b><span color='dark gray'>Обем </span></b>  75 MB
+<b><span color='dark gray'>Уеб сайт </span></b>  <a href='https://atom.io/'>https://atom.io/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
