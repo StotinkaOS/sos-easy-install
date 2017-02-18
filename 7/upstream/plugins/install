@@ -618,7 +618,7 @@ install_megasync(){
 $stars
 
 <b>Детайли</b>
-<b><span color='dark gray'>Категория</span></b>  Utilities → Internet
+<b><span color='dark gray'>Категория</span></b>  Internet → File Transfer
 <b><span color='dark gray'>Хранилище</span></b>  MEGAsync
 <b><span color='dark gray'>Лиценз</span></b>  Freeware
 <b><span color='dark gray'>Обем</span></b>  7 MB
@@ -993,7 +993,7 @@ menu(){
                  "$ramboxIcon" "<b>Rambox</b>" "Instant Messaging" "Безплатна, с отворен код платформа за съобщения и имейл приложение" \
                  "$teamvIcon" "<b>TeamViewer</b>" "Internet" "Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет" \
                  "$torIcon" "<b>Tor Browser Launcher</b>" "Web Browser" "Инсталиране и стартиране на Tor браузъра в Linux" \
-                 "$megaIcon" "<b>MEGASync Client</b>" "Internet" "Интегрира облак услугата MEGA със GNOME десктопа" \
+                 "$megaIcon" "<b>MEGASync Client</b>" "File Transfer" "Интегрира облак услугата MEGA със GNOME десктопа" \
                  "$msIcon" "<b>Msttcorefonts installer</b>" "Fonts" "Инсталатор на Microsoft TrueType шрифтове" \
                  "$telegramIcon" "<b>Telegram</b>" "Instant Messaging" "Приложение за съобщения с акцент върху скоростта и сигурността" \
                  "$playonlinuxIcon" "<b>PlayOnLinux</b>" "Games" "Инсталира Windows видео игри, Microsoft Office и др." \
