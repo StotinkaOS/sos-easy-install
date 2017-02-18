@@ -111,6 +111,7 @@ boxesIcon="$app_icon/gnome-boxes.png"
 virtIcon="$app_icon/virt-manager.png"
 # plex
 plexIcon="$app_icon/plex.png"
+plex_Image="$app_icon/plex_image.png"
 
 # Desktop
 kdeIcon="$app_icon/kde.png"
