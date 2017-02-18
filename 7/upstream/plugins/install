@@ -137,48 +137,36 @@ $stars
   fi
 }
 
-install_telegram(){
-  if isInstalled telegram-desktop; then
+install_rambox(){
+  if isInstalled Rambox; then
     BtStatus="Премахни"
   else
     BtStatus="Инсталирай"
   fi
 
   stars='<span size="xx-large">★★☆☆☆</span>'
-  yad --title="Telegram" --width="1100" --height="480" \
+  yad --title="Rambox" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$telegram_Image" --borders=20 \
-      --text="<b>Telegram</b>
-Приложение за съобщения с акцент върху скоростта и сигурността, telegram е супер бърз, лесен и безплатен .
+      --image="$rambox_Image" --borders=20 \
+      --text="<b>Rambox</b>
+Безплатна, с отворен код платформа за съобщения и имейл приложение, което съчетава в себе си общите уеб-приложения в едно.
 
 $stars
 
 <b>Детайли</b>
 <b><span color='dark gray'>Категория</span></b>  Internet → Instant Messaging
-<b><span color='dark gray'>Хранилище</span></b>  rommon-telegram
 <b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-3.0'>GPLv3</a>
-<b><span color='dark gray'>Обем</span></b>  70,1 MB
-<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://telegram.org/'>https://telegram.org/</a>" \
+<b><span color='dark gray'>Обем</span></b>  126 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://rambox.pro/'>http://rambox.pro/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage telegram-desktop
-      rm -f /etc/yum.repos.d/rommon-telegram-epel-7.repo
+      removePackage Rambox
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      cat << EOF > /etc/yum.repos.d/rommon-telegram-epel-7.repo
-[rommon-telegram]
-name=Copr repo for telegram owned by rommon
-baseurl=https://copr-be.cloud.fedoraproject.org/results/rommon/telegram/epel-7-x86_64/
-skip_if_unavailable=True
-gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/rommon/telegram/pubkey.gpg
-enabled=1
-enabled_metadata=1
-EOF
-      installPackage telegram-desktop
+      installPackage https://github.com/saenzramiro/rambox/releases/download/0.5.3/Rambox-0.5.3-ia32.rpm
     fi
   fi
 }
@@ -914,7 +902,7 @@ menu(){
                  "$atomIcon" "<b>Atom Text Editor</b>" "Text Editor" "Свободен и отворен код текстов редактор за OS X, Linux и Windows" \
                  "$skypeIcon" "<b>Skype</b>" "Instant Messaging" "Приложен софтуер за чат, VOIP телефония и видеовръзка" \
                  "$viberIcon" "<b>Viber</b>" "Instant Messaging" "Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде" \
-                 "$telegramIcon" "<b>Telegram</b>" "Instant Messaging" "Приложение за съобщения с акцент върху скоростта и сигурността" \
+                 "$ramboxIcon" "<b>Rambox</b>" "Instant Messaging" "Безплатна, с отворен код платформа за съобщения и имейл приложение" \
                  "$teamvIcon" "<b>TeamViewer</b>" "Internet" "Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет" \
                  "$torIcon" "<b>Tor Browser Launcher</b>" "Web Browser" "Инсталиране и стартиране на Tor браузъра в Linux" \
                  "$megaIcon" "<b>MEGASync Client</b>" "Internet" "Интегрира облак услугата MEGA със GNOME десктопа" \
@@ -939,7 +927,7 @@ menu(){
       *"Atom Text Editor"*)install_atom ;;
       *"Skype"*)install_skype ;;
       *"Viber"*)install_viber ;;
-      *"Telegram"*)install_telegram ;;
+      *"Rambox"*)install_rambox ;;
       *"TeamViewer"*)install_teamviewer ;;
       *"Tor Browser Launcher"*)install_tor ;;
       *"MEGASync Client"*)install_megasync ;;

@@ -73,9 +73,9 @@ flashIcon="$app_icon/flash.png"
 # opera
 operaIcon="$app_icon/opera.png"
 opera_Image="$app_icon/opera_image.png"
-# telegram
-telegramIcon="$app_icon/telegram.png"
-telegram_Image="$app_icon/telegram_image.png"
+# rambox
+ramboxIcon="$app_icon/rambox.png"
+rambox_Image="$app_icon/rambox_image.png"
 # kodi
 kodiIcon="$app_icon/kodiIcon.png"
 # vivaldi
