@@ -855,17 +855,21 @@ install_syncthing(){
     BtStatus="Инсталирай"
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="Syncthing" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$syncthingIcon" \
+      --image="$syncthing_Image" --borders=20 \
       --text="<b>Syncthing</b>
-Отворен код за непрекъсната синхронизация на файлове .
+Безплатно приложение за синхронизация на файлове между локални мрежи и мрежи в интернет.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Utilities → Internet
-<b><span color='dark gray'>Лиценз:</span></b> GPLv2
-<b><span color='dark gray'>Обем:</span></b> 17 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://syncthing.net/'>https://syncthing.net/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b> Utilities → Internet
+<b><span color='dark gray'>Хранилище</span></b>  decathorpe-syncthing
+<b><span color='dark gray'>Лиценз</span></b> GPLv2
+<b><span color='dark gray'>Обем</span></b> 17 MB
+<b><span color='dark gray'>Уеб сайт</span></b> <a href='https://syncthing.net/'>https://syncthing.net/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -944,7 +948,7 @@ menu(){
                  "$vivaldiIcon" "<b>Vivaldi</b>" "Web Browser" "Интернет браузър създаден на базата на Chromium и енджин Blink" \
                  "$chromiumIcon" "<b>Chromium</b>" "Web Browser" "Open source версията на Chrome уеб браузъра" \
                  "$bracketsIcon" "<b>Brackets</b>" "Text Editor" "Отворен код редактор за уеб дизайн и разработка" \
-                 "$syncthingIcon" "<b>Syncthing</b>" "Internet" "Непрекъсната синхронизация на файлове" \
+                 "$syncthingIcon" "<b>Syncthing</b>" "File Transfer" "Безплатно приложение за синхронизация на файлове" \
                  "$terminixIcon" "<b>Terminix</b>" "System" "GTK 3 Терминал емулатор за Linux" \
                  "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Stream media everywhere" );
 
