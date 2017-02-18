@@ -37,6 +37,7 @@ chromeIcon="$app_icon/chrome.png"
 chrome_Image="$app_icon/chrome_image.png"
 # msfonts
 msIcon="$app_icon/ms-fonts.png"
+ms_Image="$app_icon/msttcorefonts_image.png"
 # playonlinux
 playonlinuxIcon="$app_icon/playonlinux.png"
 # skype
