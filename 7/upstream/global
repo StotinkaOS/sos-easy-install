@@ -43,6 +43,7 @@ skypeIcon="$app_icon/skype.png"
 skype_Image="$app_icon/skype_image.png"
 # teamviewer
 teamvIcon="$app_icon/teamviewer.png"
+teamv_Image="$app_icon/teamv_image.png"
 # viber
 viberIcon="$app_icon/viber.png"
 viber_Image="$app_icon/viber_image.png"

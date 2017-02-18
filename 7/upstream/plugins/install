@@ -413,17 +413,20 @@ install_teamviewer() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="TeamViewer" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$teamvIcon" \
+      --image="$teamv_Image" --borders=20 \
       --text="<b>TeamViewer</b>
-Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет.
+Установете входящи и изходящи отдалечени връзки за поддръжка в реално време или достъп до други компютри.
+
+$stars
 
 <b>Детайли</b>
-<b><span color='dark gray'>Категория:</span></b> Internet
-<b><span color='dark gray'>Лиценз:</span></b> Патентован, безплатен за некомерсиална употреба.
-<b><span color='dark gray'>Обем:</span></b> 185 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://teamviewer.com/'>http://teamviewer.com</a>" \
+<b><span color='dark gray'>Категория</span></b>  Internet
+<b><span color='dark gray'>Лиценз</span></b>  Патентован, безплатен за некомерсиална употреба.
+<b><span color='dark gray'>Обем</span></b>  150,5 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://teamviewer.com/'>http://teamviewer.com</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
