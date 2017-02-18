@@ -87,6 +87,7 @@ kodiIcon="$app_icon/kodiIcon.png"
 kodi_Image="$app_icon/kodi_image.jpg"
 # vivaldi
 vivaldiIcon="$app_icon/vivaldi.png"
+vivaldi_Image="$app_icon/vivaldi_image.png"
 # chromium
 chromiumIcon="$app_icon/chromium.png"
 chromium_image="$app_icon/chromium_image.png"

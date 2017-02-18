@@ -737,17 +737,21 @@ install_vivaldi(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="Vivaldi" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$vivaldiIcon" \
+      --image="$vivaldi_Image" --borders=20 \
       --text="<b>Vivaldi</b>
-Интернет браузър създаден на базата на Chromium и енджин Blink
+Интернет браузър създаден на базата на Chromium и енджин Blink.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b> Multiple, see https://www.vivaldi.com/
-<b><span color='dark gray'>Обем:</span></b> 165 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://vivaldi.com/?lang=bg'>https://www.vivaldi.com/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Web Browser
+<b><span color='dark gray'>Хранилище</span></b>  vivaldi
+<b><span color='dark gray'>Лиценз</span></b>  Multiple, see https://www.vivaldi.com/
+<b><span color='dark gray'>Обем</span></b>  165 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://vivaldi.com/?lang=bg'>https://www.vivaldi.com/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
