@@ -93,6 +93,7 @@ chromiumIcon="$app_icon/chromium.png"
 chromium_image="$app_icon/chromium_image.png"
 # brackets
 bracketsIcon="$app_icon/brackets.png"
+brackets_Image="$app_icon/brackets_image.png"
 # kernel-ml
 kernelIcon="$app_icon/kernel.png"
 # syncthing
