@@ -22,21 +22,24 @@ flash(){
   else
     BtStatus='Инсталирай'
   fi
-  yad --width="520" --height="300" \
+
+  stars='<span size="xx-large">★☆☆☆☆</span>'
+  yad --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$flashIcon" \
-      --title="$prog - Flash Player" \
+      --image="$flash_Image" --borders=20 \
+      --title="Adobe Flash Player" \
       --text="<b>Adobe Flash Player 24.x</b>
 
-Adobe Flash Player е безплатен софтуер, който се използва за преглед на мултимедийно
-съдържание, за излъчване на аудио и видео, и за изпълнение на интернет приложения
-в повечето уеб браузери.
+Приложен софтуер, предназначен за създаване на интерактивни мултимедийни приложения.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Multimedia
-<b><span color='dark gray'>Лиценз:</span></b> Commercial
-<b><span color='dark gray'>Обем:</span></b> 20 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://get.adobe.com/flashplayer/'>https://get.adobe.com/flashplayer/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b> Multimedia
+<b><span color='dark gray'>Хранилище</span></b>  adobe-release
+<b><span color='dark gray'>Лиценз</span></b>  Commercial
+<b><span color='dark gray'>Обем</span></b>  20 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://get.adobe.com/flashplayer/'>https://get.adobe.com/flashplayer/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?

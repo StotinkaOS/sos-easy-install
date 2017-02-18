@@ -75,7 +75,7 @@ atom_Image="$app_icon/atom_image.png"
 megaIcon="$app_icon/mega.png"
 mega_Image="$app_icon/mega_image.jpg"
 # flash
-flashIcon="$app_icon/flash.png"
+flash_Image="$app_icon/adobeflash_image.jpg"
 # opera
 operaIcon="$app_icon/opera.png"
 opera_Image="$app_icon/opera_image.png"
