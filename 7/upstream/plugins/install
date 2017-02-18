@@ -1096,7 +1096,7 @@ $stars
 # The installation menu
 menu(){
   while (true); do
-    choise=$(yad --title="$prog - Инсталиране на приложения" --name="$prog" \
+    choise=$(yad --title="Инсталиране на приложения" --name="$prog" --text="Изберете приложение което искате да инсталирате, след това щракнете върху бутона <b>OK</b>.\nМоже да сортирате по <b>Име</b> и <b>Категория</b> като щракнете върху заглавието на съответната колона." \
                  --window-icon="$window_icon" \
                  --width="1050" --height="630" --center \
                  --list --print-column=2 \
