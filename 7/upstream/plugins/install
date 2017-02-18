@@ -553,17 +553,20 @@ install_megasync(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
-      --window-icon="$window_icon" \
-      --image="$megaIcon" \
+  stars='<span size="xx-large">★☆☆☆☆</span>'
+  yad --title="MEGASync client" --width="1100" --height="480" \
+      --window-icon="$window_icon" --borders=20 \
       --text="<b>MEGASync client</b>
 Разширение за файловият мениджър Nautilus, което интегрира облак услугата MEGA със GNOME десктопа.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Utilities → Internet
-<b><span color='dark gray'>Лиценз:</span></b> Freeware
-<b><span color='dark gray'>Обем:</span></b> 7 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://mega.nz/'>https://mega.nz/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Utilities → Internet
+<b><span color='dark gray'>Хранилище</span></b>  MEGAsync
+<b><span color='dark gray'>Лиценз</span></b>  Freeware
+<b><span color='dark gray'>Обем</span></b>  7 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://mega.nz/'>https://mega.nz/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
