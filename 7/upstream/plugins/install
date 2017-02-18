@@ -895,17 +895,21 @@ install_terminix(){
     BtStatus="Инсталирай"
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="Terminix" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$terminixIcon" \
+      --image="$terminix_Image" --borders=20 \
       --text="<b>Terminix</b>
-GTK 3 Терминал емулатор за Linux който има функцията да разделя терминалите във хоризонтални и вертикални .
+Усъвършенстван GTK3 терминален емулатор за Linux.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Utilities → System
-<b><span color='dark gray'>Лиценз:</span></b> MPLv2.0
-<b><span color='dark gray'>Обем:</span></b> 16 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/gnunn1/terminix'>https://github.com/gnunn1/terminix</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Utilities → System
+<b><span color='dark gray'>Хранилище</span></b>  StotinkaOS-Base
+<b><span color='dark gray'>Лиценз</span></b>  MPLv2.0
+<b><span color='dark gray'>Обем</span></b>  16 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://github.com/gnunn1/terminix'>https://github.com/gnunn1/terminix</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?

@@ -101,6 +101,7 @@ syncthingIcon="$app_icon/syncthing.png"
 syncthing_Image="$app_icon/syncthing_image.png"
 # terminix
 terminixIcon="$app_icon/terminix.png"
+terminix_Image="$app_icon/terminix_image.png"
 # gnome boxes
 boxesIcon="$app_icon/gnome-boxes.png"
 # virt-manager
