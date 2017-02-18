@@ -518,16 +518,20 @@ install_playonlinux(){
     BtStatus='Инсталирай'
   fi
 
- yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★☆☆☆☆</span>'
+  yad --title="PlayOnLinux" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$playonlinuxIcon" \
+      --image="$playonlinux_Image" --borders=20 \
       --text="<b>PlayOnLinux</b>
-Графичен софтуер който е съвместим в Wine, което позволява лесно и удобно на потребителите да инсталират Windows Linux-базирани видео игри, Microsoft Office и др.
+Стартирайте лесно видео игри, Microsoft Office и др. любими приложения в Linux.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Games
-<b><span color='dark gray'>Лиценз:</span></b>  <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.playonlinux.com/en/'>https://www.playonlinux.com/en</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Games
+<b><span color='dark gray'>Хранилище</span></b>  playonlinux
+<b><span color='dark gray'>Лиценз</span></b>   <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.playonlinux.com/en/'>https://www.playonlinux.com/en</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -647,17 +651,21 @@ install_kodi(){
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="Kodi" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$kodiIcon" \
+      --image="$kodi_Image" --borders=20 \
       --text="<b>Kodi</b>
 Крос-медиен плейър, jukebox и център за забавление.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Video → Players
-<b><span color='dark gray'>Лиценз:</span></b> GPLv2+ and GPLv3+ and LGPLv2+ and BSD and MIT
-<b><span color='dark gray'>Обем:</span></b> 42,5 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://kodi.tv/'>https://kodi.tv/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Video → Players
+<b><span color='dark gray'>Хранилище</span></b>  StotinkaOS-Base
+<b><span color='dark gray'>Лиценз</span></b>  GPLv2+ and GPLv3+ and LGPLv2+ and BSD and MIT
+<b><span color='dark gray'>Обем</span></b>  42,5 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://kodi.tv/'>https://kodi.tv/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?

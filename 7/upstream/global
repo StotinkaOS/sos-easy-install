@@ -40,6 +40,7 @@ msIcon="$app_icon/ms-fonts.png"
 ms_Image="$app_icon/msttcorefonts_image.png"
 # playonlinux
 playonlinuxIcon="$app_icon/playonlinux.png"
+playonlinux_Image="$app_icon/playonlinux_image.png"
 # skype
 skypeIcon="$app_icon/skype.png"
 skype_Image="$app_icon/skype_image.png"
@@ -83,6 +84,7 @@ ramboxIcon="$app_icon/rambox.png"
 rambox_Image="$app_icon/rambox_image.png"
 # kodi
 kodiIcon="$app_icon/kodiIcon.png"
+kodi_Image="$app_icon/kodi_image.jpg"
 # vivaldi
 vivaldiIcon="$app_icon/vivaldi.png"
 # chromium
