@@ -31,6 +31,7 @@ steamIcon="$app_icon/steam1.png"
 steam_Image="$app_icon/steam_image.png"
 # dropbox
 dropboxIcon="$app_icon/dropbox.png"
+dropbox_Image="$app_icon/dropbox_image.png"
 # chrome
 chromeIcon="$app_icon/chrome.png"
 chrome_Image="$app_icon/chrome_image.png"
@@ -70,6 +71,7 @@ atomIcon="$app_icon/atom.png"
 atom_Image="$app_icon/atom_image.png"
 # mega
 megaIcon="$app_icon/mega.png"
+mega_Image="$app_icon/mega_image.jpg"
 # flash
 flashIcon="$app_icon/flash.png"
 # opera

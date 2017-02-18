@@ -71,9 +71,10 @@ install_dropbox() {
     BtStatus="Инсталирай"
   fi
 
-  stars='<span size="xx-large">★☆☆☆☆</span>'
+  stars='<span size="xx-large">★★★☆☆</span>'
   yad --title="Dropbox" --width="1100" --height="480" \
-      --window-icon="$window_icon" --borders=20 \
+      --window-icon="$window_icon" \
+      --image="$dropbox_Image" --borders=20 \
       --text="<b>Dropbox</b>
 Разширение за файловият мениджър Nautilus, което интегрира облак услугата Dropbox със GNOME десктопа.
 
@@ -178,7 +179,7 @@ install_spotify(){
     BtStatus="Инсталирай"
   fi
 
-  stars='<span size="xx-large">★☆☆☆☆</span>'
+  stars='<span size="xx-large">★★★☆☆</span>'
   yad --title="Spotify Client" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$spotify_Image" --borders=20 \
@@ -213,7 +214,7 @@ install_sublimetext(){
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">★★☆☆☆</span>'
+  stars='<span size="xx-large">★★★★☆</span>'
   yad --title="Sublime Text 3" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$sublimetext_Image" --borders=20 \
@@ -249,7 +250,7 @@ install_atom() {
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">★★☆☆☆</span>'
+  stars='<span size="xx-large">★★★★☆</span>'
   yad --title="Atom Text Editor" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$atom_Image" --borders=20 \
@@ -447,7 +448,7 @@ install_tor() {
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">★☆☆☆☆</span>'
+  stars='<span size="xx-large">★★☆☆☆</span>'
   yad --title="Tor Browser Launcher" --width="1100" --height="480" \
       --window-icon="$window_icon" \
       --image="$tor_Image" --borders=20 \
@@ -553,9 +554,10 @@ install_megasync(){
     BtStatus='Инсталирай'
   fi
 
-  stars='<span size="xx-large">★☆☆☆☆</span>'
+  stars='<span size="xx-large">★★★☆☆</span>'
   yad --title="MEGASync client" --width="1100" --height="480" \
-      --window-icon="$window_icon" --borders=20 \
+      --window-icon="$window_icon" \
+      --image="$mega_Image" --borders=20 \
       --text="<b>MEGASync client</b>
 Разширение за файловият мениджър Nautilus, което интегрира облак услугата MEGA със GNOME десктопа.
 
