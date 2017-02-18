@@ -58,6 +58,7 @@ gtalkIcon="$app_icon/gtalk.png"
 gtalk_Image="$app_icon/gtalk_image.png"
 # tor brower
 torIcon="$app_icon/tor.png"
+tor_Image="$app_icon/tor_image.png"
 # spotify
 spotifyIcon="$app_icon/spotify.png"
 spotify_Image="$app_icon/spotify_image.png"

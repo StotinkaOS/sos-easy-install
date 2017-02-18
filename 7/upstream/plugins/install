@@ -447,17 +447,21 @@ install_tor() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★☆☆☆☆</span>'
+  yad --title="Tor Browser Launcher" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$torIcon" \
+      --image="$tor_Image" --borders=20 \
       --text="<b>Tor Browser Launcher</b>
 Надеждно и лесно изтегляне, проверяване, инсталиране и стартиране на Tor браузъра в Linux .
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Internet → Web Browser
-<b><span color='dark gray'>Лиценз:</span></b> <a href='https://spdx.org/licenses/MIT.html'>MIT</a>
-<b><span color='dark gray'>Обем:</span></b> 297 K
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/micahflee/torbrowser-launcher'>https://github.com/micahflee/torbrowser-launcher</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Web Browser
+<b><span color='dark gray'>Хранилище</span></b>  StotinkaOS-Base
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/MIT.html'>MIT</a>
+<b><span color='dark gray'>Обем</span></b>  297 K
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://github.com/micahflee/torbrowser-launcher'>https://github.com/micahflee/torbrowser-launcher</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
