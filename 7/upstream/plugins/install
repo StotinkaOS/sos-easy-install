@@ -690,6 +690,127 @@ EOF
   fi
 }
 
+install_virtualbox() {
+  if isInstalled VirtualBox-5.1; then
+   BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="Oracle VM VirtualBox" --width="1100" --height="480" \
+      --window-icon="$window_icon" \
+      --image="$vbox_Image" --borders=20 \
+      --text="<b>Oracle VM VirtualBox</b>
+Приложение което може да създава и менажира гостуващи (guest) виртуални машини, всяка с гостуваща операционна система и собствена виртуална среда.
+
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  System → Virtualization
+<b><span color='dark gray'>Хранилище</span></b>  virtualbox
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
+<b><span color='dark gray'>Обем</span></b>  157,4 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.virtualbox.org/'>https://www.virtualbox.org/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage VirtualBox-5.1
+      rm -f /etc/yum.repos.d/virtualbox.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      cat > /etc/yum.repos.d/virtualbox.repo << EOF_VIRTUALBOX_REPO
+[virtualbox]
+name=Oracle Linux / RHEL / CentOS-$releasever / $basearch - VirtualBox
+baseurl=http://download.virtualbox.org/virtualbox/rpm/el/$releasever/$basearch
+enabled=1
+gpgcheck=1
+skip_if_unavailable=1
+gpgkey=http://www.virtualbox.org/download/oracle_vbox.asc
+EOF_VIRTUALBOX_REPO
+      installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.1
+      usermod -G vboxusers,vboxsf "$user"
+      /usr/lib/virtualbox/vboxdrv.sh setup
+    fi
+  fi
+}
+
+install_flash(){
+  if isInstalled flash-plugin; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  stars='<span size="xx-large">★☆☆☆☆</span>'
+  yad --width="1100" --height="480" \
+      --window-icon="$window_icon" \
+      --image="$flash_Image" --borders=20 \
+      --title="Adobe Flash Player" \
+      --text="<b>Adobe Flash Player 24.x</b>
+Приложен софтуер, предназначен за създаване на интерактивни мултимедийни приложения.
+$stars
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b> Multimedia
+<b><span color='dark gray'>Хранилище</span></b>  adobe-release
+<b><span color='dark gray'>Лиценз</span></b>  Commercial
+<b><span color='dark gray'>Обем</span></b>  20 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://get.adobe.com/flashplayer/'>https://get.adobe.com/flashplayer/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage adobe-release flash-plugin
+      rm -f /etc/yum.repos.d/adobe-linux-x86_64.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      rpm -ivh http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
+      rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-adobe-linux
+      installPackage flash-plugin
+
+    fi
+  fi
+}
+
+install_virtmanager() {
+  if isInstalled virt-manager; then
+   BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  yad --title="$prog" --width="520" --height="300" \
+      --window-icon="$window_icon" \
+      --image="$virtIcon" \
+      --text="<b>KVM - Virt Manager</b>
+Графично приложение за управление на виртуални машини за KVM, Xen, и LXC .
+
+<b>Детайли:</b>
+<b><span color='dark gray'>Категория:</span></b> System → Emulator
+<b><span color='dark gray'>Лиценз:</span></b> GPLv2+
+<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://virt-manager.org/'>http://virt-manager.org/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client libvirt-daemon-kvm virt-install virt-viewer bridge-utils
+      # for libvirtd service
+      systemctl stop libvirtd
+      systemctl disable libvirtd
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client libvirt-daemon-kvm virt-install virt-viewer bridge-utils
+      # for libvirtd service
+      systemctl start libvirtd
+      systemctl enable libvirtd
+    fi
+  fi
+}
+
 install_kodi(){
   if isInstalled kodi; then
     BtStatus="Премахни"
@@ -987,15 +1108,18 @@ menu(){
                  "$gtalkIcon" "<b>Google Talk Plugin</b>" "Instant Messaging" "Провеждайте гласови и видеоразговори от компютъра си" \
                  "$operaIcon" "<b>Opera Browser (STABLE)</b>" "Web Browser" "Бърз, безопасен и лесен за използване браузър" \
                  "$spotifyIcon" "<b>Spotify Client</b>" "Multimedia" "Spotify клиент за стрийминг на музика" \
+                 "$flashIcon" "<b>Adobe Flash Player</b>" "Multimedia" "Плъгин за браузъра който позволява показване на флаш медиа" \
                  "$sublimetextIcon" "<b>Sublime Text 3</b>" "Text Editor" "Приятен за работа редактор за текст и код" \
                  "$atomIcon" "<b>Atom Text Editor</b>" "Text Editor" "Свободен и отворен код текстов редактор за OS X, Linux и Windows" \
                  "$skypeIcon" "<b>Skype</b>" "Instant Messaging" "Приложен софтуер за чат, VOIP телефония и видеовръзка" \
+                 "$vboxIcon" "<b>VirtualBox</b>" "Virtualization" "Програма за създаване на виртуални машини" \
                  "$ramboxIcon" "<b>Rambox</b>" "Instant Messaging" "Безплатна, с отворен код платформа за съобщения и имейл приложение" \
                  "$teamvIcon" "<b>TeamViewer</b>" "Internet" "Безплатен отдалечен достъп и отдалечено споделяне на работния плот по Интернет" \
                  "$torIcon" "<b>Tor Browser Launcher</b>" "Web Browser" "Инсталиране и стартиране на Tor браузъра в Linux" \
                  "$megaIcon" "<b>MEGASync Client</b>" "File Transfer" "Интегрира облак услугата MEGA със GNOME десктопа" \
                  "$msIcon" "<b>Msttcorefonts installer</b>" "Fonts" "Инсталатор на Microsoft TrueType шрифтове" \
                  "$telegramIcon" "<b>Telegram</b>" "Instant Messaging" "Приложение за съобщения с акцент върху скоростта и сигурността" \
+                 "$virtIcon" "<b>Virt Manager</b>" "Virtualization" "Графично приложение за управление на виртуални машини за KVM, Xen, и LXC" \
                  "$playonlinuxIcon" "<b>PlayOnLinux</b>" "Games" "Инсталира Windows видео игри, Microsoft Office и др." \
                  "$kodiIcon" "<b>Kodi</b>" "Multimedia" "Крос-медиен плейър, jukebox и център за забавление" \
                  "$vivaldiIcon" "<b>Vivaldi</b>" "Web Browser" "Интернет браузър създаден на базата на Chromium и енджин Blink" \
@@ -1007,6 +1131,7 @@ menu(){
                  "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Клиент/сървър система медия плейър" );
 
     case ${choise} in
+      *"Adobe Flash Player"*)install_flash ;;
       *"Steam"*)install_steam ;;
       *"Dropbox"*)install_dropbox ;;
       *"Google Chrome"*)install_chrome ;;
@@ -1031,6 +1156,9 @@ menu(){
       *"Syncthing"*)install_syncthing ;;
       *"Terminix"*)install_terminix ;;
       *"Plex Media Server"*)install_plex ;;
+      *"VirtualBox"*)install_virtualbox ;;
+      *"Virt Manager"*)install_virtmanager ;;
+
       *) break ;;
     esac
   done

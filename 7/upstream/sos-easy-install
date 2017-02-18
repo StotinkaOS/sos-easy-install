@@ -63,7 +63,7 @@ log() {
 }
 
 menu(){
-yad --center --icons --name="sos-easy-install - Меню" --window-icon="$window_icon" --width=750 --height=450 --read-dir="/usr/bin/sos-easy-install-plugins/menu" --item-width=100 --single-click --sort-by-name --title="sos-easy-install - Меню" --button="Log!gtk-file":3 --button="gtk-about":2 --button="Затваряне!gtk-close":1
+  yad --center --icons --name="sos-easy-install - Меню" --window-icon="$window_icon" --width=750 --height=450 --read-dir="/usr/bin/sos-easy-install-plugins/menu" --item-width=130 --single-click --sort-by-name --title="sos-easy-install - Меню" --button="Log!gtk-file":3 --button="gtk-about":2 --button="Затваряне!gtk-close":1
 
 ret=$?
 

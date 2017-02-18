@@ -52,6 +52,7 @@ viberIcon="$app_icon/viber.png"
 viber_Image="$app_icon/viber_image.png"
 # virtualbox
 vboxIcon="$app_icon/virtualbox.png"
+vbox_Image="$app_icon/virtualbox_image.png"
 # sudo
 sudoIcon="$app_icon/sudo.png"
 # selinux
@@ -75,6 +76,7 @@ atom_Image="$app_icon/atom_image.png"
 megaIcon="$app_icon/mega.png"
 mega_Image="$app_icon/mega_image.png"
 # flash
+flashIcon="$app_icon/flash.png"
 flash_Image="$app_icon/adobeflash_image.jpg"
 # opera
 operaIcon="$app_icon/opera.png"
