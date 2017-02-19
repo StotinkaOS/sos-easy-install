@@ -416,6 +416,41 @@ EOF_GOOGLE_CHROME_REPO
   fi
 }
 
+install_ownCloud_client(){
+  if isInstalled owncloud-client; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="The ownCloud Client" --width="1100" --height="480" \
+      --window-icon="$window_icon" \
+      --image="$ownCloud_Image" --borders=20 \
+      --text="<b>The ownCloud Client</b>
+Позволява да се свържете към вашия собствен ownCloud сървър.
+
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → File Transfer
+<b><span color='dark gray'>Хранилище</span></b>  Epel
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
+<b><span color='dark gray'>Обем</span></b>  5,2 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://owncloud.org/'>https://owncloud.org</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage owncloud-client
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage owncloud-client
+    fi
+  fi
+}
+
 install_skype() {
   if isInstalled skypeforlinux; then
     BtStatus="Премахни"
@@ -1131,7 +1166,9 @@ menu(){
                  "$viberIcon" "<b>Viber</b>" "Instant Messaging" "Безплатни разговори, обмен на съобщения и файлове с всеки, и навсякъде" \
                  "$syncthingIcon" "<b>Syncthing</b>" "File Transfer" "Безплатно приложение за синхронизация на файлове" \
                  "$terminixIcon" "<b>Terminix</b>" "System" "GTK 3 Терминал емулатор за Linux" \
-                 "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Клиент/сървър система медия плейър" );
+                 "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Клиент/сървър система медия плейър" \
+                 "$ownCloudIcon" "<b>Owncloud-client</b>" "File Transfer" "ownCloud десктоп клиент за синхронизация"
+          );
 
     case ${choise} in
       *"Adobe Flash Player"*)install_flash ;;
@@ -1142,6 +1179,7 @@ menu(){
       *"Opera Browser (STABLE)"*)install_opera ;;
       *"Spotify Client"*)install_spotify ;;
       *"Sublime Text 3"*)install_sublimetext ;;
+      *"Owncloud-client"*)install_ownCloud_client ;;
       *"Atom Text Editor"*)install_atom ;;
       *"Skype"*)install_skype ;;
       *"Viber"*)install_viber ;;
