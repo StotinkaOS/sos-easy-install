@@ -23,17 +23,21 @@ install_kde() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="Kde" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$kdeIcon" \
+      --image="$kde_Image" --borders=20 \
       --text="<b>KDE</b>
-Мощна графична среда с отворен код, използвана главно за UNIX системи, ГНУ/Линукс и др.
+Графична среда с отворен код, използвана главно за UNIX системи, ГНУ/Линукс и др.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> Посетете https://community.kde.org/Policies/Licensing_Policy
-<b><span color='dark gray'>Обем:</span></b> 430 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.kde.org/'>https://www.kde.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  Base
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://bg.wikipedia.org/wiki/GNU_General_Public_License'>GPL</a>
+<b><span color='dark gray'>Обем</span></b>  430 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.kde.org/'>https://www.kde.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -54,17 +58,22 @@ install_xfce() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="Xfce" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$xfceIcon" \
+      --image="$xfce_Image" --borders=20 \
       --text="<b>XFCE</b>
 Лека графична среда за UNIX и UNIX-подобни платформи.
+Девизът на нейните разработчици е Еволюция без революция.
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> GPL or BSDL
-<b><span color='dark gray'>Обем:</span></b> 12 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://www.xfce.org/'>http://www.xfce.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  Epel
+<b><span color='dark gray'>Лиценз</span></b>  GPL or BSDL
+<b><span color='dark gray'>Обем</span></b>  12 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://www.xfce.org/'>http://www.xfce.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -85,17 +94,21 @@ install_cinnamon() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="Cinammon" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$cinnamonIcon" \
+      --image="$cinnamon_Image" --borders=20 \
       --text="<b>CINNAMON</b>
 Графична среда базирана на GTK+ 3 и Gnome Shell
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> GPLv2
-<b><span color='dark gray'>Обем:</span></b> 27 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://github.com/linuxmint/Cinnamon'>https://github.com/linuxmint/Cinnamon</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  Epel
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
+<b><span color='dark gray'>Обем</span></b>  27 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://github.com/linuxmint/Cinnamon'>https://github.com/linuxmint/Cinnamon</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -116,17 +129,21 @@ install_mate() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="Mate" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$mateIcon" \
+      --image="$mate_Image" --borders=20 \
       --text="<b>MATE</b>
 Графична среда базирана на кода на вече неподържаната работна среда GNOME 2
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> GNU LGPL, GNU GPL
-<b><span color='dark gray'>Обем:</span></b> 185 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://mate-desktop.org/'>http://mate-desktop.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  Epel
+<b><span color='dark gray'>Лиценз</span></b>  GNU LGPL, GNU GPL
+<b><span color='dark gray'>Обем</span></b>  185 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://mate-desktop.org/'>http://mate-desktop.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -147,17 +164,21 @@ install_lxde() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="Lxde" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$lxdeIcon" \
+      --image="$lxde_Image" --borders=20 \
       --text="<b>LXDE</b>
 Лека графична среда за Gnu/Linux
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> GPL/LGPL
-<b><span color='dark gray'>Обем:</span></b> 12 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://lxde.org/'>http://lxde.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  StotinkaOS-Base
+<b><span color='dark gray'>Лиценз</span></b>  GPL/LGPL
+<b><span color='dark gray'>Обем</span></b>  12 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://lxde.org/'>http://lxde.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -181,17 +202,21 @@ install_lxqt() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="Lxqt" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$lxqtIcon" \
+      --image="$lxqt_Image" --borders=20 \
       --text="<b>LXQT</b>
 Графична среда формирана в резултат на сливането на LXDE и Razor-qt
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> GNU GPL, GNU LGPL
-<b><span color='dark gray'>Обем:</span></b> 44 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://lxqt.org/'>http://lxqt.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  Epel
+<b><span color='dark gray'>Лиценз</span></b>  GNU GPL, GNU LGPL
+<b><span color='dark gray'>Обем</span></b>  44 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://lxqt.org/'>http://lxqt.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -215,17 +240,20 @@ install_tde() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★☆☆☆</span>'
+  yad --title="Tde" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$tdeIcon" \
+      --image="$tde_Image" --borders=20 \
       --text="<b>TDE (Trinity Desktop Environment)</b>
 Графична среда базирана на кода на вече неподържаната работна среда KDE 3.5
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> GPL
-<b><span color='dark gray'>Обем:</span></b> 600 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://www.trinitydesktop.org/index.php'>https://www.trinitydesktop.org/index.php</a>" \
+$stars
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  trinity-r14
+<b><span color='dark gray'>Лиценз</span></b>  GPL
+<b><span color='dark gray'>Обем</span></b>  600 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.trinitydesktop.org/index.php'>https://www.trinitydesktop.org/index.php</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -264,17 +292,21 @@ install_lumina() {
     BtStatus='Инсталирай'
   fi
 
-yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★☆☆☆</span>'
+  yad --title="Lumina" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$luminaIcon" \
+      --image="$lumina_Image" --borders=20 \
       --text="<b>Lumina</b>
 Лека графична среда предназначена за Unix-подобни операционни системи .
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> Desktop environment
-<b><span color='dark gray'>Лиценз:</span></b> BSD
-<b><span color='dark gray'>Обем:</span></b> 70 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='https://lumina-desktop.org/'>https://lumina-desktop.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Desktop environment
+<b><span color='dark gray'>Хранилище</span></b>  Epel
+<b><span color='dark gray'>Лиценз</span></b>  BSD
+<b><span color='dark gray'>Обем</span></b>  70 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://lumina-desktop.org/'>https://lumina-desktop.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -292,29 +324,30 @@ yad --title="$prog" --width="520" --height="300" \
 menu(){
 while :
 do
-  choise=$(yad --title="$prog - Инсталиране на Графична среда" --name="$prog" \
+  choise=$(yad --title="Инсталиране на Графична среда" --name="$prog" \
                --window-icon="$window_icon" \
                --width="450" --height="500" --center --fixed \
-               --print-column=2 --list --radiolist --column "Изберете" --column null --column "Опция" --hide-column 2 \
+               --list --print-column=2 \
+               --column=:IMG --column "Име":TEXT \
                --button="ОК!gtk-ok":0 --button="Затваряне!gtk-close":1 \
-               true 0 "KDE" \
-               false 1 "CINNAMON" \
-               false 2 "MATE" \
-               false 3 "XFCE" \
-               false 4 "LXDE" \
-               false 5 "LXQT" \
-               false 6 "TDE (Trinity)" \
-               false 7 "Lumina" );
+               "$kdeIcon" "<b>KDE</b>" \
+               "$cinnamonIcon" "<b>CINNAMON</b>" \
+               "$mateIcon" "<b>MATE</b>" \
+               "$xfceIcon" "<b>XFCE</b>" \
+               "$lxdeIcon" "<b>LXDE</b>" \
+               "$lxqtIcon" "<b>LXQT</b>" \
+               "$tdeIcon" "<b>TDE (Trinity)</b>" \
+               "$luminaIcon" "<b>Lumina</b>" );
 
   case ${choise} in
-    "0|")install_kde ;;
-    "1|")install_cinnamon ;;
-    "2|")install_mate ;;
-    "3|")install_xfce ;;
-    "4|")install_lxde ;;
-    "5|")install_lxqt ;;
-    "6|")install_tde  ;;
-    "7|")install_lumina ;;
+    *"KDE"*)install_kde ;;
+    *"CINNAMON"*)install_cinnamon ;;
+    *"MATE"*)install_mate ;;
+    *"XFCE"*)install_xfce ;;
+    *"LXDE"*)install_lxde ;;
+    *"LXQT"*)install_lxqt ;;
+    *"TDE (Trinity)"*)install_tde  ;;
+    *"Lumina"*)install_lumina ;;
     *) break ;;
   esac
 done

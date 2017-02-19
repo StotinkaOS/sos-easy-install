@@ -119,16 +119,32 @@ plex_Image="$app_icon/plex_image.png"
 ownCloudIcon="$app_icon/ownCloud.png"
 ownCloud_Image="$app_icon/ownCloud_image.png"
 
+# Desktop env icons
 
-# Desktop
+# kde
 kdeIcon="$app_icon/kde.png"
+kde_Image="$app_icon/kde_image.png"
+# xfce
 xfceIcon="$app_icon/xfce.png"
+xfce_Image="$app_icon/xfce_image.jpg"
+# mate
 mateIcon="$app_icon/mate.png"
+mate_Image="$app_icon/mate_image.png"
+# cinnamon
 cinnamonIcon="$app_icon/cinnamon.png"
+cinnamon_Image="$app_icon/cinnamon_image.png"
+# lxde
 lxdeIcon="$app_icon/lxde.png"
+lxde_Image="$app_icon/lxde_image.png"
+# lxqt
 lxqtIcon="$app_icon/lxqt.png"
+lxqt_Image="$app_icon/lxqt_image.png"
+# tde
 tdeIcon="$app_icon/tde.png"
+tde_Image="$app_icon/tde_image.png"
+# lumina
 luminaIcon="$app_icon/lumina.png"
+lumina_Image="$app_icon/lumina_image.png"
 
 # Log last activities to retrieve errors
 TMP_LOG="/tmp/sos-easy-install.log"
