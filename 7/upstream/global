@@ -111,6 +111,7 @@ terminix_Image="$app_icon/terminix_image.png"
 boxesIcon="$app_icon/gnome-boxes.png"
 # virt-manager
 virtIcon="$app_icon/virt-manager.png"
+virt_Image="$app_icon/virt-manager_image.png"
 # plex
 plexIcon="$app_icon/plex.png"
 plex_Image="$app_icon/plex_image.png"

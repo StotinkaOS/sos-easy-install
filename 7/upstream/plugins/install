@@ -782,16 +782,20 @@ install_virtmanager() {
     BtStatus='Инсталирай'
   fi
 
-  yad --title="$prog" --width="520" --height="300" \
+  stars='<span size="xx-large">★★★★☆</span>'
+  yad --title="KVM - Virt Manager" --width="1100" --height="480" \
       --window-icon="$window_icon" \
-      --image="$virtIcon" \
+      --image="$virt_Image" \
       --text="<b>KVM - Virt Manager</b>
 Графично приложение за управление на виртуални машини за KVM, Xen, и LXC .
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> System → Emulator
-<b><span color='dark gray'>Лиценз:</span></b> GPLv2+
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://virt-manager.org/'>http://virt-manager.org/</a>" \
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  System → Virtualization
+<b><span color='dark gray'>Хранилище</span></b>  Base
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://virt-manager.org/'>http://virt-manager.org/</a>" \
       --button="$BtStatus":0 \
       --center
   ret=$?
@@ -805,7 +809,7 @@ install_virtmanager() {
     elif [[ "$BtStatus" == Инсталирай ]]; then
       installPackage qemu-kvm qemu-img virt-manager libvirt libvirt-python libvirt-client libvirt-daemon-kvm virt-install virt-viewer bridge-utils
       # for libvirtd service
-      systemctl start libvirtd
+      systemctl restart libvirtd
       systemctl enable libvirtd
     fi
   fi
