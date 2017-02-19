@@ -23,19 +23,19 @@ else
   BtStatus="Инсталирай"
 fi
 
-yad --title="$prog" --width="520" --height="300" \
-    --window-icon="$window_icon" \
-    --image="$kernelIcon" \
+yad --title="kernel-ml" --width="1100" --height="480" \
+    --window-icon="$window_icon" --borders=20 \
     --text="<b>kernel-ml</b>
 Инсталиране на последното стабилно ядро - <b>kernel-ml</b> (mainline stable) 4.x
 
 <b>Важно!</b> Драйвери kmod компилирани да работят за ядро 3.10.x, няма да работят под това ядро - <a href='https://elrepo.org/tiki/FAQ'>FAQ</a> !
 
-<b>Детайли:</b>
-<b><span color='dark gray'>Категория:</span></b> System
-<b><span color='dark gray'>Лиценз:</span></b> GPLv2
-<b><span color='dark gray'>Обем:</span></b> 210 MB
-<b><span color='dark gray'>Уеб сайт:</span></b> <a href='http://elrepo.org/tiki/kernel-ml'>http://elrepo.org/tiki/kernel-ml</a>" \
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b> System
+<b><span color='dark gray'>Хранилище</span></b>  elrepo-kernel
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://spdx.org/licenses/GPL-2.0'>GPLv2</a>
+<b><span color='dark gray'>Обем</span></b>  210 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://elrepo.org/tiki/kernel-ml'>http://elrepo.org/tiki/kernel-ml</a>" \
     --button="$BtStatus":0 \
     --center
 ret=$?
