@@ -25,8 +25,8 @@ setSelinux() {
 
   yad --width="520" --height="300" \
       --window-icon="$window_icon" \
-      --image="$selinuxIcon" \
-      --title="$prog - SELinux" \
+      --image="$selinuxIcon" --borders=20 \
+      --title="SELinux" \
       --text="<b>SELinux</b>
 Изключване или Включване на SELinux защитната среда." \
       --button="$BtStatus":0 \
@@ -37,11 +37,11 @@ setSelinux() {
     if [[ "$BtStatus" ==  Включи ]]; then
       setenforce 1 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=enforcing/g' /etc/selinux/config
-      notifyUser "Включване на SELinux!"
+      notifyUser "Настройките са успешно променени."
     elif [[ "$BtStatus" == Изключи ]]; then
       setenforce 0 > /dev/null
       sed -i 's/^SELINUX=.*$/SELINUX=permissive/g' /etc/selinux/config
-      notifyUser "Изключване на SELinux!"
+      notifyUser "Настройките са успешно променени."
     fi
   fi
 }

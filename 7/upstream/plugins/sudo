@@ -23,9 +23,9 @@ addSudo() {
     BtStatus="Добави"
   fi
 
-  yad --title="$prog - sudo" --width="520" --height="300" \
+  yad --title="Sudo" --width="620" --height="300" \
       --window-icon="$window_icon" \
-      --image="$sudoIcon" \
+      --image="$sudoIcon" --borders=20 \
       --text="<b>Sudo</b>
 Добавете или изтрийте потребителя <b>$user</b> от групата sudo
 
