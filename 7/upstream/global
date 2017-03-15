@@ -118,6 +118,9 @@ plex_Image="$app_icon/plex_image.png"
 # ownCloud client
 ownCloudIcon="$app_icon/ownCloud.png"
 ownCloud_Image="$app_icon/ownCloud_image.png"
+# vscode
+vscodeIcon="$app_icon/vscodeIcon.png"
+vscode_Image="$app_icon/vscode_Image.png"
 
 # Desktop env icons
 

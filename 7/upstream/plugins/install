@@ -1131,6 +1131,42 @@ $stars
   fi
 }
 
+install_vscode() {
+  if isInstalled code; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="Visual Studio Code" --width="1100" --height="480" \
+      --window-icon="$window_icon" \
+      --image="$vscode_Image" --borders=20 \
+      --text="<b>Visual Studio Code</b>
+Отворен код редактор разработен от Microsoft за Windows, Linux и MacOS.
+
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Utilities → Text Editor
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://code.visualstudio.com/license'>Multiple</a>
+<b><span color='dark gray'>Обем</span></b>  150 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://code.visualstudio.com/'>https://code.visualstudio.com/</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage code
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      rpm --import "https://packages.microsoft.com/keys/microsoft.asc"
+      sh -c 'echo -e "[code]\nname=Visual Studio Code\nbaseurl=https://packages.microsoft.com/yumrepos/vscode\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc" > /etc/yum.repos.d/vscode.repo'
+      installPackage "code"
+    fi
+  fi
+}
+
 # The installation menu
 menu(){
   while (true); do
@@ -1167,7 +1203,8 @@ menu(){
                  "$syncthingIcon" "<b>Syncthing</b>" "File Transfer" "Безплатно приложение за синхронизация на файлове" \
                  "$terminixIcon" "<b>Terminix</b>" "System" "GTK 3 Терминал емулатор за Linux" \
                  "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Клиент/сървър система медия плейър" \
-                 "$ownCloudIcon" "<b>Owncloud-client</b>" "File Transfer" "ownCloud десктоп клиент за синхронизация"
+                 "$ownCloudIcon" "<b>Owncloud-client</b>" "File Transfer" "ownCloud десктоп клиент за синхронизация" \
+                 "$vscodeIcon" "<b>Visual Studio Code</b>" "Text Editor" "Редактор разработен от Microsoft за Windows, Linux и MacOS"
           );
 
     case ${choise} in
@@ -1199,7 +1236,7 @@ menu(){
       *"Plex Media Server"*)install_plex ;;
       *"VirtualBox"*)install_virtualbox ;;
       *"Virt Manager"*)install_virtmanager ;;
-
+      *"Visual Studio Code"*)install_vscode ;;
       *) break ;;
     esac
   done
