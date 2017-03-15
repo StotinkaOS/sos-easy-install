@@ -1124,9 +1124,9 @@ $stars
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage terminix
+      removePackage terminix terminix-nautilus
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage terminix
+      installPackage terminix terminix-nautilus
     fi
   fi
 }
