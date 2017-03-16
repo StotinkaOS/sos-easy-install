@@ -167,7 +167,7 @@ $stars
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage Rambox
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage https://github.com/saenzramiro/rambox/releases/download/0.5.3/Rambox-0.5.3-ia32.rpm
+      installPackage https://github.com/saenzramiro/rambox/releases/download/0.5.3/Rambox-0.5.3-x64.rpm
     fi
   fi
 }
