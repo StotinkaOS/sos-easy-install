@@ -16,6 +16,7 @@ Requires: wget
 Requires: yad
 Requires: yum-utils
 Requires: gnome-icon-theme-legacy
+Requires: moka-icon-theme
 Source0: %{name}-%{version}.tar.gz
 
 %description
