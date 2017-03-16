@@ -27,31 +27,31 @@ user=$(who | cut -d' ' -f1 | sort | uniq);
 # Applications
 
 # steam
-steamIcon="$app_icon/steam1.png"
+steamIcon="/usr/share/icons/Moka/24x24/apps/steam.png"
 steam_Image="$app_icon/steam_image.png"
 # dropbox
-dropboxIcon="$app_icon/dropbox.png"
+dropboxIcon="/usr/share/icons/Moka/24x24/apps/dropbox.png"
 dropbox_Image="$app_icon/dropbox_image.png"
 # chrome
-chromeIcon="$app_icon/chrome.png"
+chromeIcon="/usr/share/icons/Moka/24x24/apps/google-chrome-stable.png"
 chrome_Image="$app_icon/chrome_image.png"
 # msfonts
 msIcon="$app_icon/ms-fonts.png"
 ms_Image="$app_icon/msttcorefonts_image.png"
 # playonlinux
-playonlinuxIcon="$app_icon/playonlinux.png"
+playonlinuxIcon="/usr/share/icons/Moka/24x24/apps/playonlinux.png"
 playonlinux_Image="$app_icon/playonlinux_image.png"
 # skype
-skypeIcon="$app_icon/skype.png"
+skypeIcon="/usr/share/icons/Moka/24x24/apps/skype.png"
 skype_Image="$app_icon/skype_image.png"
 # teamviewer
-teamvIcon="$app_icon/teamviewer.png"
+teamvIcon="/usr/share/icons/Moka/24x24/apps/teamviewer.png"
 teamv_Image="$app_icon/teamv_image.png"
 # viber
-viberIcon="$app_icon/viber.png"
+viberIcon="/usr/share/icons/Moka/24x24/web/web-viber.png"
 viber_Image="$app_icon/viber_image.png"
 # virtualbox
-vboxIcon="$app_icon/virtualbox.png"
+vboxIcon="/usr/share/icons/Moka/24x24/apps/virtualbox.png"
 vbox_Image="$app_icon/virtualbox_image.png"
 # sudo
 sudoIcon="$app_icon/sudo.png"
@@ -64,62 +64,60 @@ gtalk_Image="$app_icon/gtalk_image.png"
 torIcon="$app_icon/tor.png"
 tor_Image="$app_icon/tor_image.png"
 # spotify
-spotifyIcon="$app_icon/spotify.png"
+spotifyIcon="/usr/share/icons/Moka/24x24/web/spotify-client.png"
 spotify_Image="$app_icon/spotify_image.png"
 # sublime
 sublimetextIcon="$app_icon/sublimetext.png"
-sublimetext_Image="$app_icon/sublimetext_image.png"
+sublimetext_Image="/usr/share/icons/Moka/24x24/apps/sublimetext.png"
 # atom
-atomIcon="$app_icon/atom.png"
+atomIcon="/usr/share/icons/Moka/24x24/apps/atom.png"
 atom_Image="$app_icon/atom_image.png"
 # mega
-megaIcon="$app_icon/mega.png"
+megaIcon="/usr/share/icons/Moka/24x24/apps/mega.png"
 mega_Image="$app_icon/mega_image.png"
 # flash
-flashIcon="$app_icon/flash.png"
+flashIcon="/usr/share/icons/Moka/24x24/apps/adobe-flashplayer.png"
 flash_Image="$app_icon/adobeflash_image.jpg"
 # opera
-operaIcon="$app_icon/opera.png"
+operaIcon="/usr/share/icons/Moka/24x24/apps/opera.png"
 opera_Image="$app_icon/opera_image.png"
 # rambox
 ramboxIcon="$app_icon/rambox.png"
 rambox_Image="$app_icon/rambox_image.png"
 # telegram
-telegramIcon="$app_icon/telegram.png"
+telegramIcon="/usr/share/icons/Moka/24x24/web/telegram.png"
 telegram_Image="$app_icon/telegram_image.png"
 # kodi
-kodiIcon="$app_icon/kodiIcon.png"
+kodiIcon="/usr/share/icons/Moka/24x24/apps/kodi.png"
 kodi_Image="$app_icon/kodi_image.jpg"
 # vivaldi
-vivaldiIcon="$app_icon/vivaldi.png"
+vivaldiIcon="/usr/share/icons/Moka/24x24/apps/vivaldi.png"
 vivaldi_Image="$app_icon/vivaldi_image.png"
 # chromium
-chromiumIcon="$app_icon/chromium.png"
+chromiumIcon="/usr/share/icons/Moka/24x24/apps/chromium.png"
 chromium_image="$app_icon/chromium_image.png"
 # brackets
-bracketsIcon="$app_icon/brackets.png"
+bracketsIcon="/usr/share/icons/Moka/24x24/apps/brackets.png"
 brackets_Image="$app_icon/brackets_image.png"
 # kernel-ml
 kernelIcon="$app_icon/kernel.png"
 # syncthing
-syncthingIcon="$app_icon/syncthing.png"
+syncthingIcon="/usr/share/icons/Moka/24x24/apps/syncthing-gtk.png"
 syncthing_Image="$app_icon/syncthing_image.png"
 # terminix
-terminixIcon="$app_icon/terminix.png"
+terminixIcon="/usr/share/icons/Moka/24x24/apps/terminix.png"
 terminix_Image="$app_icon/terminix_image.png"
-# gnome boxes
-boxesIcon="$app_icon/gnome-boxes.png"
 # virt-manager
-virtIcon="$app_icon/virt-manager.png"
+virtIcon="/usr/share/icons/Moka/24x24/apps/virt-manager.png"
 virt_Image="$app_icon/virt-manager_image.png"
 # plex
-plexIcon="$app_icon/plex.png"
+plexIcon="/usr/share/icons/Moka/24x24/apps/plex.png"
 plex_Image="$app_icon/plex_image.png"
 # ownCloud client
-ownCloudIcon="$app_icon/ownCloud.png"
+ownCloudIcon="/usr/share/icons/Moka/24x24/apps/owncloud.png"
 ownCloud_Image="$app_icon/ownCloud_image.png"
 # vscode
-vscodeIcon="$app_icon/vscodeIcon.png"
+vscodeIcon="/usr/share/icons/Moka/24x24/apps/visual-studio-code.png"
 vscode_Image="$app_icon/vscode_Image.png"
 
 # Desktop env icons
