@@ -67,8 +67,8 @@ tor_Image="$app_icon/tor_image.png"
 spotifyIcon="/usr/share/icons/Moka/24x24/web/spotify-client.png"
 spotify_Image="$app_icon/spotify_image.png"
 # sublime
-sublimetextIcon="$app_icon/sublimetext.png"
-sublimetext_Image="/usr/share/icons/Moka/24x24/apps/sublimetext.png"
+sublimetextIcon="/usr/share/icons/Moka/24x24/apps/sublimetext.png"
+sublimetext_Image="$app_icon/sublimetext_image.png"
 # atom
 atomIcon="/usr/share/icons/Moka/24x24/apps/atom.png"
 atom_Image="$app_icon/atom_image.png"
