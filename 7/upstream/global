@@ -119,6 +119,9 @@ ownCloud_Image="$app_icon/ownCloud_image.png"
 # vscode
 vscodeIcon="/usr/share/icons/Moka/24x24/apps/visual-studio-code.png"
 vscode_Image="$app_icon/vscode_Image.png"
+# brave
+braveIcon="/usr/share/icons/Moka/24x24/apps/brave.png"
+brave_Image="$app_icon/brave_Image.png"
 
 # Desktop env icons
 

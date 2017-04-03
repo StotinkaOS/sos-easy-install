@@ -1169,6 +1169,46 @@ $stars
   fi
 }
 
+install_brave() {
+  if isInstalled brave; then
+    BtStatus="Премахни"
+  else
+    BtStatus='Инсталирай'
+  fi
+
+  stars='<span size="xx-large">★★☆☆☆</span>'
+  yad --title="Brave" --width="1100" --height="480" \
+      --window-icon="$window_icon" \
+      --image="$brave_Image" --borders=20 \
+      --text="<b>Brave</b>
+Бърз и сигурен уеб браузър който блокира онлайн рекламите, както и различните тракери, следящи активността на потребителите.
+
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Internet → Web Browser
+<b><span color='dark gray'>Хранилище</span></b>  Brave
+<b><span color='dark gray'>Лиценз</span></b>  <a href='https://www.mozilla.org/en-US/MPL/2.0/'>MPL-2.0</a>
+<b><span color='dark gray'>Обем</span></b>  262 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://www.brave.com/'>https://www.brave.com</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage brave
+      rm -f /etc/yum.repos.d/s3-us-west-2.amazonaws.com_brave-rpm-release_x86_64_.repo
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      yum-config-manager --add-repo=https://s3-us-west-2.amazonaws.com/brave-rpm-release/x86_64/
+      rpm --import https://s3-us-west-2.amazonaws.com/brave-rpm-release/keys.asc
+      installPackage brave
+      # fix no usable sandbox issue
+      sed -i 's/^Exec=.*$/Exec=brave --no-sandbox/g' /usr/share/applications/brave.desktop
+    fi
+  fi
+}
+
 # The installation menu
 menu(){
   while (true); do
@@ -1206,7 +1246,8 @@ menu(){
                  "$terminixIcon" "<b>Terminix</b>" "System" "GTK 3 Терминал емулатор за Linux" \
                  "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Клиент/сървър система медия плейър" \
                  "$ownCloudIcon" "<b>Owncloud-client</b>" "File Transfer" "ownCloud десктоп клиент за синхронизация" \
-                 "$vscodeIcon" "<b>Visual Studio Code</b>" "Text Editor" "Редактор разработен от Microsoft за Windows, Linux и MacOS"
+                 "$vscodeIcon" "<b>Visual Studio Code</b>" "Text Editor" "Редактор разработен от Microsoft за Windows, Linux и MacOS" \
+                 "$braveIcon" "<b>Brave</b>" "Web Browser" "Уеб браузър който блокира онлайн рекламите в интернет"
           );
 
     case ${choise} in
@@ -1239,6 +1280,7 @@ menu(){
       *"VirtualBox"*)install_virtualbox ;;
       *"Virt Manager"*)install_virtmanager ;;
       *"Visual Studio Code"*)install_vscode ;;
+      *"Brave"*)install_brave ;;
       *) break ;;
     esac
   done
