@@ -185,12 +185,12 @@ $stars
 
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
-      removePackage @lxde-desktop
+      removePackage lxde-common lxpanel lxsession-lite openbox pcmanfm lxappearance lxterminal lxinput lxpolkit lxde-icon-theme lxmusic lxtask lxrandr gpicview leafpad obconf
     elif [[ "$BtStatus" == Инсталирай ]]; then
       # fix http://www.stotinkaos.net/forums/thread-576-post-5698.html
       # conflict with the package libfm-1.2.4 from EPEL repo
       sed -i '9i exclude=libfm*' /etc/yum.repos.d/epel.repo
-      installPackage @lxde-desktop
+      installPackage lxde-common lxpanel lxsession-lite openbox pcmanfm lxappearance lxterminal lxinput lxpolkit lxde-icon-theme lxmusic lxtask lxrandr gpicview leafpad obconf
     fi
   fi
 }
