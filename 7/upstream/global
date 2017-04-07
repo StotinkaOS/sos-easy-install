@@ -122,6 +122,9 @@ vscode_Image="$app_icon/vscode_Image.png"
 # brave
 braveIcon="/usr/share/icons/Moka/24x24/apps/brave.png"
 brave_Image="$app_icon/brave_Image.png"
+# master-pdf-editor
+masterpdfIcon="$app_icon/masterpdfIcon.png"
+masterpdf_Image="$app_icon/masterpdf_Image.png"
 
 # Desktop env icons
 

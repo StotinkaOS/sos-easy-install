@@ -1209,6 +1209,40 @@ $stars
   fi
 }
 
+install_masterpdfeditor() {
+  if isInstalled master-pdf-editor; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="Master PDF editor 4" --width="1100" --height="480" \
+      --window-icon="$window_icon" \
+      --image="$masterpdf_Image" --borders=20 \
+      --text="<b>Master PDF editor 4</b>
+Редактор за създаване и модифициране на PDF документи.
+
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Office
+<b><span color='dark gray'>Лиценз</span></b>  Free for non-commercial use
+<b><span color='dark gray'>Обем</span></b>  41 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='https://code-industry.net/'>https://code-industry.net</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage master-pdf-editor
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage "http://get.code-industry.net/public/master-pdf-editor-4.1.22_qt5.x86_64.rpm"
+    fi
+  fi
+}
+
 # The installation menu
 menu(){
   while (true); do
@@ -1247,7 +1281,8 @@ menu(){
                  "$plexIcon" "<b>Plex Media Server</b>" "Multimedia" "Клиент/сървър система медия плейър" \
                  "$ownCloudIcon" "<b>Owncloud-client</b>" "File Transfer" "ownCloud десктоп клиент за синхронизация" \
                  "$vscodeIcon" "<b>Visual Studio Code</b>" "Text Editor" "Редактор разработен от Microsoft за Windows, Linux и MacOS" \
-                 "$braveIcon" "<b>Brave</b>" "Web Browser" "Уеб браузър който блокира онлайн рекламите в интернет"
+                 "$braveIcon" "<b>Brave</b>" "Web Browser" "Уеб браузър който блокира онлайн рекламите в интернет" \
+                 "$masterpdfIcon" "<b>Master PDF editor</b>" "Office" "Редактор за създаване и модифициране на PDF документи"
           );
 
     case ${choise} in
@@ -1281,6 +1316,7 @@ menu(){
       *"Virt Manager"*)install_virtmanager ;;
       *"Visual Studio Code"*)install_vscode ;;
       *"Brave"*)install_brave ;;
+      *"Master PDF editor"*)install_masterpdfeditor ;;
       *) break ;;
     esac
   done
