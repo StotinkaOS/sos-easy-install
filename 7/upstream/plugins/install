@@ -1243,6 +1243,40 @@ $stars
   fi
 }
 
+install_wpsoffice() {
+  if isInstalled wps-office; then
+    BtStatus="Премахни"
+  else
+    BtStatus="Инсталирай"
+  fi
+
+  stars='<span size="xx-large">★★★☆☆</span>'
+  yad --title="WPS Office" --width="1100" --height="480" \
+      --window-icon="$window_icon" \
+      --image="$wps_Image" --borders=20 \
+      --text="<b>WPS Office</b>
+WPS офис пакет за Linux
+
+$stars
+
+<b>Детайли</b>
+<b><span color='dark gray'>Категория</span></b>  Office
+<b><span color='dark gray'>Лиценз</span></b>  Proprietary
+<b><span color='dark gray'>Обем</span></b>  345 MB
+<b><span color='dark gray'>Уеб сайт</span></b>  <a href='http://wps-community.org/'>http://wps-community.org</a>" \
+      --button="$BtStatus":0 \
+      --center
+  ret=$?
+
+  if [[ "$ret" -eq "0" ]]; then
+    if [[ "$BtStatus" == Премахни ]]; then
+      removePackage wps-office
+    elif [[ "$BtStatus" == Инсталирай ]]; then
+      installPackage "http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office-10.1.0.5672-1.a21.x86_64.rpm"
+    fi
+  fi
+}
+
 # The installation menu
 menu(){
   while (true); do
@@ -1282,7 +1316,8 @@ menu(){
                  "$ownCloudIcon" "<b>Owncloud-client</b>" "File Transfer" "ownCloud десктоп клиент за синхронизация" \
                  "$vscodeIcon" "<b>Visual Studio Code</b>" "Text Editor" "Редактор разработен от Microsoft за Windows, Linux и MacOS" \
                  "$braveIcon" "<b>Brave</b>" "Web Browser" "Уеб браузър който блокира онлайн рекламите в интернет" \
-                 "$masterpdfIcon" "<b>Master PDF editor</b>" "Office" "Редактор за създаване и модифициране на PDF документи"
+                 "$masterpdfIcon" "<b>Master PDF editor</b>" "Office" "Редактор за създаване и модифициране на PDF документи" \
+                 "$wpsIcon" "WPS Office" "Office" "WPS офис пакет за Linux"
           );
 
     case ${choise} in
@@ -1317,6 +1352,7 @@ menu(){
       *"Visual Studio Code"*)install_vscode ;;
       *"Brave"*)install_brave ;;
       *"Master PDF editor"*)install_masterpdfeditor ;;
+      *"WPS Office"*)install_wpsoffice ;;
       *) break ;;
     esac
   done

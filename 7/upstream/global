@@ -125,6 +125,9 @@ brave_Image="$app_icon/brave_Image.png"
 # master-pdf-editor
 masterpdfIcon="$app_icon/masterpdfIcon.png"
 masterpdf_Image="$app_icon/masterpdf_Image.png"
+# wps office
+wpsIcon="/usr/share/icons/Moka/24x24/apps/wps-office-wpsmain.png"
+wps_Image="$app_icon/wps_Image.png"
 
 # Desktop env icons
 
