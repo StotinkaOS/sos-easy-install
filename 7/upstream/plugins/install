@@ -479,10 +479,13 @@ $stars
   if [[ "$ret" -eq "0" ]]; then
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage skypeforlinux
+      rm -f /etc/yum.repos.d/skype-stable.repo
     elif [[ "$BtStatus" == Инсталирай ]]; then
       # remove old skype repo
       rm -f /etc/yum.repos.d/skype.repo
-      installPackage "https://go.skype.com/skypeforlinux-64-alpha.rpm"
+      # add skype stable repo
+      yum-config-manager --add-repo="https://repo.skype.com/data/skype-stable.repo"
+      installPackage skypeforlinux
     fi
   fi
 }
