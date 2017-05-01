@@ -485,6 +485,9 @@ $stars
       rm -f /etc/yum.repos.d/skype.repo
       # add skype stable repo
       yum-config-manager --add-repo="https://repo.skype.com/data/skype-stable.repo"
+      # import GPG key
+      rpm --import "https://repo.skype.com/data/SKYPE-GPG-KEY"
+      # install skype
       installPackage skypeforlinux
     fi
   fi
