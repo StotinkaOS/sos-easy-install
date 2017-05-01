@@ -768,7 +768,7 @@ skip_if_unavailable=1
 gpgkey=http://www.virtualbox.org/download/oracle_vbox.asc
 EOF_VIRTUALBOX_REPO
       installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.1
-      usermod -G vboxusers,vboxsf "$user"
+      usermod -G vboxusers "$user"
       /usr/lib/virtualbox/vboxdrv.sh setup
     fi
   fi
