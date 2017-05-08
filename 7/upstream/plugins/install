@@ -769,7 +769,7 @@ $stars
       # install virtualbox and dependences
       installPackage gcc make patch dkms qt libgomp kernel-headers kernel-devel binutils glibc-headers glibc-devel VirtualBox-5.1
       # add user to vboxusers group
-      usermod -G vboxusers "$user"
+      usermod -aG vboxusers "$user"
       # compile kernel modules
       /usr/lib/virtualbox/vboxdrv.sh setup
     fi
