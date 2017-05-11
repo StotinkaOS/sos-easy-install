@@ -16,7 +16,7 @@ COMMENT
 
 # Global
 prog="sos-easy-install"
-ver=4.2
+ver=4.2.1
 window_icon="/usr/share/icons/hicolor/96x96/apps/sos-easy-install.png"
 image_icon="/usr/share/pixmaps/sosEI-header.png"
 app_icon="/usr/share/icons/sos-ei-app-icons"
