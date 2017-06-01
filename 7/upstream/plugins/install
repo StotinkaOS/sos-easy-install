@@ -1322,7 +1322,7 @@ menu(){
                  "$vscodeIcon" "<b>Visual Studio Code</b>" "Text Editor" "Редактор разработен от Microsoft за Windows, Linux и MacOS" \
                  "$braveIcon" "<b>Brave</b>" "Web Browser" "Уеб браузър който блокира онлайн рекламите в интернет" \
                  "$masterpdfIcon" "<b>Master PDF editor</b>" "Office" "Редактор за създаване и модифициране на PDF документи" \
-                 "$wpsIcon" "WPS Office" "Office" "WPS офис пакет за Linux"
+                 "$wpsIcon" "<b>WPS Office</b>" "Office" "WPS офис пакет за Linux"
           );
 
     case ${choise} in
