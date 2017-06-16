@@ -63,7 +63,7 @@ install_bumblebee(){
     # http://elrepo.org/tiki/bumblebee
     removePackage xorg-x11-glamor
     installPackage bumblebee kmod-bbswitch kmod-nvidia VirtualGL libbsd nvidia-x11-drv-32bit.x86_64 libva-vdpau-driver libva-utils libva xorg-x11-drv-synaptics xorg-x11-drv-evdev
-    usermod -G bumblebee "$user"
+    usermod -aG bumblebee "$user"
     cat << EOF > /etc/bumblebee/bumblebee.conf
 [bumblebeed]
 VirtualDisplay=:8
