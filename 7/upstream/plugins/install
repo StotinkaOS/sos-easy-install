@@ -1243,7 +1243,7 @@ $stars
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage master-pdf-editor
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage "http://get.code-industry.net/public/master-pdf-editor-4.1.22_qt5.x86_64.rpm"
+      installPackage "http://get.code-industry.net/public/master-pdf-editor-4.3.61_qt5.x86_64.rpm"
     fi
   fi
 }
