@@ -1277,7 +1277,7 @@ $stars
     if [[ "$BtStatus" == Премахни ]]; then
       removePackage wps-office
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage "http://kdl.cc.ksosoft.com/wps-community/download/a21/wps-office-10.1.0.5672-1.a21.x86_64.rpm"
+      installPackage "http://kdl1.cache.wps.com/ksodl/download/linux/a21//wps-office-10.1.0.5707-1.a21.x86_64.rpm"
     fi
   fi
 }
