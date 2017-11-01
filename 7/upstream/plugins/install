@@ -921,7 +921,7 @@ $stars
       systemctl stop plexmediaserver
       systemctl disable plexmediaserver
     elif [[ "$BtStatus" == Инсталирай ]]; then
-      installPackage "https://downloads.plex.tv/plex-media-server/1.3.3.3148-b38628e/plexmediaserver-1.3.3.3148-b38628e.x86_64.rpm"
+      installPackage "https://downloads.plex.tv/plex-media-server/1.9.4.4325-1bf240a65/plexmediaserver-1.9.4.4325-1bf240a65.x86_64.rpm"
       # for plex service
       systemctl enable plexmediaserver
       systemctl start plexmediaserver
